@@ -8,32 +8,27 @@ import java.util.regex.Pattern;
 public class Map {
 	private String[] map;			//will be cell when can create cell objects
 	private String filename;
-	private int x;
-	private int y;
-	
+	private int width;	//the width of the map
+	private int height;	//the height of the map
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();;
+		
 	public Map (String fn) {
 		filename = fn;
-		map = convertStringToCells(readFileToMap());
+		map = convertStringToObjects(readFileToMap());
 	}
 	
 	//create a map array from a csv file
-	private String[] readFileToMap() {
+	private ArrayList<String> readFileToMap() {
 		//create arraylist to store raw data reading from the csv file
 		ArrayList<String> mapAl = createAlFromFile();
 		
-		//read in the x and y size of the map
-		x = Integer.parseInt(mapAl.get(0));
+		//read in the width and height size of the map
+		width = Integer.parseInt(mapAl.get(0));
 		mapAl.remove(0);
-		y = Integer.parseInt(mapAl.get(0));
+		height = Integer.parseInt(mapAl.get(0));
 		mapAl.remove(0);
-		//remove dimensions from the arraylist
-		
-		
-		//create new array of the size of the map, and store the arraylist in it
-		String[] returnArray = new String[x*y]; 
-		mapAl.toArray(returnArray);
-		
-		return returnArray;
+			
+		return mapAl;
 	}
 
 	//read contents of csv file with scanner amd return arraylist of the contents
@@ -65,11 +60,18 @@ public class Map {
 	}
 	
 	// 																							change to Cell[] when can not all cells
-	private String[] convertStringToCells(String[] stringArray) {
-		String[] map = new String[stringArray.length];
-		for (int i = 0; i < stringArray.length; i++) {
+	private String[] convertStringToObjects(ArrayList<String> stringAl) {
+		String[] map = new String[stringAl.size()];
+		for (int i = 0; i < stringAl.size(); i++) {
+			int y = i % width;    // % is the "modulo operator", the remainder of i / width;
+			int x = i / height;    // where "/" is an integer division
 			//switch to check for 'basic' cells
-			switch (stringArray[i]) {
+//			System.out.println(stringAl.get(i));
+			switch (stringAl.get(i)) {
+				case "ground": 
+					map[i] = "gr";
+					//create basic cell
+					break;
 				case "wall":
 					map[i] = "wall";
 					//create wall object and add to map
@@ -80,7 +82,8 @@ public class Map {
 					break;
 				case "player":
 					map[i] = "ps";
-					//add player start
+					//set below to ground
+					//create player object
 					break;
 				case "water":
 					map[i] = "wat";
@@ -92,16 +95,20 @@ public class Map {
 					break;
 				case "token":
 					map[i] = "tok";
+					//set below to ground
 					//create new token
 					break;
 				case "flippers":
 					map[i] = "flip-flop";
+					//set below to ground
 					break;
 				case "fireBoots":
 					map[i] = "firebootays";
+					//set below to ground
 					break;
 				default:
 					map[i] = "not here";
+					//set below to ground
 			}
 			
 			//check for 'advanced' cells -- doors, teleporters, keys, enemies
@@ -110,12 +117,12 @@ public class Map {
 			//set pattern to the teleporter regex
 			Pattern teleporterPattern = Pattern.compile("^teleporter:[0-9]+$");
 			
-			Matcher teleporterMatcher = teleporterPattern.matcher(stringArray[i]);
+			Matcher teleporterMatcher = teleporterPattern.matcher(stringAl.get(i));
 			
 			//if the item is a teleporter
 			if (teleporterMatcher.matches()) {
 				//split the string to find the pairing
-				String[] parts = stringArray[i].split(":");
+				String[] parts = stringAl.get(i).split(":");
 			    String teleporterPairing = parts[1]; 
 			    //create teleporter object with pairing a
 			    map[i] = "tele:" + teleporterPairing;
@@ -123,12 +130,12 @@ public class Map {
 			
 			//different types of doors
 			Pattern doorPattern = Pattern.compile("^door:(red|blue|green|yellow|token:[1-9])$");
-			Matcher doorMatcher = doorPattern.matcher(stringArray[i]);
+			Matcher doorMatcher = doorPattern.matcher(stringAl.get(i));
 		
 			//if the item is a door
 			if (doorMatcher.matches()) {
 				//split the string to find the pairing
-				String[] parts = stringArray[i].split(":");
+				String[] parts = stringAl.get(i).split(":");
 			    String doorType = parts[1];
 			    if (parts[1].equals("token")) {
 			    	String tokens = parts[2];
@@ -140,12 +147,12 @@ public class Map {
     
 			//different types of keys
 			Pattern keyPattern = Pattern.compile("^key:(red|blue|green|yellow)$");
-			Matcher keyMatcher = keyPattern.matcher(stringArray[i]);
+			Matcher keyMatcher = keyPattern.matcher(stringAl.get(i));
 			
 			//if the item is a key
 			if (keyMatcher.matches()) {
 				//split the string to find the pairing
-				String[] parts = stringArray[i].split(":");
+				String[] parts = stringAl.get(i).split(":");
 				String keyType = parts[1];
 				map[i] = "key:" + keyType;
 			} 
@@ -153,36 +160,54 @@ public class Map {
 			
 			//different types of enemies
 			Pattern enemyPattern = Pattern.compile("^enemy:((smart|dumb)|(wall:[ac]:[udlr]|straight:[udlr]))$");
-			Matcher enemyMatcher = enemyPattern.matcher(stringArray[i]);
+			Matcher enemyMatcher = enemyPattern.matcher(stringAl.get(i));
 			
 			//if the item is a key
 			if (enemyMatcher.matches()) {
 				//split the string to find the pairing
-				String[] parts = stringArray[i].split(":");
+				String[] parts = stringAl.get(i).split(":");
 				String enemyType = parts[1];
 				switch (enemyType) {
 					case "straight":
-						String straightDirection = parts[2];
+						char straightDirection = parts[2].charAt(0);
+						enemies.add(new EnemyStraight(x, y, straightDirection));
 						map[i] = "enemy:" + enemyType + ":" + straightDirection;
 						break;
 					case "wall":
-						String wallDirection = parts[2];
-						String startingWall = parts[3];
+						char wallDirection = parts[2].charAt(0);
+						char startingWall = parts[3].charAt(0);
+						enemies.add(new EnemyWall(x, y, wallDirection, startingWall));
 						map[i] = "enemy:" + enemyType + ":" + wallDirection + ":" + startingWall;
 						break;
-					default:
-						map[i] = "enemy:" + enemyType;
+					case "dumb":
+						enemies.add(new EnemyDumb(x,y));
+					default:					
 						break;
 				}					
 			} 
+			map[i] += " (" + x + "," + y + ")";
 		}
+		
 		return map;
 	}
 	
+	
+	
 	public String getAt(int x, int y) {
-		int index = this.x*x + y;
-		return map[index];
+		return map[getIndexFromCoords(x, y)];
 	}
+	
+	private int getIndexFromCoords(int x, int y) {
+		return width*x + y;
+	}
+	
+	
+	public void listEnemies() {
+		for (int i = 0; i < enemies.size(); i++) {
+			System.out.println(enemies.get(i).toString());
+		}
+	}
+	
 	
 	
 	/**
@@ -190,7 +215,7 @@ public class Map {
 	 * @return The dimensions of the map, and the array the map is stored in
 	 */
 	public String toString(){
-		String returnString = "x: " + x + ", y: " + y + "\n";
+		String returnString = "x: " + width + ", y: " + height + "\n";
 		for (int i=0; i < map.length; i++) {
 			if (i == 0) {
 				returnString += "[" + map[i];
