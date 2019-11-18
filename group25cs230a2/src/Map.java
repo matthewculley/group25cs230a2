@@ -70,8 +70,8 @@ public class Map {
 		for (int i = 0; i < stringArray.length; i++) {
 			//switch to check for 'basic' cells
 			switch (stringArray[i]) {
-				case "":
-					map[i] = "";
+				case "wall":
+					map[i] = "wall";
 					//create wall object and add to map
 					break;
 				case "goal":
@@ -90,16 +90,25 @@ public class Map {
 					map[i] = "fi";
 					//create fire object and add
 					break;
-				
+				case "token":
+					map[i] = "tok";
+					//create new token
+					break;
+				case "flippers":
+					map[i] = "flip-flop";
+					break;
+				case "fireBoots":
+					map[i] = "firebootays";
+					break;
 				default:
-					map[i] = stringArray[i];
+					map[i] = "not here";
 			}
 			
 			//check for 'advanced' cells -- doors, teleporters, keys, enemies
 		
 			//check for teleporters
 			//set pattern to the teleporter regex
-			Pattern teleporterPattern = Pattern.compile("^teleporter:[a-z]+$");
+			Pattern teleporterPattern = Pattern.compile("^teleporter:[0-9]+$");
 			
 			Matcher teleporterMatcher = teleporterPattern.matcher(stringArray[i]);
 			
@@ -111,12 +120,12 @@ public class Map {
 			    //create teleporter object with pairing a
 			    map[i] = "tele:" + teleporterPairing;
 			} 
-			//different types of doors
 			
+			//different types of doors
 			Pattern doorPattern = Pattern.compile("^door:(red|blue|green|yellow|token:[1-9])$");
 			Matcher doorMatcher = doorPattern.matcher(stringArray[i]);
-			
-			//if the item is a teleporter
+		
+			//if the item is a door
 			if (doorMatcher.matches()) {
 				//split the string to find the pairing
 				String[] parts = stringArray[i].split(":");
@@ -127,19 +136,55 @@ public class Map {
 			    } else {
 			    	map[i] = "door:" + doorType;
 			    }
-			    
-		
-			    
-			    
-			    //create teleporter object with pairing a
-//			    map[i] = "tele:" + teleporterPairing;
+			}
+    
+			//different types of keys
+			Pattern keyPattern = Pattern.compile("^key:(red|blue|green|yellow)$");
+			Matcher keyMatcher = keyPattern.matcher(stringArray[i]);
+			
+			//if the item is a key
+			if (keyMatcher.matches()) {
+				//split the string to find the pairing
+				String[] parts = stringArray[i].split(":");
+				String keyType = parts[1];
+				map[i] = "key:" + keyType;
 			} 
 			
+			
+			//different types of enemies
+			Pattern enemyPattern = Pattern.compile("^enemy:((smart|dumb)|(wall:[ac]:[udlr]|straight:[udlr]))$");
+			Matcher enemyMatcher = enemyPattern.matcher(stringArray[i]);
+			
+			//if the item is a key
+			if (enemyMatcher.matches()) {
+				//split the string to find the pairing
+				String[] parts = stringArray[i].split(":");
+				String enemyType = parts[1];
+				switch (enemyType) {
+					case "straight":
+						String straightDirection = parts[2];
+						map[i] = "enemy:" + enemyType + ":" + straightDirection;
+						break;
+					case "wall":
+						String wallDirection = parts[2];
+						String startingWall = parts[3];
+						map[i] = "enemy:" + enemyType + ":" + wallDirection + ":" + startingWall;
+						break;
+					default:
+						map[i] = "enemy:" + enemyType;
+						break;
+				}					
+			} 
 		}
 		return map;
 	}
 	
-
+	public String getAt(int x, int y) {
+		int index = this.x*x + y;
+		return map[index];
+	}
+	
+	
 	/**
 	 * Describes the map class
 	 * @return The dimensions of the map, and the array the map is stored in
