@@ -3,57 +3,63 @@
  * 
  * @author
  */
-import java.util.ArrayList;
 
 public class Inventory {
 
-	private int token = 0;
-	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();
+	private int token;
+	private boolean redKey;
+	private boolean blueKey;
+	private boolean greenKey;
+	private boolean fireBoots;
+	private boolean flippers;
+	private boolean gasMask;
+	private boolean shield;
 
 	/*
 	 * Player's inventory has a token counter and checks if the keys or other
 	 * collectibles have been picked up.
 	 */
-	
-	public void addToken() {
-		token++;
-	}
-	
-	public int tokenNum() {
-		return this.token;	
-	}
-	
-	public void addItem(Collectible c) {
-		collectibles.add(c);
-	}
-	
-	public boolean hasItem(Collectible c) {
-		
-		for (Collectible elem : collectibles) {
-			if (elem.getClass() == c.getClass()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public void reset() {
-		token = 0;
-		collectibles = new ArrayList<Collectible>();
-	}
-	
-	public static void main(String[] args) {
-		Inventory myInv = new Inventory();
-		RedKey redKey = new RedKey();
-		
-		myInv.addItem(redKey);
-		myInv.addToken();
-		System.out.println(myInv.hasItem(redKey) + " " + myInv.tokenNum());
-		myInv.reset();
-		System.out.println(myInv.hasItem(redKey) + " " + myInv.tokenNum());
-		
-		
-	}
-	
-}
+	private Inventory(int token, boolean redKey, boolean blueKey, boolean greenKey, boolean fireBoots, boolean flippers,
+			boolean gasMask, boolean shield) {
 
+	}
+
+	public int tokenNum() {
+		return this.token;
+	}
+
+	public boolean hvRed() {
+		return redKey;
+	}
+
+	public boolean hvBlue() {
+		return blueKey;
+	}
+
+	public boolean hvGreen() {
+		return greenKey;
+	}
+
+	public boolean hvFire() {
+		return fireBoots;
+	}
+
+	public boolean hvFlip() {
+		return flippers;
+	}
+
+	public boolean hvGas() {
+		return gasMask;
+	}
+
+	public boolean hvShield() {
+		return shield;
+	}
+
+	public boolean hasItem() {
+
+		// not sure what to put in here
+		// Inventory.getItem()
+	}
+
+}

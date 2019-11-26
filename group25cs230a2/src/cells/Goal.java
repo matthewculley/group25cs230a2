@@ -1,8 +1,7 @@
-package cell;
+package cells;
 
-public class goal extends cell{
+public class Goal extends Cell{
 
-	private levelController lvl;
 	private int trigger = 0;
 	
 	public void checkIfTriggered() {

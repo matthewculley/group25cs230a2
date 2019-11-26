@@ -1,6 +1,6 @@
-package cell;
+package cells;
 
-public class obstacles extends cell{
+public class Obstacles extends Cell{
 
 	//private inventory itemReq;
 	

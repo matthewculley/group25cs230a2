@@ -1,7 +1,6 @@
 package enemies;
 
-import map.*;
-import cells.*
+import javafx.scene.image.Image;
 
 /**
  * Enemy is a superclass containing other enemy types,
@@ -10,33 +9,25 @@ import cells.*
  */
 public class Enemy {
 
-
+	Image sprite;
 	private int x;
 	private int y;	
-	private Map map;
 	
 	/**
 	 * Enemy is a superclass containing other enemy types,
 	 * the superclass stores data common between them such as position
 	 * 
 	 */
-	public Enemy(int x, int y, Map map) {
+	public Enemy(int x, int y, String imageName) {
+		sprite = new Image(imageName);
 		setX(x);
 		setY(y);
-		setMap(map);
 	}
 	
-	/**
-	 * @return the map
-	 */
-	protected Map getMap() {
-		return map;
+	
+	public Image getSprite() {
+		return sprite;
 	}
-
-	private void setMap(Map map) {
-		this.map = map;
-	}
-
 	
 	/**
 	 * @return the x
@@ -62,9 +53,9 @@ public class Enemy {
 	/**
 	 * @return the y
 	 */
-	protected boolean canTraverse(Cell cell) {
-		return cell.traversable;
-	}
+//	protected boolean canTraverse(Cell cell) {
+//		return cell.traversable;
+//	}
 	
 	protected void move(char direction) {
 		switch (direction) {
