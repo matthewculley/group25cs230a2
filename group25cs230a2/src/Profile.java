@@ -65,6 +65,10 @@ public class Profile {
 		return avatar;
 	}
 	
+	public void setAvatar(Image avatar){
+		this.avatar = avatar;
+	}
+	
 	public void completeLevel (int completedLevel, int achievedScore) {
 		
 		if (completedLevel > this.highestCompletedLevel) {
