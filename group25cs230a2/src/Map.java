@@ -201,6 +201,9 @@ public class Map {
 		return map;
 	}
 	
+
+	
+	
 	/**
 	 * Get and return the cell at a given index
 	 * @param x The x component of the coordinate
@@ -217,7 +220,7 @@ public class Map {
 	}
 	
 	//get the index of a given set of coordinates
-	private int getIndexFromCoords(int x, int y) {	
+	public int getIndexFromCoords(int x, int y) {	
 		if (isValidCoords(x, y)) {	//if the coordinates are valid return the index
 			return width*x + y;
 		} else {

@@ -8,16 +8,20 @@ import javafx.scene.image.Image;
  * @version 1.0
  */
 
-public class Cell {
+public abstract class Cell {
 
 	private Image sprite;
 	
 	public Cell(String imageName) {
-		sprite = new Image(imageName);
+		setSprite(imageName);
 	}
 	
 	public Image getSprite() {
 		return sprite;
+	}
+	
+	public void setSprite(String imageName) {
+		sprite = new Image(imageName);
 	}
 	
 

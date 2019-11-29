@@ -1,13 +1,12 @@
 package cells;
 
-public class Obstacles extends Cell{
+public abstract class Obstacles extends Cell{
 
 	//private inventory itemReq;
 	
-	public void checkItem(boolean item) {
-		if(item == true) {
-			open();
-		}
+	public Obstacles(String imageName) {
+		super(imageName);
+		// TODO Auto-generated constructor stub
 	}
 	
 	private void open() {

@@ -4,16 +4,7 @@ public class Door extends Cell{
 	private String colour;
 		
 	public Door(String colour) {
-		switch(this.colour) {
-		case "red":
-			break;
-		case "blue":
-			break;
-		case "green":
-			break;
-		case "yellow":
-			break;
-		}
+		super("door.png");
 	}
 	
 	public void checkPlayer() {

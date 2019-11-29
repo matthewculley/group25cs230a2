@@ -1,6 +1,8 @@
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import cells.*;
 import enemies.Enemy;
-import javafx.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -16,23 +18,27 @@ import javafx.stage.Stage;
 
 public class DrawGame extends Application {
 	
-	//the map file for the given level
+	int playerX = 0;
+	int playerY = 0;
+	
+	//create the map file for the given level
 	private Map map = new Map("test.csv");
-	private int mapWidth = map.getWidth();
-	private int mapHeight = map.getHeight();
-	
-	
+		
 	// The dimensions of the window
-	private static final int WINDOW_WIDTH = 500;
-	private static final int WINDOW_HEIGHT = 500;
+	//	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	//	private static final int WINDOW_WIDTH = (int) screenSize.getWidth();
+	//	private static final int WINDOW_HEIGHT = (int) screenSize.getHeight();
+
+	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_HEIGHT = 1000;
 
 	// The dimensions of the canvas
-	private static final int CANVAS_WIDTH = 500;
-	private static final int CANVAS_HEIGHT = 500;
+	private static final int CANVAS_WIDTH = 750;
+	private static final int CANVAS_HEIGHT = 750;
 
 	// The size of each cell
-	private static int GRID_CELL_WIDTH = 16;
-	private static int GRID_CELL_HEIGHT = 16;
+	private static int GRID_CELL_WIDTH = 50;
+	private static int GRID_CELL_HEIGHT = 50;
 	
 	// The canvas in the GUI. This needs to be a global variable
 	// (in this setup) as we need to access it in different methods.
@@ -43,19 +49,70 @@ public class DrawGame extends Application {
 	public void start(Stage primaryStage) {
 		// Build the GUI 
 		Pane root = buildGUI();
-		
-		
-		
+
 		// Create a scene from the GUI
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 			
-		// Register an event handler for key presses
-//		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
+		//Register an event handler for key presses
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
 		
 		// Display the scene on the stage
 		drawGame();
 		primaryStage.setScene(scene);
 		primaryStage.show();		
+	}
+	
+	/**
+	 * Process a key event due to a key being pressed, e.g., to the player.
+	 * @param event The key event that was pressed.
+	 */
+	public void processKeyEvent(KeyEvent event) {
+		switch (event.getCode()) {
+		    case RIGHT:
+		    	// Right key was pressed. So move the player right by one cell.
+		    	if (checkValidMove(playerX + 1, playerY)) {
+			    	playerX++;
+		    	} 
+//		    	System.out.println("\n" + map.getAt(playerX, playerY).toString());
+	        	break;	
+		    case LEFT:
+		    	// Right key was pressed. So move the player right by one cell.
+		    	if (checkValidMove(playerX - 1, playerY)) {
+			    	playerX--;
+		    	} 
+	        	break;		
+		    case UP:
+		    	// Right key was pressed. So move the player right by one cell.
+		    	if (checkValidMove(playerX, playerY - 1)) {
+			    	playerY--;
+		    	} 
+	        	break;		
+		    case DOWN:
+		    	// Right key was pressed. So move the player right by one cell.
+		    	if (checkValidMove(playerX, playerY + 1)) {
+			    	playerY++;
+		    	} 
+	        	break;		
+		    
+	        default:
+	        	// Do nothing
+	        	break;
+		}
+		
+		// Redraw game as the player may have moved.
+		drawGame();
+		System.out.println("(" + playerX + "," + playerY + ")");
+		
+		// Consume the event. This means we mark it as dealt with. This stops other GUI nodes (buttons etc) responding to it.
+		event.consume();
+	}
+	
+	private boolean checkValidMove(int x, int y) {
+		if (x >= map.getWidth() || x < 0 || y >= map.getHeight() || y < 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public void drawGame() {
@@ -64,29 +121,68 @@ public class DrawGame extends Application {
 		
 		// Clear canvas
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				
+		int offset = 7;
 		
-		//for loop to draw the game 
+		int newZeroX = playerX - offset;
+		int newZeroY = playerY - offset;
 		
-		for (int i = 0; i < mapWidth * mapHeight; i++) {
-			int[] coords = map.indexToCoords(i);
-			int x = coords[0];
-			int y = coords[1];
-			Cell currentCell = map.getAt(x,y);
-			System.out.println("index: "+i+ "  "+ x + "," + y + ": " + currentCell.toString());
-			gc.drawImage(currentCell.getSprite(), y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-
+		if (newZeroX < 0) {
+			newZeroX = 0;
+		}
+	
+		while (newZeroX + 15 > map.getWidth()) {
+			newZeroX--;
 		}
 		
-		for (int i = 0; i < map.getEnemies().size(); i++) {
-			Enemy enemy = map.getEnemies().get(i); 
-			gc.drawImage(enemy.getSprite(), enemy.getX() * GRID_CELL_WIDTH, enemy.getY() * GRID_CELL_HEIGHT);
-
+		if (newZeroY < 0) {
+			newZeroY = 0;
 		}
 		
-		// Draw player at current location
-//		gc.drawImage(player, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);			
+		while (newZeroY + 15 > map.getHeight()) {
+			newZeroY--;
+		}
+
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				int x = newZeroY + j;
+				int y = newZeroX + i;
+				
+				Cell currentCell = map.getAt(x, y);
+
+				gc.drawImage(currentCell.getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
+				
+//				System.out.println("(" + x + "," + y + ")" + currentCell.toString() + "NewZeroCoords" + "(" + newZeroX + "," + newZeroY + ")");
+
+				
+				if (playerX == y & playerY == x) {
+					gc.drawImage(new Image("enemyWall.png"), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
+				}
+				
+				if (newZeroX == y & newZeroY == x) {
+					gc.drawImage(new Image("enemyStraight.png"), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
+				}
+				
+				
+			}
+		}
+		
+		//draw enemies
+		
+		//draw tokens 
+		
+		//draw player
+		
+		
+		
+		
+		
 	}
 	
+	/**
+	 * Create the GUI.
+	 * @return The panel that contains the created GUI.
+	 */
 	private Pane buildGUI() {
 		// Create top-level panel that will hold all GUI
 		BorderPane root = new BorderPane();
@@ -119,14 +215,14 @@ public class DrawGame extends Application {
 		
 		return root;
 	}
-	
+
 	/**
 	 * Restart the game.
 	 */
 	public void restartGame() {
 		// We just move the player to cell (0, 0) 
-//		playerX = 0;
-//		playerY = 0;
+		playerX = 0;
+		playerY = 0;
 		drawGame();
 	}
 	
@@ -135,18 +231,17 @@ public class DrawGame extends Application {
 	 */
 	public void movePlayerToCenter() {
 		// We just move the player to cell (2, 2)
-//		playerX = 2;
-//		playerY = 2;
+		playerX = 2;
+		playerY = 2;
 		drawGame();		
 	}
-		
 	
 	public static void main(String[] args) {
+
 		launch(args);
+		
 	}
 	
-	
-	
-	
+
 	
 }

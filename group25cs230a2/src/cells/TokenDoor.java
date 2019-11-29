@@ -1,6 +1,6 @@
 package cells;
 
-public class TokenDoor extends Door{
+public class TokenDoor {
 
 	private int tokenReq;
 	//How many tokens required to open??
