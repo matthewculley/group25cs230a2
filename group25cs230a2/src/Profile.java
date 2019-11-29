@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
+import javafx.scene.image.Image;
 
 public class Profile {
 	
@@ -25,7 +26,6 @@ public class Profile {
 		System.out.println (myProfile2.toString());
 		System.out.println (myProfile.levelScores.size());
 		System.out.println (myProfile2.levelScores.size());
-
 		Profile myProfile3 = new Profile ("bob", "password123");
 		System.out.println (myProfile3.toString());*/
 		Leaderboard leaderboard = createLeaderboard (1, 6);
@@ -38,6 +38,7 @@ public class Profile {
 	private String password;
 	private ArrayList<int[]> levelScores = new ArrayList<>(); //index of arrayList = level number, int[] is personal best scores for that level
 	private int highestCompletedLevel;
+	private Image avatar;
 	
 	public Profile (String userID, String password, int highestCompletedLevel, ArrayList<int[]> levelScores) { //profile pic, map files...
 		
@@ -45,6 +46,7 @@ public class Profile {
 		setValidPassword (password);	
 		this.highestCompletedLevel = highestCompletedLevel;
 		this.levelScores = levelScores;
+		this.avatar = null;
 				
 		profiles.add (this);
 	}
@@ -59,7 +61,9 @@ public class Profile {
 		this (userID, password, 0, new ArrayList<int[]>());		
 	}
 
-	
+	public Image getAvatar() {
+		return avatar;
+	}
 	
 	public void completeLevel (int completedLevel, int achievedScore) {
 		
