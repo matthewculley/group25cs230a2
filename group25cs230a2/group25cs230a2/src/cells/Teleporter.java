@@ -3,7 +3,7 @@ package cells;
 public class Teleporter extends Cell{
 
 	public Teleporter() {
-		super("teleporter.png");
+		super("teleporter.png", true);
 	}
 	
 	private Teleporter partner;

@@ -1,6 +1,7 @@
 package cells;
 
 import javafx.scene.image.Image;
+import player.Player;
 
 /** 
  * (Incomplete)
@@ -11,9 +12,11 @@ import javafx.scene.image.Image;
 public abstract class Cell {
 
 	private Image sprite;
+	private boolean passable;
 	
-	public Cell(String imageName) {
+	public Cell(String imageName, boolean passable) {
 		setSprite(imageName);
+		setPassable(passable);
 	}
 	
 	public Image getSprite() {
@@ -23,7 +26,16 @@ public abstract class Cell {
 	public void setSprite(String imageName) {
 		sprite = new Image(imageName);
 	}
-	
+
+	public boolean isPassable() {
+		return passable;
+	}
+
+	public void setPassable(boolean passable) {
+		this.passable = passable;
+	}
+
+
 
 	
 }

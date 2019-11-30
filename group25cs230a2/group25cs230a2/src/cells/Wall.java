@@ -2,7 +2,7 @@ package cells;
 
 public class Wall extends Cell{
 	public Wall () {
-		super("wall.png");
+		super("wall.png", false);
 	}
 	//Wall type
 }

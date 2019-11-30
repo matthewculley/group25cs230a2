@@ -2,8 +2,6 @@ package player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Leaderboard;
-
 import java.util.Arrays;
 import javafx.scene.image.Image;
 
