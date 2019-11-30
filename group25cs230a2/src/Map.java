@@ -1,28 +1,72 @@
+package game;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.ArrayIndexOutOfBoundsException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import enemies.*;
+import player.Player;
+import player.Profile;
+import cells.*;
+import collectibles.*;
+
+/**
+ * 
+ * @author matth
+ *
+ */
+
 
 public class Map {
-	private String[] map;			//will be cell when can create cell objects
+	private Cell[] map;	//store the data representing the map			//will be cell when can create cell objects
 	private String filename;
 	private int width;	//the width of the map
 	private int height;	//the height of the map
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();;
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>(); //all the enemies in the map
+	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(); //all collectibles in the level
+	private Profile profile;
+	private Player player;
 		
-	public Map (String fn) {
+	/**
+	 * Constructor method to create an instance of Map
+	 * @param filename The name of the file that contains the map.
+	 */
+	public Map(Profile p, String fn) {
+		profile = p;
 		filename = fn;
-		map = convertStringToObjects(readFileToMap());
+		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
 	}
 	
-	//create a map array from a csv file
+	
+	//Read the data from the csv file, and turn it into an ArrayList 
 	private ArrayList<String> readFileToMap() {
-		//create arraylist to store raw data reading from the csv file
-		ArrayList<String> mapAl = createAlFromFile();
+		//create an ArrayList, containing the data from the file
+		ArrayList<String> mapAl = new ArrayList<String>();	
 		
-		//read in the width and height size of the map
+		File csvFile = new File(filename);	//create File object to read from
+		
+		//create Scanner to read data from csvFile
+		Scanner in = null;
+		try {	//try to open file with scanner
+		    in = new Scanner(csvFile); 
+		} 
+		catch (FileNotFoundException e){	//if the file can't be found throw exception 
+			System.out.println ("The file, " + filename + " does not exist.");
+			System.exit (0);
+		}
+		
+		in.useDelimiter(",|\r");	//change the Scanner delimiter so it is applicable to csv files
+		
+		//read data from the csv file and add it to the array
+		while (in.hasNext()) {
+			mapAl.add(in.next().replace("\n", "").replace(" ", ""));	//remove any unneccessary characters
+		}
+		in.close();
+		
+		//get the height and width of the map from the ArrayList
+		//remove the items after so the ArrayList contains only the map data
 		width = Integer.parseInt(mapAl.get(0));
 		mapAl.remove(0);
 		height = Integer.parseInt(mapAl.get(0));
@@ -30,175 +74,185 @@ public class Map {
 			
 		return mapAl;
 	}
-
-	//read contents of csv file with scanner amd return arraylist of the contents
-	private ArrayList<String> createAlFromFile() {
-		ArrayList<String> al = new ArrayList<String>();
-		
-		File csvFile = new File(filename);
-		
-		//create scanner object containing the csv file
-		Scanner in = null;
-		try { //try to open file with scanner
-		    in = new Scanner(csvFile); 
-		} 
-		catch (FileNotFoundException e){ //if the file can't be found throw exception 
-			System.out.println ("The file, " + filename + " does not exist.");
-			System.exit (0);
-		}
-		
-		//edit delimiters to be applicable to csv files
-		in.useDelimiter(",|\r");
-
-		//add all data in the csv to the arraylist
-		while (in.hasNext()) {
-			al.add(in.next().replace("\n", "").replace(" ", ""));
-		}
-		
-		in.close();
-		return al;
-	}
 	
-	// 																							change to Cell[] when can not all cells
-	private String[] convertStringToObjects(ArrayList<String> stringAl) {
-		String[] map = new String[stringAl.size()];
+	
+	
+	//Convert the ArrayList<String> to an array, and create any objects present in the map 								
+	private Cell[] convertStringToObjects(ArrayList<String> stringAl) {
+		
+		Cell[] map = new Cell[stringAl.size()]; //create an array with the same length as the ArrayList
+		System.out.println(stringAl.toString());
+		//for each item within the ArrayList, create the appropriate objects, 
+		//and store that in the same index in the map array
 		for (int i = 0; i < stringAl.size(); i++) {
-			int y = i % width;    // % is the "modulo operator", the remainder of i / width;
-			int x = i / height;    // where "/" is an integer division
-			//switch to check for 'basic' cells
-//			System.out.println(stringAl.get(i));
+			//get the x and y coordinates of the object at index i
+			int x = i % width;	
+			int y = i / width;
+			
+			//switch statement to check for cells that have no metadata
 			switch (stringAl.get(i)) {
 				case "ground": 
-					map[i] = "gr";
-					//create basic cell
+					map[i] = new Ground();
 					break;
 				case "wall":
-					map[i] = "wall";
-					//create wall object and add to map
-					break;
-				case "goal":
-					map[i] = "g";
-					//add goal point to map
-					break;
-				case "player":
-					map[i] = "ps";
-					//set below to ground
-					//create player object
+					map[i] = new Wall();
 					break;
 				case "water":
-					map[i] = "wat";
-					//create water object and add
+					map[i] = new Water();
 					break;
 				case "fire":
-					map[i] = "fi";
-					//create fire object and add
+					map[i] = new Fire();
+					break;
+				//below are collectibles that are in the level
+				//a ground cell will need to be created for each of these
+				//the ground cell will be added to the map, and the colllectible to the collectibles ArrayList
+				case "goal":
+//					map[i] = "g";
+					break;
+				case "player":
+					map[i] = new Ground();
+					player = new Player(profile, x, y);
+					
 					break;
 				case "token":
-					map[i] = "tok";
-					//set below to ground
-					//create new token
+//					map[i] = "tok";
 					break;
 				case "flippers":
-					map[i] = "flip-flop";
+					map[i] = new Ground();
+					collectibles.add(new Flippers(x, y));
+					
 					//set below to ground
 					break;
 				case "fireBoots":
-					map[i] = "firebootays";
-					//set below to ground
+					map[i] = new Ground();
+					collectibles.add(new FireBoots(x, y));
 					break;
 				default:
-					map[i] = "not here";
-					//set below to ground
+//					map[i] = "not here";
 			}
 			
-			//check for 'advanced' cells -- doors, teleporters, keys, enemies
+			//check for objects that have metadata, and deal with the metadata
+			//use regex to match to different objects, then read their metadat afterwords
 		
 			//check for teleporters
+			
 			//set pattern to the teleporter regex
 			Pattern teleporterPattern = Pattern.compile("^teleporter:[0-9]+$");
-			
 			Matcher teleporterMatcher = teleporterPattern.matcher(stringAl.get(i));
 			
-			//if the item is a teleporter
+			//if it is a teleporter
+			//split the string in the ":" character to split the different parts of metadata
+			//create a new teleporter object, using the split metadata 
 			if (teleporterMatcher.matches()) {
-				//split the string to find the pairing
 				String[] parts = stringAl.get(i).split(":");
 			    String teleporterPairing = parts[1]; 
-			    //create teleporter object with pairing a
-			    map[i] = "tele:" + teleporterPairing;
+//			    map[i] = "tele:" + teleporterPairing;	//create teleporter here
 			} 
 			
-			//different types of doors
+			//check for different types of doors
+			//set pattern to doors regex
 			Pattern doorPattern = Pattern.compile("^door:(red|blue|green|yellow|token:[1-9])$");
 			Matcher doorMatcher = doorPattern.matcher(stringAl.get(i));
 		
-			//if the item is a door
+			//if it is a door
+			//split the string in the ":" character to split the different parts of metadata
+			//create a new door object, using the split metadata 			
 			if (doorMatcher.matches()) {
-				//split the string to find the pairing
 				String[] parts = stringAl.get(i).split(":");
-			    String doorType = parts[1];
+			    //if the door is a token door, then create a token door, otherwise create a colour door
 			    if (parts[1].equals("token")) {
-			    	String tokens = parts[2];
-			    	map[i] = "door:" + doorType + ":" + tokens;
+//			    	map[i] = "door:" + parts[1] + ":" + parts[2];	//create token door here
 			    } else {
-			    	map[i] = "door:" + doorType;
+//			    	map[i] = "door:" + parts[1];	//create colour door here
 			    }
 			}
     
-			//different types of keys
+			//check for different types of keys
+			//set pattern to keys regex			
 			Pattern keyPattern = Pattern.compile("^key:(red|blue|green|yellow)$");
 			Matcher keyMatcher = keyPattern.matcher(stringAl.get(i));
 			
 			//if the item is a key
+			//split the string to get the colour
 			if (keyMatcher.matches()) {
-				//split the string to find the pairing
 				String[] parts = stringAl.get(i).split(":");
-				String keyType = parts[1];
-				map[i] = "key:" + keyType;
+//				map[i] = "key:" + parts[1];
 			} 
 			
 			
-			//different types of enemies
+			//check for different enemy types
+			//set the pattern to the enemy regex
 			Pattern enemyPattern = Pattern.compile("^enemy:((smart|dumb)|(wall:[ac]:[udlr]|straight:[udlr]))$");
 			Matcher enemyMatcher = enemyPattern.matcher(stringAl.get(i));
 			
-			//if the item is a key
+			//if an enemy
 			if (enemyMatcher.matches()) {
-				//split the string to find the pairing
 				String[] parts = stringAl.get(i).split(":");
-				String enemyType = parts[1];
-				switch (enemyType) {
+				
+				//determine which type of enemy it is with switch statement
+				//then add to the enemies ArrayList an instant of that enemy 
+				switch (parts[1]) {
 					case "straight":
-						char straightDirection = parts[2].charAt(0);
-						enemies.add(new EnemyStraight(x, y, straightDirection));
-						map[i] = "enemy:" + enemyType + ":" + straightDirection;
+ 						enemies.add(new EnemyStraight(x, y, parts[2].charAt(0)));
+						map[i] = new Ground();
 						break;
 					case "wall":
-						char wallDirection = parts[2].charAt(0);
-						char startingWall = parts[3].charAt(0);
-						enemies.add(new EnemyWall(x, y, wallDirection, startingWall));
-						map[i] = "enemy:" + enemyType + ":" + wallDirection + ":" + startingWall;
+						enemies.add(new EnemyWall(x, y, parts[2].charAt(0), parts[3].charAt(0)));
+						map[i] = new Ground();
 						break;
 					case "dumb":
 						enemies.add(new EnemyDumb(x,y));
+						map[i] = new Ground();					
+					case "smart": 
+						map[i] = new Ground();
+						break;
 					default:					
 						break;
 				}					
 			} 
-			map[i] += " (" + x + "," + y + ")";
 		}
-		
 		return map;
 	}
 	
+
 	
 	
-	public String getAt(int x, int y) {
-		return map[getIndexFromCoords(x, y)];
+	/**
+	 * Get and return the cell at a given index
+	 * @param x The x component of the coordinate
+	 * @param y The y component of the coordinate
+	 * @return The cell at the given coordinate
+	 * @throws ArrayIndexOutOfBoundsException if the supplied coordinates do not exist in the map
+	 */
+	public Cell getAt(int x, int y) {
+		try {
+			isValidCoords(x, y);
+			return map[getIndexFromCoords(x, y)];
+			
+		} catch (ArrayIndexOutOfBoundsException e){
+			System.out.println("coords:"+ x + "," + y);
+			System.out.println("Accessed coordinates do not exist");
+			System.exit(0);
+		}
+		return null;
 	}
 	
-	private int getIndexFromCoords(int x, int y) {
-		return width*x + y;
+	//get the index of a given set of coordinates
+	public int getIndexFromCoords(int x, int y) {	
+		if (isValidCoords(x, y)) {	//if the coordinates are valid return the index
+			return width*y + x;
+		} else {
+			throw new ArrayIndexOutOfBoundsException();
+		}		
+	}
+	
+	//chech if a set of coordinates is valid
+	private boolean isValidCoords(int x, int y) {
+		//if either coordinate is less than 0 or greater than width or height respectivley
+		if (x < 0 || y < 0 || x > width || y > height) {
+			return false;
+		}
+		return true;
 	}
 	
 	
@@ -208,7 +262,30 @@ public class Map {
 		}
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
 	
+	public int getHeight() {
+		return this.height;
+	}
+	
+	public int getWidth() {
+		return this.width;
+	}
+	
+	public int[] indexToCoords(int i) {
+		int[] coords = {i % width, i/width};		
+		return coords;
+	}
+	
+	public ArrayList<Enemy> getEnemies() {
+		return this.enemies;
+	}
+	
+	public ArrayList<Collectible> getCollectibles() {
+		return this.collectibles;
+	}
 	
 	/**
 	 * Describes the map class
