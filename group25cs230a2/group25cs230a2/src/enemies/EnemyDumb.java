@@ -1,9 +1,41 @@
 package enemies;
+import game.*;
+import java.lang.Math;
 
 public class EnemyDumb extends Enemy {
 	public EnemyDumb(int x, int y) {
 		super(x, y, "enemyDumb.png");
 	}
+	
+	public void move (Map map) {
+		int px = map.getPlayer().getX();
+		int py = map.getPlayer().getY();
+		
+		int distanceUp = map.distanceBetween(getX(), getY() - 1, px, py);
+		int distanceDown = map.distanceBetween(getX(), getY() + 1, px, py);
+		int distanceLeft = map.distanceBetween(getX() - 1, getY(), px, py);
+		int distanceRight = map.distanceBetween(getX() + 1, getY(), px, py);
+		
+		System.out.println("up " + distanceUp);
+		System.out.println("down " + distanceDown);
+		System.out.println("left " + distanceLeft);
+		System.out.println("right " + distanceRight);
+		
+		int shortest = Math.min(Math.min(distanceUp, distanceDown), Math.min(distanceLeft, distanceRight));
+		System.out.println("::" + shortest);
+		
+		if (shortest == distanceUp & map.getAt(getX(), getY() - 1).isPassable()) {
+			this.setPosition(getX(), getY() - 1);
+		} else if (shortest == distanceDown & map.getAt(getX(), getY() + 1).isPassable()) {
+			this.setPosition(getX(), getY() + 1);
+		} else if (shortest == distanceLeft & map.getAt(getX() - 1, getY()).isPassable()) {
+			this.setPosition(getX() - 1, getY());
+		} else if (shortest == distanceRight & map.getAt(getX() + 1, getY()).isPassable()) {
+			this.setPosition(getX() + 1, getY());
+		}	
+	}	
+		
+}
 	
 //	public void move() { //ADD CASE FOR EQUAL X/Y
 //		private Cell toUp = map.getAt(super.getX(),super.getY()-1) ;
@@ -58,4 +90,4 @@ public class EnemyDumb extends Enemy {
 //			
 //		}
 //	}
-}
+//}
