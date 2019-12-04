@@ -4,8 +4,8 @@ public abstract class Obstacles extends Cell{
 
 	//private inventory itemReq;
 	
-	public Obstacles(String imageName) {
-		super(imageName);
+	public Obstacles(String imageName, boolean passable) {
+		super(imageName,passable);
 		// TODO Auto-generated constructor stub
 	}
 	

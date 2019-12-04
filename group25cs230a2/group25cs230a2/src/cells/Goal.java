@@ -1,8 +1,14 @@
 package cells;
+import game.PlayGame;
 
 public class Goal extends Cell{
 
 	private int trigger = 0;
+
+	public Goal() {
+		super("goal.png",true);
+	}
+	
 	
 	public void checkIfTriggered() {
 		if (trigger == 0) {
@@ -12,6 +18,6 @@ public class Goal extends Cell{
 	}
 	
 	private void endLevel() {
-		lvl.nextLevel();
+		PlayGame.nextLevel();
 	}
 }
