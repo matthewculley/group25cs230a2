@@ -30,11 +30,11 @@ public class SelectLevelController {
 	
 	
 	private ArrayList<String> levels = new ArrayList<String>();
-	private Image level1 = new Image("level1.png");
+	//private Image level1 = new Image("level1.png");
 //	private Image level2 = new Image("level2.png");
 	
 	public void initialize() {
-		imageView.setImage(level1);
+		//imageView.setImage(level1);
 		levels.add("level1.csv");
 //		levels.add("level2.csv");
 		 
