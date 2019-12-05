@@ -26,7 +26,7 @@ public class PlayGameController {
 		System.out.println("restart");
 		Stage stage = (Stage) restart.getScene().getWindow();
 		stage.close();
-		String fileName = Main.getMapFileName();
+		String fileName = Main.getParentLevelName();
 		try {
 			Main.playGame(stage, fileName, false);
 		} catch (IOException e) {
@@ -37,13 +37,18 @@ public class PlayGameController {
 	
 	@FXML
 	private void quit(ActionEvent event) {
-		System.exit(0);
+		Stage stage = (Stage) quit.getScene().getWindow();
+		stage.close();
+		Main.mainMenu(stage);
 	}
 	
 	@FXML
 	private void save(ActionEvent event) throws IOException {
-		System.out.println("Save");
-		Main.saveMapToFile();
+		if (Main.canSave()) {
+			System.out.println("Save");
+			Main.saveMapToFile();
+		}
+		
 	}
 	
 	

@@ -44,7 +44,6 @@ public class IO {
 		
 		String fileName = map.getPlayer().getProfile().getUserID();
 		ArrayList<String> returnArrayList = new ArrayList<String>();
-	
 		for (int y = 0; y < map.getWidth(); y++) {
 			for (int x = 0; x < map.getHeight(); x++) {
 				String addToArray = map.getAt(x, y).getCellName();
@@ -89,6 +88,7 @@ public class IO {
 				count++;
 			}
 		}
+		fwLevel.append(map.getParentLevelName());
 		fwLevel.close();
 		
 		

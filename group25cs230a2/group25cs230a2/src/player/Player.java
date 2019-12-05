@@ -33,18 +33,18 @@ public class Player {
 //		c.collect();
 //	}
 
-	public Player(Profile profile, String userID) throws FileNotFoundException {
-		File playerFile = new File(userID + "player.txt");
+	public Player(Profile profile, String fileName) throws FileNotFoundException {
+		File playerFile = new File(fileName + "player" + ".txt");
 		Scanner in = new Scanner(playerFile);
 		this.profile = profile;
 		this.inventory = new Inventory();
 		//set coordinates
+		System.out.println("filename: " + fileName + "player" + ".txt");
 		setX(Integer.parseInt(in.nextLine()));
 		setY(Integer.parseInt(in.nextLine()));
 		inventory.setTokens(Integer.parseInt(in.nextLine()));
 		while (in.hasNext()) {
 			switch (in.nextLine()) { 
-			 	
 				case "flippers":
 					inventory.addItem(new Flippers(0, 0));
 					break;
@@ -55,6 +55,8 @@ public class Player {
 					break;
 			}
 		}
+		System.out.println(inventory.toString());
+		in.close();
 	}
 
 	public Profile getProfile() {

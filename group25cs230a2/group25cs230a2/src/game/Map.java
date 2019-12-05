@@ -25,6 +25,7 @@ public class Map {
 	private Profile profile;
 	private Player player;
 	private ArrayList<Teleporter> teleporters;
+	private String parentLevelName;
 		
 	/**
 	 * Constructor method to create an instance of Map
@@ -33,10 +34,13 @@ public class Map {
 	public Map(Profile p, String fn) {
 		profile = p;
 		filename = fn;
+		setParentLevelName(fn);
 		teleporters = new ArrayList<Teleporter>();
-		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
+		ArrayList<String> mapAl = readFileToMap();
+		mapAl.add(fn);
+		map = convertStringToObjects(mapAl);	//read the map file and create the array and various objects
 		if (teleporters.size() > 0) connectTeleporters();
-		System.out.print(filename);
+		
 	}
 	
 	public Map(String fn) {
@@ -53,6 +57,13 @@ public class Map {
 		
 	}
 	
+	public void setParentLevelName(String fileName) {
+		this.parentLevelName = fileName;
+	}
+	
+	public String getParentLevelName() {
+		return this.parentLevelName;
+	}
 	
 	private void connectTeleporters() {
 		int numberOfPairs = teleporters.size() / 2;
@@ -77,7 +88,7 @@ public class Map {
 	private ArrayList<String> readFileToMap() {
 		ArrayList<String> mapAl = new ArrayList<String>();	
 		
-		File csvFile = new File(filename);
+		File csvFile = new File(getFileName());
 		
 		//Scanner to read data from csvFile
 		Scanner in = null;
@@ -96,9 +107,15 @@ public class Map {
 			mapAl.add(in.next().replace("\n", "").replace(" ", ""));	//remove any unneccessary characters 
 		}
 		in.close();
-		
+
 		//get the height and width of the map from the ArrayList
 		//remove the items after so the ArrayList contains only the map data
+		
+		if (parentLevelName.equals(null)) {
+			setParentLevelName(mapAl.get(mapAl.size()));
+			mapAl.remove(mapAl.size());
+		}
+		
 		width = Integer.parseInt(mapAl.get(0));
 		mapAl.remove(0);
 		height = Integer.parseInt(mapAl.get(0));
@@ -393,7 +410,7 @@ public class Map {
 	 * @return The dimensions of the map, and the array the map is stored in
 	 */
 	public String toString(){
-		String returnString = "x: " + width + ", y: " + height + "\n";
+		String returnString = "File: " + getFileName() + " Parent name: "+ getParentLevelName() + "x: " + width + ", y: " + height + "\n";
 		for (int i=0; i < map.length; i++) {
 			if (i == 0) {
 				returnString += "[" + map[i];

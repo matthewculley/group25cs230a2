@@ -1,15 +1,9 @@
 package menu;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
-
-import cells.Cell;
-import cells.Fire;
-import cells.Teleporter;
-import cells.Water;
-import collectibles.FireBoots;
-import collectibles.Flippers;
+import cells.*;
+import collectibles.*;
 import game.Map;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import player.Player;
 import player.Profile;
-
 
 public class Main extends Application{
 
@@ -45,7 +38,6 @@ public class Main extends Application{
 	static Profile profile = new Profile("Matthew", "1password", 0, testt);
 
 	
-
 	public void start(Stage primaryStage) {
 		mainMenu(primaryStage);
 	}
@@ -76,6 +68,7 @@ public class Main extends Application{
 		}
 	}
 	
+	
 	public static void playGame(Stage primaryStage, String fileName, boolean continueGame) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(SelectLevelController.class.getResource("PlayGame.fxml"));
@@ -96,8 +89,9 @@ public class Main extends Application{
 			try {
 				//create map
 				map = new Map(fileName + "level.csv");
-				Player player = new Player(profile, fileName + "player.txt");
+				Player player = new Player(profile, fileName);
 				map.addPlayer(profile, player);
+				map.getPlayer().getInventory().unlockDoors(map);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -179,7 +173,9 @@ public class Main extends Application{
 					for (int k = 0; k < map.getEnemies().size(); k++) {
 						if (map.getEnemies().get(k).getX() == map.getPlayer().getX() & map.getEnemies().get(k).getY() == map.getPlayer().getY()) {
 							System.out.println("dead");
-							//deal with death here
+							//load death scene
+							//1 button restart
+							//1 button quit
 						}
 					}
 					//check if player collect anything
@@ -188,8 +184,6 @@ public class Main extends Application{
 							
 							//add to inventory
 							map.getPlayer().getInventory().addItem(map.getCollectibles().get(k), map);
-
-							//deal with death here
 						}
 					}
 					//teleport player
@@ -203,6 +197,9 @@ public class Main extends Application{
 					//check if on goal
 					if (map.getAt(player.getX(), player.getY()).isGoal()) {
 						System.out.println("victory");
+						//load victory scene
+						//1 button next stage
+						//1 button victory
 					}
 					// Redraw game as the player may have moved.
 					drawGame();
@@ -239,7 +236,7 @@ public class Main extends Application{
 			
 			// Clear canvas
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-					
+			System.out.println(map.toString());
 			int newZeroX = map.getPlayer().getX() - offset; //the x to start drawing from
 			int newZeroY = map.getPlayer().getY() - offset; //the y to start drawing from
 
@@ -304,8 +301,10 @@ public class Main extends Application{
 	public static void quit() {
 		System.exit(0);
 	}
+	
 	public static String getMapFileName() {
-		return map.getFileName();
+		return map.getParentLevelName();
+		
 	}
 	public static void saveMapToFile() throws IOException {
 		System.out.println(map.getPlayer().getProfile().getUserID());
@@ -313,8 +312,20 @@ public class Main extends Application{
 		// TODO Auto-generated method stub
 		
 	}
+	
 	public static Profile getProfile() {
 		return profile;
+	}
+	public static boolean canSave() {
+		if (map.getAt(map.getPlayer().getX(), map.getPlayer().getY()).getClass() == new Ground().getClass()) {
+			return true;
+		} else {
+			System.out.println("Can only save on a ground tile");
+			return false;
+		}
+	}
+	public static String getParentLevelName() {
+		return map.getParentLevelName();
 	}
 	
 }
