@@ -6,4 +6,10 @@ public class GasMask extends Collectible {
 		super(mapPosY, mapPosX);
 	}
 
+	@Override
+	public String getCollectibleName() {
+		// TODO Auto-generated method stub
+		return "gasMask";
+	}
+
 }

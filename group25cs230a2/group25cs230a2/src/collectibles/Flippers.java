@@ -8,5 +8,9 @@ public class Flippers extends Collectible {
 	public Flippers(int x, int y) {
 		super(x, y, "flippers.png");
 	}
+	@Override
+	public String getCollectibleName() {
+		return "flippers";
+	}
 	
 }

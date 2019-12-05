@@ -30,6 +30,8 @@ public abstract class Enemy {
 		return sprite;
 	}
 	
+	public abstract String getEnemyName();
+	
 	/**
 	 * @return the x
 	 */

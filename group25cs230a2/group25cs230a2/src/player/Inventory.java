@@ -5,13 +5,18 @@ package player;
  * @author
  */
 import java.util.ArrayList;
+
+import cells.*;
 import collectibles.*;
+import game.*;
 
 public class Inventory {
 
 	private int token = 0;
 	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();
-
+	private Map map;
+	
+	
 	/*
 	 * Player's inventory has a token counter and checks if the keys or other
 	 * collectibles have been picked up.
@@ -25,9 +30,70 @@ public class Inventory {
 		return token;	
 	}
 	
+	public void setTokens(int amount) {
+		token = amount;
+	}
+	
+	public void addItem(Collectible c, Map map) {
+		if (c.getClass() != new Token().getClass()) {
+			collectibles.add(c);
+		} else {
+			addToken();
+		}
+		unlockDoors(map);
+		c.collect();
+		
+	}
+	
 	public void addItem(Collectible c) {
 		collectibles.add(c);
-		c.collect();
+	}
+	
+	
+	public void unlockDoors(Map map) {
+		for (int i = 0; i < map.getMap().length-1; i++) {
+			int x = map.indexToCoords(i)[0];
+			int y = map.indexToCoords(i)[1];
+			if (map.getAt(x,y).getClass() == (new TokenDoor().getClass())) {
+				if (getTokens() >= ((TokenDoor) map.getAt(x,y)).getNeededTokens()) {
+					map.getAt(x, y).setPassable(true);
+				}
+			}
+			
+			if (map.getAt(x,y).getClass() == (new Door().getClass())) {
+				switch (((Door)map.getAt(x,y)).getColour()) {
+					case "red":
+						if (hasItem(new Key("red"))) {
+							map.getAt(x, y).setPassable(true);
+						}
+						break;
+					case "blue":
+						if (hasItem(new Key("blue"))) {
+							map.getAt(x, y).setPassable(true);
+						}
+						break;
+					case "green":
+						if (hasItem(new Key("green"))) {
+							map.getAt(x, y).setPassable(true);
+						}
+						break;
+					case "yellow":
+						if (hasItem(new Key("yellow"))) {
+							map.getAt(x, y).setPassable(true);
+						}
+						break;
+					case "token":
+							System.out.println("Player Tokens: " + getTokens());
+							if (getTokens() >= ((TokenDoor) map.getAt(x,y)).getNeededTokens()) {
+								map.getAt(x, y).setPassable(true);
+							}
+							break;
+					default:
+						break;
+				}
+				
+			}
+		}
 	}
 	
 	public boolean hasItem(Collectible c) {
@@ -58,12 +124,19 @@ public class Inventory {
 //		
 //	}
 	
+	
+	public ArrayList<Collectible> getInventory() {
+		return collectibles;
+	}
+	
 	public String toString() {
 		String returnString = "";
 		for (Collectible elem : collectibles) {
 			returnString += elem.toString();
 		}
-		return returnString;
+		return returnString += " tokens: " + getTokens();
 	}
+	
+	
 	
 }

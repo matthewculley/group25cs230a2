@@ -5,4 +5,10 @@ public class Wall extends Cell{
 		super("wall.png", false);
 	}
 	//Wall type
+
+	@Override
+	public String getCellName() {
+		// TODO Auto-generated method stub
+		return "wall";
+	}
 }

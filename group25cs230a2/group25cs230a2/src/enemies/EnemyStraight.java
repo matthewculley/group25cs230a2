@@ -117,4 +117,10 @@ public class EnemyStraight extends Enemy {
 	public String toString() {
 		return "Straight Line Enemy (" + this.getX() + "," + this.getY() + ")";
 	}
+
+
+	@Override
+	public String getEnemyName() {
+		return "enemy:straight:" + getDirection();
+	}
 }
