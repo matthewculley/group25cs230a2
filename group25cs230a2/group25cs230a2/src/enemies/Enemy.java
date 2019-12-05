@@ -20,8 +20,8 @@ public abstract class Enemy {
 	 * the superclass stores data common between them such as position
 	 * 
 	 */
-	public Enemy(int x, int y, String imageName) {
-		sprite = new Image(imageName);
+	public Enemy(int x, int y) {
+		
 		setX(x);
 		setY(y);
 	}
@@ -30,10 +30,10 @@ public abstract class Enemy {
 		return sprite;
 	}
 	
-	public void setSprite (String imageName) {
-		this.sprite = new Image(imageName);
+	protected void setSprite(String sprite) {
+		this.sprite = new Image(sprite);
 	}
-	
+
 	public abstract String getEnemyName();
 	
 	/**
@@ -64,9 +64,15 @@ public abstract class Enemy {
 	}
 	
 	public boolean checkValidMove(Map map, int x, int y) {
-		if (map.getAt(x, y).getClass() == new Ground().getClass()) {
-			return true;
-		} 
+		if(!map.isValidCoords(x,y)) {
+			return false;
+		}
+		Class<? extends Cell> cell = map.getAt(x, y).getClass();
+		if (cell != null) {
+			if (cell == new Ground().getClass()) {
+				return true;
+			}
+		}
 		return false;
 	}
 
