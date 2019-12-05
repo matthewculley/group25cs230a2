@@ -32,7 +32,7 @@ public class EnemySmart extends Enemy {
 		
 		ArrayList<CoordinateCost> openList = new ArrayList<>();
 		ArrayList<CoordinateCost> closedList = new ArrayList<>();
-		openList.add(new CoordinateCost(getX(),getY(),0,null));
+		openList.add(new CoordinateCost(getX(),getY(),0,null,px,py,map));
 		
 		while(coordinateMatch(closedList) != null || openList.size()==0) {
 			CoordinateCost current = openList.get(0);
@@ -43,10 +43,10 @@ public class EnemySmart extends Enemy {
 				openList.remove(current);
 				closedList.add(current);
 				
-				CoordinateCost above = new CoordinateCost(current.x,current.y-1,current.distanceTravelled+1,current);
-				CoordinateCost below = new CoordinateCost(current.x,current.y+1,current.distanceTravelled+1,current);
-				CoordinateCost left = new CoordinateCost(current.x-1,current.y,current.distanceTravelled+1,current);
-				CoordinateCost right = new CoordinateCost(current.x+1,current.y,current.distanceTravelled+1,current);
+				CoordinateCost above = new CoordinateCost(current.x,current.y-1,current.distanceTravelled+1,current,px,py,map);
+				CoordinateCost below = new CoordinateCost(current.x,current.y+1,current.distanceTravelled+1,current,px,py,map);
+				CoordinateCost left = new CoordinateCost(current.x-1,current.y,current.distanceTravelled+1,current,px,py,map);
+				CoordinateCost right = new CoordinateCost(current.x+1,current.y,current.distanceTravelled+1,current,px,py,map);
 				
 				if(checkValidMove(map, above.x, above.y)&&!closedList.contains(above)) {
 					if(!openList.contains(above)) {

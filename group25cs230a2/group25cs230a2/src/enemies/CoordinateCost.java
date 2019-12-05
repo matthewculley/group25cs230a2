@@ -1,6 +1,5 @@
 package enemies;
 import game.Map;
-import player.Player;
 
 public class CoordinateCost {
 
@@ -10,19 +9,23 @@ public class CoordinateCost {
 	protected int heuristic; // estimated distance left
 	protected int totalCost;
 	private Map map;
-	private Player player = map.getPlayer();
+	private int playerX;
+	private int playerY;
 	protected CoordinateCost parent;
 	
-	public CoordinateCost(int x,int y,int distanceTravelled,CoordinateCost parent) {
+	public CoordinateCost(int x,int y,int distanceTravelled,CoordinateCost parent,int px, int py,Map map) {
 		this.x = x;
 		this.y = y;
+		this.map = map;
+		this.playerX = px;
+		this.playerY = py;
 		this.distanceTravelled = distanceTravelled;
-		heuristic = map.distanceBetween(x, y, player.getX(), player.getY());
-		totalCost = heuristic + distanceTravelled;
+		heuristic = map.distanceBetween(x, y, playerX, playerY);
+		totalCost = distanceTravelled+heuristic;
 	}
 	
 	public boolean isPlayer() {
-		if(x==player.getX() && y==player.getY()) {
+		if(x==playerX && y==playerY) {
 			return true;
 		}
 		return false;
