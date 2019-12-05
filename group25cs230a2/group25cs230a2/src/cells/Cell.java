@@ -19,6 +19,14 @@ public abstract class Cell {
 		setPassable(passable);
 	}
 	
+	public Cell(boolean passable) {
+		setPassable(passable);
+	}
+
+	public boolean Cell() {
+		return false;
+	}
+
 	public Image getSprite() {
 		return sprite;
 	}
@@ -33,6 +41,13 @@ public abstract class Cell {
 
 	public void setPassable(boolean passable) {
 		this.passable = passable;
+	}
+
+	public abstract String getCellName();
+
+	public boolean isGoal() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

@@ -15,6 +15,17 @@ public abstract class Collectible {
 		setX(x);
 		setY(y);
 	}
+	
+	public abstract String getCollectibleName();
+
+	public Collectible(String imageName) {
+		sprite = new Image(imageName);
+	}
+
+	public Collectible(int x, int y) {
+		setX(x);
+		setY(y);
+	}
 
 	public void setX(int x) {
 		this.x = x;
@@ -34,6 +45,10 @@ public abstract class Collectible {
 	
 	public Image getSprite() {
 		return sprite;
+	}
+	
+	public void setSprite(String fileName) {
+		this.sprite = new Image(fileName);
 	}
 
 	public boolean isCollected() {

@@ -10,4 +10,9 @@ public class FireBoots extends Collectible {
 		super(0, 0, "fireBoots.png");
 	}
 
+	@Override
+	public String getCollectibleName() {
+		return "fireBoots";
+	}
+
 }

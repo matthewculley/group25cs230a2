@@ -11,12 +11,8 @@ import player.Player;
 import player.Profile;
 import cells.*;
 import collectibles.*;
-
-/**
- * 
- * @author matth
- *
- */
+import java.lang.Math; 
+import java.lang.ClassCastException;
 
 
 public class Map {
@@ -28,6 +24,7 @@ public class Map {
 	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(); //all collectibles in the level
 	private Profile profile;
 	private Player player;
+	private ArrayList<Teleporter> teleporters;
 		
 	/**
 	 * Constructor method to create an instance of Map
@@ -36,23 +33,58 @@ public class Map {
 	public Map(Profile p, String fn) {
 		profile = p;
 		filename = fn;
+		teleporters = new ArrayList<Teleporter>();
 		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
+		if (teleporters.size() > 0) connectTeleporters();
+		System.out.print(filename);
+	}
+	
+	public Map(String fn) {
+		filename = fn;
+		teleporters = new ArrayList<Teleporter>();
+		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
+		if (teleporters.size() > 0) connectTeleporters();
+		System.out.print(filename);
+	}
+	
+	public void addPlayer(Profile profile, Player player) {
+		this.profile = profile;
+		this.player = player;
+		
 	}
 	
 	
-	//Read the data from the csv file, and turn it into an ArrayList 
+	private void connectTeleporters() {
+		int numberOfPairs = teleporters.size() / 2;
+		for (int p = 0; p < numberOfPairs; p++) {
+			Teleporter head = teleporters.get(0);
+			teleporters.remove(0);
+
+			for (int i = 0; i < teleporters.size(); i++) {
+				if (head.getPairingId() == teleporters.get(i).getPairingId()) {
+					head.setPartner(teleporters.get(i));
+					teleporters.get(i).setPartner(head);
+					teleporters.remove(i);
+				}
+			}	
+		}
+	}
+
+	/*
+	 * Read the data from the csv file, and turn it into an ArrayList 
+	 * containg the string names for each cell
+	 */
 	private ArrayList<String> readFileToMap() {
-		//create an ArrayList, containing the data from the file
 		ArrayList<String> mapAl = new ArrayList<String>();	
 		
-		File csvFile = new File(filename);	//create File object to read from
+		File csvFile = new File(filename);
 		
-		//create Scanner to read data from csvFile
+		//Scanner to read data from csvFile
 		Scanner in = null;
 		try {	//try to open file with scanner
 		    in = new Scanner(csvFile); 
 		} 
-		catch (FileNotFoundException e){	//if the file can't be found throw exception 
+		catch (FileNotFoundException e){	//if the file can't be exit nicely
 			System.out.println ("The file, " + filename + " does not exist.");
 			System.exit (0);
 		}
@@ -61,7 +93,7 @@ public class Map {
 		
 		//read data from the csv file and add it to the array
 		while (in.hasNext()) {
-			mapAl.add(in.next().replace("\n", "").replace(" ", ""));	//remove any unneccessary characters
+			mapAl.add(in.next().replace("\n", "").replace(" ", ""));	//remove any unneccessary characters 
 		}
 		in.close();
 		
@@ -75,13 +107,20 @@ public class Map {
 		return mapAl;
 	}
 	
+	/**
+	 * Get the map object for use by other classes
+	 * @return Cell[], the map 
+	 */
+	public Cell[] getMap() {
+		return map;
+	}
 	
-	
-	//Convert the ArrayList<String> to an array, and create any objects present in the map 								
+	/*
+	 * Convert the array list of strings into Cell[] to create the map
+	 * also creates collectible and enemy objects
+	 */
 	private Cell[] convertStringToObjects(ArrayList<String> stringAl) {
-		
-		Cell[] map = new Cell[stringAl.size()]; //create an array with the same length as the ArrayList
-		System.out.println(stringAl.toString());
+		Cell[] map = new Cell[stringAl.size()]; 
 		//for each item within the ArrayList, create the appropriate objects, 
 		//and store that in the same index in the map array
 		for (int i = 0; i < stringAl.size(); i++) {
@@ -89,7 +128,6 @@ public class Map {
 			int x = i % width;	
 			int y = i / width;
 			
-			//switch statement to check for cells that have no metadata
 			switch (stringAl.get(i)) {
 				case "ground": 
 					map[i] = new Ground();
@@ -107,28 +145,27 @@ public class Map {
 				//a ground cell will need to be created for each of these
 				//the ground cell will be added to the map, and the colllectible to the collectibles ArrayList
 				case "goal":
-//					map[i] = "g";
+					map[i] = new Goal();
+					//TODO
 					break;
 				case "player":
 					map[i] = new Ground();
 					player = new Player(profile, x, y);
-					
 					break;
 				case "token":
-//					map[i] = "tok";
+					map[i] = new Ground();
+					collectibles.add(new Token(x,y));
 					break;
 				case "flippers":
 					map[i] = new Ground();
 					collectibles.add(new Flippers(x, y));
-					
-					//set below to ground
 					break;
 				case "fireBoots":
 					map[i] = new Ground();
 					collectibles.add(new FireBoots(x, y));
 					break;
 				default:
-//					map[i] = "not here";
+					break;
 			}
 			
 			//check for objects that have metadata, and deal with the metadata
@@ -136,61 +173,55 @@ public class Map {
 		
 			//check for teleporters
 			
+			//done by creating a pattern to check the text,
+			//matchign the pattern to the text
+			//if it matches split the text into the data parts and create a new object
+			
 			//set pattern to the teleporter regex
 			Pattern teleporterPattern = Pattern.compile("^teleporter:[0-9]+$");
 			Matcher teleporterMatcher = teleporterPattern.matcher(stringAl.get(i));
 			
-			//if it is a teleporter
-			//split the string in the ":" character to split the different parts of metadata
-			//create a new teleporter object, using the split metadata 
+			//if pattern matches create object
 			if (teleporterMatcher.matches()) {
 				String[] parts = stringAl.get(i).split(":");
 			    String teleporterPairing = parts[1]; 
-//			    map[i] = "tele:" + teleporterPairing;	//create teleporter here
+			    Teleporter tele = new Teleporter(x, y, Integer.parseInt(teleporterPairing));	
+			    teleporters.add(tele);
+			    map[i] = tele;
 			} 
 			
-			//check for different types of doors
-			//set pattern to doors regex
+			//create doors
 			Pattern doorPattern = Pattern.compile("^door:(red|blue|green|yellow|token:[1-9])$");
 			Matcher doorMatcher = doorPattern.matcher(stringAl.get(i));
 		
-			//if it is a door
-			//split the string in the ":" character to split the different parts of metadata
-			//create a new door object, using the split metadata 			
+		
 			if (doorMatcher.matches()) {
 				String[] parts = stringAl.get(i).split(":");
 			    //if the door is a token door, then create a token door, otherwise create a colour door
 			    if (parts[1].equals("token")) {
-//			    	map[i] = "door:" + parts[1] + ":" + parts[2];	//create token door here
+			    	map[i] = new TokenDoor(Integer.parseInt(parts[2]));
 			    } else {
-//			    	map[i] = "door:" + parts[1];	//create colour door here
+			    	map[i] = new Door(false, parts[1]);  
 			    }
 			}
     
-			//check for different types of keys
-			//set pattern to keys regex			
+			//create keys
 			Pattern keyPattern = Pattern.compile("^key:(red|blue|green|yellow)$");
 			Matcher keyMatcher = keyPattern.matcher(stringAl.get(i));
-			
-			//if the item is a key
-			//split the string to get the colour
+
 			if (keyMatcher.matches()) {
 				String[] parts = stringAl.get(i).split(":");
-//				map[i] = "key:" + parts[1];
+				map[i] = new Ground();
+				collectibles.add(new Key(x, y, parts[1]));
 			} 
 			
 			
-			//check for different enemy types
-			//set the pattern to the enemy regex
+			//create enemies
 			Pattern enemyPattern = Pattern.compile("^enemy:((smart|dumb)|(wall:[ac]:[udlr]|straight:[udlr]))$");
 			Matcher enemyMatcher = enemyPattern.matcher(stringAl.get(i));
-			
-			//if an enemy
+			//set the map at that location to gorund so they can stand on it
 			if (enemyMatcher.matches()) {
 				String[] parts = stringAl.get(i).split(":");
-				
-				//determine which type of enemy it is with switch statement
-				//then add to the enemies ArrayList an instant of that enemy 
 				switch (parts[1]) {
 					case "straight":
  						enemies.add(new EnemyStraight(x, y, parts[2].charAt(0)));
@@ -204,6 +235,7 @@ public class Map {
 						enemies.add(new EnemyDumb(x,y));
 						map[i] = new Ground();					
 					case "smart": 
+						//TO DO CREATE ENEMY
 						map[i] = new Ground();
 						break;
 					default:					
@@ -211,20 +243,23 @@ public class Map {
 				}					
 			} 
 		}
+		
+		if (map.length < getWidth() * getHeight()) {
+			System.out.println("Error loading map, the map does contain all cells");
+			System.exit(0);
+		}
+		
 		return map;
 	}
-	
 
-	
 	
 	/**
 	 * Get and return the cell at a given index
 	 * @param x The x component of the coordinate
 	 * @param y The y component of the coordinate
-	 * @return The cell at the given coordinate
-	 * @throws ArrayIndexOutOfBoundsException if the supplied coordinates do not exist in the map
+	 * @return Cell, The cell at the given coordinate
 	 */
-	public Cell getAt(int x, int y) {
+	public Cell getAt(int x, int y)  {
 		try {
 			isValidCoords(x, y);
 			return map[getIndexFromCoords(x, y)];
@@ -232,13 +267,19 @@ public class Map {
 		} catch (ArrayIndexOutOfBoundsException e){
 			System.out.println("coords:"+ x + "," + y);
 			System.out.println("Accessed coordinates do not exist");
-			System.exit(0);
+
 		}
 		return null;
 	}
 	
-	//get the index of a given set of coordinates
-	public int getIndexFromCoords(int x, int y) {	
+	/**
+	 * Get the index of a map location from the coordinates
+	 * @param x the x location of the item in the map
+	 * @param y the y location of the item in the map
+	 * @return int, The index of the item at position (x,y) in the map
+	 * @throws ArrayIndexOutOfBoundsException if the given coordinates are invalid
+	 */
+	public int getIndexFromCoords(int x, int y) throws ArrayIndexOutOfBoundsException {	
 		if (isValidCoords(x, y)) {	//if the coordinates are valid return the index
 			return width*y + x;
 		} else {
@@ -246,43 +287,103 @@ public class Map {
 		}		
 	}
 	
-	//chech if a set of coordinates is valid
-	private boolean isValidCoords(int x, int y) {
+	/**
+	 * Checks if two sets of coordinates are different locations
+	 * @param x1 the x position of the first location
+	 * @param y1 the y position of the first location
+	 * @param x2 the x position of the second location
+	 * @param y2 the y position of the second location
+	 * @return true if different, false otherwise
+	 */
+	public boolean isDifferentPosition(int x1, int y1, int x2, int y2) {
+		if (x1 == x2 & y1 ==y2) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Check if a set of coordinates are valid 
+	 * @param x the x componenet of the coordinates
+	 * @param y the y componenet of the coordinates
+	 * @return true if valid, false otherwise
+	 */
+	public boolean isValidCoords(int x, int y) {
 		//if either coordinate is less than 0 or greater than width or height respectivley
-		if (x < 0 || y < 0 || x > width || y > height) {
+		if (x < 0 || y < 0 || x > width -1 || y > height -1) {
 			return false;
 		}
 		return true;
 	}
 	
+	/**
+	 * Get the distance between two points on the map
+	 * @param x1 the x position of the first location
+	 * @param y1 the y position of the first location
+	 * @param x2 the x position of the second location
+	 * @param y2 the y position of the second location
+	 * @return int, the distance between the points
+	 */
+	public int distanceBetween(int x1, int y1, int x2, int y2) {
+		return (int) Math.sqrt( Math.pow(x2 - x1 , 2) + Math.pow(y2 - y1, 2));
+	}
 	
+	/**
+	 * Prints a list of the enemies on the map
+	 */
 	public void listEnemies() {
 		for (int i = 0; i < enemies.size(); i++) {
 			System.out.println(enemies.get(i).toString());
 		}
 	}
 	
+	/**
+	 * Get the player object
+	 * @return Player, the player on the map
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Returns the height of the map
+	 * @return int, the height of the map
+	 */
 	public int getHeight() {
 		return this.height;
 	}
 	
+	/**
+	 * Returns the width of the map
+	 * @return int, the width of the map
+	 */
 	public int getWidth() {
 		return this.width;
 	}
 	
+	/**
+	 * Get the coordinates of a location on the map from an index in the map array
+	 * @param i the location in the array to find the coords for
+	 * @return int[], containg the x coord at index 0, and the y at index 1
+	 */
 	public int[] indexToCoords(int i) {
 		int[] coords = {i % width, i/width};		
 		return coords;
 	}
 	
+	/**
+	 * Get an arraylist containing all the enemies on the map
+	 * @return ArrayList<Enemy>, containing all enemies on the map
+	 */
 	public ArrayList<Enemy> getEnemies() {
 		return this.enemies;
 	}
 	
+	/**
+	 * Get an arraylist containing all the collectibles on the map
+	 * @return ArrayList<Collectible>, containing all collectibles on the map
+	 */
 	public ArrayList<Collectible> getCollectibles() {
 		return this.collectibles;
 	}
@@ -303,6 +404,11 @@ public class Map {
 			}
 		};
 		return returnString;
+	}
+
+
+	public String getFileName() {
+		return this.filename;
 	}
 	
 	//convert from String to correct cell types

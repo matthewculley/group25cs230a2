@@ -1,23 +1,31 @@
 package cells;
-import game.PlayGame;
 
 public class Goal extends Cell{
-
-	private int trigger = 0;
-
+	
 	public Goal() {
-		super("goal.png",true);
+		super("teleporter.png", true);
 	}
 	
-	
-	public void checkIfTriggered() {
-		if (trigger == 0) {
-			trigger = 1;
-			endLevel();
-		}
+	@Override
+	public boolean isGoal() {
+		return true;
 	}
-	
-	private void endLevel() {
-		PlayGame.nextLevel();
+
+	@Override
+	public String getCellName() {
+		// TODO Auto-generated method stub
+		return "goal";
 	}
+
+	
+//	public void checkIfTriggered() {
+//		if (trigger == 0) {
+//			trigger = 1;
+//			endLevel();
+//		}
+//	}
+//	
+//	private void endLevel() {
+//		lvl.nextLevel();
+//	}
 }

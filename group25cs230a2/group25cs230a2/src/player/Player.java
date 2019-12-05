@@ -1,6 +1,12 @@
 package player;
 
 import javafx.scene.image.Image;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import cells.Ground;
 import collectibles.*;
 
 public class Player {
@@ -15,16 +21,40 @@ public class Player {
 		this.inventory = new Inventory();
 		this.x = x;
 		this.y = y;
-		if (p.getAvatar() != null) {
-			sprite = p.getAvatar();
-		} else {
-			sprite = new Image("flippers.png");
-		}
+//		if (p.getAvatar() != null) {
+//			sprite = p.getAvatar();
+//		} else {
+//			sprite = new Image("flippers.png");
+//		}
 	}
 	
-	public void collect(Collectible c) {
-		inventory.addItem(c);
-		c.collect();
+//	public void collect(Collectible c) {
+//		inventory.addItem(c, Map);
+//		c.collect();
+//	}
+
+	public Player(Profile profile, String userID) throws FileNotFoundException {
+		File playerFile = new File(userID + "player.txt");
+		Scanner in = new Scanner(playerFile);
+		this.profile = profile;
+		this.inventory = new Inventory();
+		//set coordinates
+		setX(Integer.parseInt(in.nextLine()));
+		setY(Integer.parseInt(in.nextLine()));
+		inventory.setTokens(Integer.parseInt(in.nextLine()));
+		while (in.hasNext()) {
+			switch (in.nextLine()) { 
+			 	
+				case "flippers":
+					inventory.addItem(new Flippers(0, 0));
+					break;
+				case "fireBoots":
+					inventory.addItem(new FireBoots(0, 0));
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	public Profile getProfile() {

@@ -10,11 +10,15 @@ public class Water extends Cell{
 	}	
 	
 	public boolean isPassable(Player p) {
-		System.out.print("hey fuck me im a cunt");
 		if (p.getInventory().hasItem(new Flippers())) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public String getCellName() {
+		return "water";
 	}
 }

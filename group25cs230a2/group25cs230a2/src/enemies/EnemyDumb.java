@@ -33,6 +33,11 @@ public class EnemyDumb extends Enemy {
 		} else if (shortest == distanceRight & map.getAt(getX() + 1, getY()).isPassable()) {
 			this.setPosition(getX() + 1, getY());
 		}	
+	}
+
+	@Override
+	public String getEnemyName() {
+		return "enemy:dumb";
 	}	
 		
 }
