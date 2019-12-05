@@ -30,6 +30,10 @@ public abstract class Enemy {
 		return sprite;
 	}
 	
+	public void setSprite (String imageName) {
+		this.sprite = new Image(imageName);
+	}
+	
 	public abstract String getEnemyName();
 	
 	/**

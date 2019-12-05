@@ -19,8 +19,8 @@ import player.Profile;
 
 public class Main extends Application{
 
-	private static final int WINDOW_WIDTH = 1000;
-	private static final int WINDOW_HEIGHT = 1000;
+	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_HEIGHT = 800;
 	
 	// The dimensions of the canvas
 	private static final int CANVAS_WIDTH = 750;
@@ -74,7 +74,7 @@ public class Main extends Application{
 		loader.setLocation(SelectLevelController.class.getResource("PlayGame.fxml"));
 		BorderPane root = (BorderPane) loader.load();
 		Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
-		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+		canvas = new Canvas(getCanvasWidth(), getCanvasHeight());
 		
 		root.setCenter(canvas);
 		
@@ -227,6 +227,7 @@ public class Main extends Application{
 		}
 	
 		public static void drawGame() {
+			System.out.println(map.toString());
 			int offset = 7;	//distance from player to each side of the screen
 			int iteratorX = 15; //amount of rows to be drawn
 			int iteratorY = 15;	//ammount of rows to be drawn
@@ -236,7 +237,6 @@ public class Main extends Application{
 			
 			// Clear canvas
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-			System.out.println(map.toString());
 			int newZeroX = map.getPlayer().getX() - offset; //the x to start drawing from
 			int newZeroY = map.getPlayer().getY() - offset; //the y to start drawing from
 
@@ -275,7 +275,7 @@ public class Main extends Application{
 					}
 					//draw the player
 					if (map.getPlayer().getX() == x & map.getPlayer().getY() == y) {
-						gc.drawImage(new Image("flippers.png"), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
+						gc.drawImage(map.getPlayer().getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 					}
 					//draw enemies
 					for (int k = 0; k < map.getEnemies().size(); k++) {
@@ -326,6 +326,12 @@ public class Main extends Application{
 	}
 	public static String getParentLevelName() {
 		return map.getParentLevelName();
+	}
+	public static int getCanvasWidth() {
+		return CANVAS_WIDTH;
+	}
+	public static int getCanvasHeight() {
+		return CANVAS_HEIGHT;
 	}
 	
 }

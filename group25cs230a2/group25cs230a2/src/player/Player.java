@@ -21,22 +21,21 @@ public class Player {
 		this.inventory = new Inventory();
 		this.x = x;
 		this.y = y;
+		setSprite("player.png");
 //		if (p.getAvatar() != null) {
 //			sprite = p.getAvatar();
 //		} else {
 //			sprite = new Image("flippers.png");
 //		}
 	}
-	
-//	public void collect(Collectible c) {
-//		inventory.addItem(c, Map);
-//		c.collect();
-//	}
+
 
 	public Player(Profile profile, String fileName) throws FileNotFoundException {
+		
 		File playerFile = new File(fileName + "player" + ".txt");
 		Scanner in = new Scanner(playerFile);
 		this.profile = profile;
+		
 		this.inventory = new Inventory();
 		//set coordinates
 		System.out.println("filename: " + fileName + "player" + ".txt");
@@ -71,8 +70,8 @@ public class Player {
 		return sprite;
 	}
 
-	public void setSprite(Image sprite) {
-		this.sprite = sprite;
+	public void setSprite(String imageName) {
+		this.sprite = new Image(imageName);
 	}
 
 	public int getX() {

@@ -3,7 +3,7 @@ package cells;
 public class Goal extends Cell{
 	
 	public Goal() {
-		super("teleporter.png", true);
+		super("goal.png", true);
 	}
 	
 	@Override
