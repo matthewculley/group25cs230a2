@@ -30,8 +30,9 @@ public class Map {
 	/**
 	 * Constructor method to create an instance of Map
 	 * @param filename The name of the file that contains the map.
+	 * @throws FileNotFoundException 
 	 */
-	public Map(Profile p, String fn) {
+	public Map(Profile p, String fn) throws FileNotFoundException {
 		profile = p;
 		filename = fn;
 		setParentLevelName(fn);
@@ -43,8 +44,9 @@ public class Map {
 		
 	}
 	
-	public Map(String fn) {
+	public Map(String fn) throws FileNotFoundException {
 		filename = fn;
+		setParentLevelName("");
 		teleporters = new ArrayList<Teleporter>();
 		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
 		if (teleporters.size() > 0) connectTeleporters();
@@ -85,20 +87,14 @@ public class Map {
 	 * Read the data from the csv file, and turn it into an ArrayList 
 	 * containg the string names for each cell
 	 */
-	private ArrayList<String> readFileToMap() {
+	private ArrayList<String> readFileToMap() throws FileNotFoundException {
 		ArrayList<String> mapAl = new ArrayList<String>();	
 		
 		File csvFile = new File(getFileName());
 		
 		//Scanner to read data from csvFile
 		Scanner in = null;
-		try {	//try to open file with scanner
 		    in = new Scanner(csvFile); 
-		} 
-		catch (FileNotFoundException e){	//if the file can't be exit nicely
-			System.out.println ("The file, " + filename + " does not exist.");
-			System.exit (0);
-		}
 		
 		in.useDelimiter(",|\r");	//change the Scanner delimiter so it is applicable to csv files
 		
@@ -111,9 +107,9 @@ public class Map {
 		//get the height and width of the map from the ArrayList
 		//remove the items after so the ArrayList contains only the map data
 		
-		if (parentLevelName.equals(null)) {
-			setParentLevelName(mapAl.get(mapAl.size()));
-			mapAl.remove(mapAl.size());
+		if (parentLevelName.equals("")) {
+			setParentLevelName(mapAl.get(mapAl.size() - 1));
+			mapAl.remove(mapAl.size() - 1);
 		}
 		
 		width = Integer.parseInt(mapAl.get(0));

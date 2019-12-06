@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import player.Player;
 import player.Profile;
+import java.io.FileNotFoundException;
 
 public class SelectLevelController {
 
@@ -24,66 +25,45 @@ public class SelectLevelController {
 	@FXML private Button play;
 	@FXML private Button back;
 	@FXML private Button continueLevel;
-	@FXML private Button previousLevel;
-	@FXML private Button nextLevel;
 	@FXML private ImageView imageView;
+	@FXML private Label label;
 	
 	
-	private ArrayList<String> levels = new ArrayList<String>();
-	//private Image level1 = new Image("level1.png");
-//	private Image level2 = new Image("level2.png");
 	
+	
+	@FXML
 	public void initialize() {
-		//imageView.setImage(level1);
-		levels.add("level1.csv");
-//		levels.add("level2.csv");
-		 
+		Image image = new Image("level1.png");
+        imageView.setImage(image);
 	}
 	
 	@FXML 
 	private void back(ActionEvent event) {
 		System.out.println("Back");
-		Stage stage = (Stage) play.getScene().getWindow();
-		stage.close();
-		Main.mainMenu(stage);
+		Stage stage = (Stage) back.getScene().getWindow();
+		Main.mainMenu();
 	}
 	
 	@FXML private void play() {
 		System.out.println("play");
 		Stage stage = (Stage) play.getScene().getWindow();
-		stage.close();
 		try {
-			Main.playGame(stage, "level1.csv", false);
+			Main.playGame("level2.csv", false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	@FXML public void previousLevel() {
-		
-	}
-	
-	@FXML public void nextLevel() {
-		
-	}
-	
-	public SelectLevelController() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	@FXML private void continueLevel() {
-		System.out.println("play");
+		System.out.println("continue");
 		Profile profile = Main.getProfile();
-		Stage stage = (Stage) play.getScene().getWindow();
-		stage.close();
-		
+		Stage stage = (Stage) continueLevel.getScene().getWindow();	
 		try {
-			Player p = new Player(profile, profile.getUserID());
-			Main.playGame(stage, profile.getUserID(), true);
+			Main.playGame(profile.getUserID(), true);
 		} catch (FileNotFoundException e) {
-			//say no saved game
-			e.printStackTrace();
+			Main.levelSelectScene();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,4 +72,5 @@ public class SelectLevelController {
 
 	}
 
+	
 }

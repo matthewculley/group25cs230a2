@@ -13,12 +13,13 @@ public class CoordinateCost {
 	private int playerY;
 	protected CoordinateCost parent;
 	
-	public CoordinateCost(int x,int y,int distanceTravelled,CoordinateCost parent,int px, int py,Map map) {
+	public CoordinateCost(int x,int y,int distanceTravelled,CoordinateCost parent,int playerX, int playerY,Map map) {
 		this.x = x;
 		this.y = y;
 		this.map = map;
-		this.playerX = px;
-		this.playerY = py;
+		this.playerX = playerX;
+		this.playerY = playerY;
+		this.parent = parent;
 		this.distanceTravelled = distanceTravelled;
 		heuristic = map.distanceBetween(x, y, playerX, playerY);
 		totalCost = distanceTravelled+heuristic;

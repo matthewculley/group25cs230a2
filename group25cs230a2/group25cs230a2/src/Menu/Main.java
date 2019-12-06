@@ -1,6 +1,11 @@
 package menu;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import cells.*;
 import collectibles.*;
@@ -10,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -36,75 +40,126 @@ public class Main extends Application{
 	int[] test = {1,2,3};
 	static ArrayList<int[]> testt = new ArrayList<int[]>();
 	static Profile profile = new Profile("Matthew", "1password", 0, testt);
+	
+	static Stage stage;
 
 	
 	public void start(Stage primaryStage) {
-		mainMenu(primaryStage);
+		stage = primaryStage;
+		mainMenu();
 	}
-	public static void mainMenu(Stage primaryStage) {		
+	
+	public static String getMotd() throws Exception {
+		URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String puzzle = rd.readLine();
+		System.out.println(puzzle);
+		StringBuilder solution = new StringBuilder("");;
+
+		for(int i = 0;i<puzzle.length();i++) {
+			char current;
+			if(i % 2 == 0) { // 1st,3rd,etc
+				int value = (int)puzzle.charAt(i);
+				if(value == 90) { // Z
+					current = 'A';
+				}else {
+					current = (char)(value+1);
+				}
+			}else {
+				int value = (int)puzzle.charAt(i);
+				if(value == 65) { // A
+					current = 'Z';
+				}else {
+					current = (char)(value-1);
+				}
+			}
+			solution.insert(i, current);
+		}
+		String solved = solution.toString();
+		System.out.println(solved);
+
+		URL motdURL = new URL("http://cswebcat.swan.ac.uk/message?solution="+solved);
+		HttpURLConnection motdcon = (HttpURLConnection) motdURL.openConnection();
+		motdcon.setRequestMethod("GET");
+		BufferedReader readMotd = new BufferedReader(new InputStreamReader(motdcon.getInputStream()));
+		String motd = readMotd.readLine();
+		return motd;	
+	}
+	
+	public static void mainMenu() {		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("MainMenu.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+			stage.setScene(scene);
+			stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void levelSelectScene(Stage primaryStage) {
+	public static void levelSelectScene() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("SelectLevel.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-//			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-			Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);			
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);			
+			stage.setScene(scene);
+			stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public static void playerDeath() throws FileNotFoundException {
+		try {
+			playGame(map.getParentLevelName(), false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
-	public static void playGame(Stage primaryStage, String fileName, boolean continueGame) throws IOException {
+	public static void win() {
+		levelSelectScene();
+	}
+	
+	public static void playGame(String fileName, boolean continueGame) throws IOException  {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(SelectLevelController.class.getResource("PlayGame.fxml"));
 		BorderPane root = (BorderPane) loader.load();
-		Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
+		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 		canvas = new Canvas(getCanvasWidth(), getCanvasHeight());
 		
 		root.setCenter(canvas);
 		
+		
+		
 		if (continueGame == false) {
-			try {
-				//create map
-				map = new Map(profile, fileName);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			map = new Map(profile, fileName);
+
 		} else {
-			try {
-				//create map
 				map = new Map(fileName + "level.csv");
 				Player player = new Player(profile, fileName);
 				map.addPlayer(profile, player);
 				map.getPlayer().getInventory().unlockDoors(map);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-
 		}
+
 		drawGame();
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
-		primaryStage.setScene(scene);
-		primaryStage.show();	
+		stage.setScene(scene);
+		stage.show();	
 		
 		
 	}
 	
+	/**
+	 * Process a key event due to a key being pressed, e.g., to the player.
+	 * @param event The key event that was pressed.
+	 */
 	/**
 	 * Process a key event due to a key being pressed, e.g., to the player.
 	 * @param event The key event that was pressed.
@@ -162,47 +217,51 @@ public class Main extends Application{
 	}
 	
 		private static void afterValidMove() {
-			Player player = map.getPlayer();
-			int x = player.getX();
-			int y = player.getY();
+			int x = map.getPlayer().getX();
+			int y = map.getPlayer().getY();
+			
 			//move enemies
-					for (int k = 0; k < map.getEnemies().size(); k++) {
-						map.getEnemies().get(k).move(map);
-					}
-					//check if player dead
-					for (int k = 0; k < map.getEnemies().size(); k++) {
-						if (map.getEnemies().get(k).getX() == map.getPlayer().getX() & map.getEnemies().get(k).getY() == map.getPlayer().getY()) {
-							System.out.println("dead");
-							//load death scene
-							//1 button restart
-							//1 button quit
-						}
-					}
-					//check if player collect anything
-					for (int k = 0; k < map.getCollectibles().size(); k++) {
-						if (map.getCollectibles().get(k).getX() == map.getPlayer().getX() & map.getCollectibles().get(k).getY() == map.getPlayer().getY() & map.getCollectibles().get(k).isCollected() == false) {
-							
-							//add to inventory
-							map.getPlayer().getInventory().addItem(map.getCollectibles().get(k), map);
-						}
-					}
-					//teleport player
-					//if player on a teleporter
-					if (map.getAt(x, y).getClass() == (new Teleporter()).getClass()) {
-						Teleporter tele = (Teleporter) map.getAt(x, y);
-						map.getPlayer().setX(tele.getPartner().getX());
-						map.getPlayer().setY(tele.getPartner().getY());
-					}
+			for (int k = 0; k < map.getEnemies().size(); k++) {
+				map.getEnemies().get(k).move(map);
+			}
+			
+			//check if player collect anything
+			for (int k = 0; k < map.getCollectibles().size(); k++) {
+				if (map.getCollectibles().get(k).getX() == map.getPlayer().getX() & map.getCollectibles().get(k).getY() == map.getPlayer().getY() & map.getCollectibles().get(k).isCollected() == false) {
 					
-					//check if on goal
-					if (map.getAt(player.getX(), player.getY()).isGoal()) {
-						System.out.println("victory");
-						//load victory scene
-						//1 button next stage
-						//1 button victory
+					//add to inventory
+					map.getPlayer().getInventory().addItem(map.getCollectibles().get(k), map);
+				}
+			}
+			//teleport player
+			//if player on a teleporter
+			if (map.getAt(x, y).getClass() == (new Teleporter()).getClass()) {
+				Teleporter tele = (Teleporter) map.getAt(x, y);
+				map.getPlayer().setX(tele.getPartner().getX());
+				map.getPlayer().setY(tele.getPartner().getY());
+			}
+			
+			//check if player dead
+			for (int k = 0; k < map.getEnemies().size(); k++) {
+				System.out.println("Enemy: (" + map.getEnemies().get(k).getX() + "," + map.getEnemies().get(k).getX() + ") Player: (" + map.getPlayer().getX() + "," + map.getPlayer().getY() + ")");
+				if (map.getEnemies().get(k).getX() == map.getPlayer().getX() & map.getEnemies().get(k).getY() == map.getPlayer().getY()) {
+					try {
+						playGame(map.getParentLevelName(), false);
+					} catch (IOException e) {
+						System.out.println("oh no");
+						e.printStackTrace();
 					}
-					// Redraw game as the player may have moved.
-					drawGame();
+				}
+			}
+			
+			//check if on goal
+			if (map.getAt(map.getPlayer().getX(), map.getPlayer().getY()).isGoal()) {
+				System.out.println("victory");
+				
+				win();
+			}
+			// Redraw game as the player may have moved.
+			drawGame();
 		}
 		
 		private static boolean checkValidMove(int x, int y) {
@@ -227,7 +286,7 @@ public class Main extends Application{
 		}
 	
 		public static void drawGame() {
-			System.out.println(map.toString());
+			System.out.println(map.getPlayer().getInventory().toString());
 			int offset = 7;	//distance from player to each side of the screen
 			int iteratorX = 15; //amount of rows to be drawn
 			int iteratorY = 15;	//ammount of rows to be drawn
@@ -262,24 +321,23 @@ public class Main extends Application{
 			}
 
 			Cell currentCell;
-			System.out.println(map.toString());
+			System.out.println(map.getPlayer().toString());
 			for (int i = 0; i < iteratorX; i++) {
 				for (int j = 0; j < iteratorY; j++) {
 					
 					int x = newZeroX + i;
 					int y = newZeroY + j;
 					
+					//draw cells
 					if (map.isValidCoords(x,y)) {
 						currentCell = map.getAt(x, y);
 						gc.drawImage(currentCell.getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 					}
-					//draw the player
-					if (map.getPlayer().getX() == x & map.getPlayer().getY() == y) {
-						gc.drawImage(map.getPlayer().getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
-					}
+					
 					//draw enemies
 					for (int k = 0; k < map.getEnemies().size(); k++) {
 						if (map.getEnemies().get(k).getX() == x & map.getEnemies().get(k).getY() == y) {
+							 map.getEnemies().get(k).toString();
 							gc.drawImage(map.getEnemies().get(k).getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 						}
 					}
@@ -288,6 +346,11 @@ public class Main extends Application{
 						if (map.getCollectibles().get(k).getX() == x & map.getCollectibles().get(k).getY() == y & map.getCollectibles().get(k).isCollected() == false) {
 							gc.drawImage(map.getCollectibles().get(k).getSprite(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
 						}
+					}
+					
+					//draw the player
+					if (map.getPlayer().getX() == x & map.getPlayer().getY() == y) {
+						gc.drawImage(map.getPlayer().getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 					}
 				}
 			}

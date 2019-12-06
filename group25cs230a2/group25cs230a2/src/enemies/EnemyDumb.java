@@ -5,7 +5,7 @@ import java.lang.Math;
 public class EnemyDumb extends Enemy {
 	public EnemyDumb(int x, int y) {
 		super(x, y);
-		super.setSprite("enemyDumb.png");
+		setSprite("enemyDumb.png");
 	}
 	
 	public void move (Map map) {
@@ -17,13 +17,8 @@ public class EnemyDumb extends Enemy {
 		int distanceLeft = map.distanceBetween(getX() - 1, getY(), px, py);
 		int distanceRight = map.distanceBetween(getX() + 1, getY(), px, py);
 		
-		System.out.println("up " + distanceUp);
-		System.out.println("down " + distanceDown);
-		System.out.println("left " + distanceLeft);
-		System.out.println("right " + distanceRight);
 		
 		int shortest = Math.min(Math.min(distanceUp, distanceDown), Math.min(distanceLeft, distanceRight));
-		System.out.println("::" + shortest);
 		
 		if (shortest == distanceUp & checkValidMove(map, getX(), getY() - 1)) {
 			this.setPosition(getX(), getY() - 1);
