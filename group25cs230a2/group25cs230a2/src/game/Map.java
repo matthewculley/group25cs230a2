@@ -46,7 +46,6 @@ public class Map {
 	public Map(String fn) {
 		filename = fn;
 		teleporters = new ArrayList<Teleporter>();
-		setParentLevelName("");
 		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
 		if (teleporters.size() > 0) connectTeleporters();
 		System.out.print(filename);
@@ -112,10 +111,9 @@ public class Map {
 		//get the height and width of the map from the ArrayList
 		//remove the items after so the ArrayList contains only the map data
 		
-		if (parentLevelName.equals("")) {
-			System.out.println("here");
-			setParentLevelName(mapAl.get(mapAl.size() - 1));
-			mapAl.remove(mapAl.get(mapAl.size() - 1));
+		if (parentLevelName.equals(null)) {
+			setParentLevelName(mapAl.get(mapAl.size()));
+			mapAl.remove(mapAl.size());
 		}
 		
 		width = Integer.parseInt(mapAl.get(0));
@@ -254,7 +252,7 @@ public class Map {
 						enemies.add(new EnemyDumb(x,y));
 						map[i] = new Ground();					
 					case "smart": 
-						//TO DO CREATE ENEMY
+						enemies.add(new EnemySmart(x,y));
 						map[i] = new Ground();
 						break;
 					default:					

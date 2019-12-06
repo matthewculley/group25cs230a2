@@ -7,8 +7,15 @@ import game.*;
 public class EnemyStraight extends Enemy {
 	private char direction;
 
-	public EnemyStraight(int x, int y, char direction) {
-		super(x, y, "enemyStraightL.png");
+	public EnemyStraight(int x, int y, char direction) { 
+		super(x, y);
+		switch(direction) {
+			case 'u':super.setSprite("enemyStraightU.png");
+			case 'd':super.setSprite("enemyStraightD.png");
+			case 'l':super.setSprite("enemyStraightL.png");
+			case 'r':super.setSprite("enemyStraightR.png");
+			
+		}
 		setDirection(direction);
 	}
 	
@@ -31,49 +38,42 @@ public class EnemyStraight extends Enemy {
 	public void move(Map map) {
 		switch (direction) {
 			case 'u':
+				
 				if (checkValidMove(map, getX(), getY() - 1)) {
 					this.setPosition(getX(), getY() - 1);
-					setSprite("enemyStraightU.png");
 				//else try and move down
 				} else if (checkValidMove(map, getX(), getY() + 1)) {
 					this.setPosition(getX(), getY() + 1);
 					this.setDirection('d');
-					setSprite("enemyStraightD.png");
 				}
 				break;
 			case 'd':
 				if (checkValidMove(map, getX(), getY() + 1)) {
 					this.setPosition(getX(), getY() + 1);
-					setSprite("enemyStraightD.png");
 				//else try and move up
 				} else if (checkValidMove(map, getX(), getY() - 1)) {
 					this.setPosition(getX(), getY() - 1);
 					this.setDirection('u');
-					setSprite("enemyStraightU.png");
 				}
 				break;
 			case 'l':
 				if (checkValidMove(map, getX() - 1, getY())) {
 					this.setPosition(getX() - 1, getY());
-					setSprite("enemyStraightL.png");
 				//else try and move right
 				} else if (checkValidMove(map, getX() + 1, getY())) {
 					this.setPosition(getX() + 1, getY());
 					this.setDirection('r');
-					setSprite("enemyStraightR.png");
 				} 
 				break;
 			case 'r':
 				if (checkValidMove(map, getX() + 1, getY())) {
 					this.setPosition(getX() + 1, getY());
-					setSprite("enemyStraightR.png");
-				//else try and move down
+				//else try and move left
 				} else if (checkValidMove(map, getX() - 1, getY())) {
 					this.setPosition(getX() - 1, getY());
 					this.setDirection('l');
-					setSprite("enemyStraightU.png");
 				}
-				break;
+				
 			default:
 				return;
 		}
@@ -81,9 +81,6 @@ public class EnemyStraight extends Enemy {
 				
 		
 		
-
-
-
 //
 		
 		

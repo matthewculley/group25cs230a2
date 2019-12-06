@@ -4,7 +4,8 @@ import java.lang.Math;
 
 public class EnemyDumb extends Enemy {
 	public EnemyDumb(int x, int y) {
-		super(x, y, "enemyDumb.png");
+		super(x, y);
+		super.setSprite("enemyDumb.png");
 	}
 	
 	public void move (Map map) {
@@ -24,13 +25,13 @@ public class EnemyDumb extends Enemy {
 		int shortest = Math.min(Math.min(distanceUp, distanceDown), Math.min(distanceLeft, distanceRight));
 		System.out.println("::" + shortest);
 		
-		if (shortest == distanceUp & map.getAt(getX(), getY() - 1).isPassable()) {
+		if (shortest == distanceUp & checkValidMove(map, getX(), getY() - 1)) {
 			this.setPosition(getX(), getY() - 1);
-		} else if (shortest == distanceDown & map.getAt(getX(), getY() + 1).isPassable()) {
+		} else if (shortest == distanceDown & checkValidMove(map, getX(), getY() + 1)) {
 			this.setPosition(getX(), getY() + 1);
-		} else if (shortest == distanceLeft & map.getAt(getX() - 1, getY()).isPassable()) {
+		} else if (shortest == distanceLeft & checkValidMove(map, getX() - 1, getY())) {
 			this.setPosition(getX() - 1, getY());
-		} else if (shortest == distanceRight & map.getAt(getX() + 1, getY()).isPassable()) {
+		} else if (shortest == distanceRight & checkValidMove(map, getX() + 1, getY())) {
 			this.setPosition(getX() + 1, getY());
 		}	
 	}
