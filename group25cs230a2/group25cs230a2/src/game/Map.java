@@ -243,17 +243,22 @@ public class Map {
 					case "straight":
  						enemies.add(new EnemyStraight(x, y, parts[2].charAt(0)));
 						map[i] = new Ground();
+						System.out.println("CREATING STRAIGHT");
 						break;
 					case "wall":
 						enemies.add(new EnemyWall(x, y, parts[2].charAt(0), parts[3].charAt(0)));
 						map[i] = new Ground();
+						System.out.println("CREATING WALL");
 						break;
 					case "dumb":
 						enemies.add(new EnemyDumb(x,y));
-						map[i] = new Ground();					
+						map[i] = new Ground();				
+						System.out.println("CREATING DUMB");
+						break;
 					case "smart": 
-						enemies.add(new EnemySmart(x,y));
+						enemies.add(new EnemySmart(x,y,this));
 						map[i] = new Ground();
+						System.out.println("CREATING SMART");
 						break;
 					default:					
 						break;
