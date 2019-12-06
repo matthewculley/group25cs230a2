@@ -15,6 +15,7 @@ public class Player {
 	private Image sprite;
 	private int x;
 	private int y;
+	private int score;
 	
 	public Player(Profile p, int x, int y) {
 		this.profile = p;

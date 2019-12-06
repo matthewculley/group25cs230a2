@@ -30,8 +30,8 @@ import player.Profile;
 
 public class Main extends Application{
 
-	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 800;
+	private static final int WINDOW_WIDTH = 850;
+	private static final int WINDOW_HEIGHT = 850;
 	
 	// The dimensions of the canvas
 	private static final int CANVAS_WIDTH = 750;
@@ -44,57 +44,19 @@ public class Main extends Application{
 	static Map map;
 	static Canvas canvas;
 	
-	int[] test = {1,2,3};
-	static ArrayList<int[]> testt = new ArrayList<int[]>();
-	static Profile profile = new Profile("Matthew", "1password", 0, testt);
+	
+	static Profile profile = new Profile("matthew", "password1");
 	
 	static Stage stage;
-
+	
+	static long timeStarted;
 	
 	public void start(Stage primaryStage) {
-		stage = primaryStage;
+		stage = primaryStage;		
 		mainMenu();
 	}
 	
-	public static String getMotd() throws Exception {
-		URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		String puzzle = rd.readLine();
-		System.out.println(puzzle);
-		StringBuilder solution = new StringBuilder("");;
 
-		for(int i = 0;i<puzzle.length();i++) {
-			char current;
-			if(i % 2 == 0) { // 1st,3rd,etc
-				int value = (int)puzzle.charAt(i);
-				if(value == 90) { // Z
-					current = 'A';
-				}else {
-					current = (char)(value+1);
-				}
-			}else {
-				int value = (int)puzzle.charAt(i);
-				if(value == 65) { // A
-					current = 'Z';
-				}else {
-					current = (char)(value-1);
-				}
-			}
-			solution.insert(i, current);
-		}
-		String solved = solution.toString();
-		System.out.println(solved);
-
-		URL motdURL = new URL("http://cswebcat.swan.ac.uk/message?solution="+solved);
-		HttpURLConnection motdcon = (HttpURLConnection) motdURL.openConnection();
-		motdcon.setRequestMethod("GET");
-		BufferedReader readMotd = new BufferedReader(new InputStreamReader(motdcon.getInputStream()));
-		String motd = readMotd.readLine();
-		return motd;	
-	}
-	
 	public static void mainMenu() {		
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -109,7 +71,7 @@ public class Main extends Application{
 	}
 	
 
-	public String getMotd() throws Exception {
+	public static String getMotd() throws Exception {
 		URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -117,8 +79,7 @@ public class Main extends Application{
 		String puzzle = rd.readLine();
 		System.out.println(puzzle);
 		StringBuilder solution = new StringBuilder("");;
-		
-		
+
 		for(int i = 0;i<puzzle.length();i++) {
 			char current;
 			if(i%2==0) { // 1st,3rd,etc
@@ -149,8 +110,7 @@ public class Main extends Application{
 		return motd;	
 	}
 	
-	public static void levelSelectScene(Stage primaryStage) {
-
+	public static void selectLevel() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("SelectLevel.fxml"));
@@ -173,7 +133,17 @@ public class Main extends Application{
 	}
 	
 	public static void win() {
-		levelSelectScene();
+		long timeFinished = System.currentTimeMillis();
+		int score = (int) ((timeFinished - timeStarted) / 1000);
+		int levelNumber = Character.getNumericValue(map.getParentLevelName().charAt( map.getParentLevelName().length() - 5));
+		profile.completeLevel(levelNumber, score);
+
+		System.out.println("lvl num: "+ levelNumber);
+		for (int i = 0; i < profile.getScoresForLevel(levelNumber).length; i++) {
+			System.out.println(profile.getScoresForLevel(levelNumber)[i]);
+		}
+		
+		selectLevel();
 	}
 	
 	public static void playGame(String fileName, boolean continueGame) throws IOException  {
@@ -182,11 +152,8 @@ public class Main extends Application{
 		BorderPane root = (BorderPane) loader.load();
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 		canvas = new Canvas(getCanvasWidth(), getCanvasHeight());
-		
 		root.setCenter(canvas);
-		
-		
-		
+
 		if (continueGame == false) {
 			map = new Map(profile, fileName);
 
@@ -196,7 +163,7 @@ public class Main extends Application{
 				map.addPlayer(profile, player);
 				map.getPlayer().getInventory().unlockDoors(map);
 		}
-
+		timeStarted = System.currentTimeMillis();
 		drawGame();
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
 		stage.setScene(scene);
@@ -269,6 +236,18 @@ public class Main extends Application{
 			int x = map.getPlayer().getX();
 			int y = map.getPlayer().getY();
 			
+			
+			//check player walk into enemy
+			for (int k = 0; k < map.getEnemies().size(); k++) {
+//				System.out.println("Enemy: (" + map.getEnemies().get(k).getX() + "," + map.getEnemies().get(k).getX() + ") Player: (" + map.getPlayer().getX() + "," + map.getPlayer().getY() + ")");
+				if (map.getEnemies().get(k).getX() == map.getPlayer().getX() & map.getEnemies().get(k).getY() == map.getPlayer().getY()) {
+					try {
+						playGame(map.getParentLevelName(), false);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}			
 			//move enemies
 			for (int k = 0; k < map.getEnemies().size(); k++) {
 				map.getEnemies().get(k).move(map);
@@ -280,6 +259,7 @@ public class Main extends Application{
 					
 					//add to inventory
 					map.getPlayer().getInventory().addItem(map.getCollectibles().get(k), map);
+//					PlayGameController.updateInventory();
 				}
 			}
 			//teleport player
@@ -290,14 +270,14 @@ public class Main extends Application{
 				map.getPlayer().setY(tele.getPartner().getY());
 			}
 			
-			//check if player dead
+			//check enemy walk into player
 			for (int k = 0; k < map.getEnemies().size(); k++) {
-				System.out.println("Enemy: (" + map.getEnemies().get(k).getX() + "," + map.getEnemies().get(k).getX() + ") Player: (" + map.getPlayer().getX() + "," + map.getPlayer().getY() + ")");
+//				System.out.println("Enemy: (" + map.getEnemies().get(k).getX() + "," + map.getEnemies().get(k).getX() + ") Player: (" + map.getPlayer().getX() + "," + map.getPlayer().getY() + ")");
 				if (map.getEnemies().get(k).getX() == map.getPlayer().getX() & map.getEnemies().get(k).getY() == map.getPlayer().getY()) {
+					drawGame();
 					try {
 						playGame(map.getParentLevelName(), false);
 					} catch (IOException e) {
-						System.out.println("oh no");
 						e.printStackTrace();
 					}
 				}
@@ -335,7 +315,7 @@ public class Main extends Application{
 		}
 	
 		public static void drawGame() {
-			System.out.println(map.getPlayer().getInventory().toString());
+//			System.out.println(map.getPlayer().getInventory().toString());
 			int offset = 7;	//distance from player to each side of the screen
 			int iteratorX = 15; //amount of rows to be drawn
 			int iteratorY = 15;	//ammount of rows to be drawn
@@ -370,7 +350,7 @@ public class Main extends Application{
 			}
 
 			Cell currentCell;
-			System.out.println(map.getPlayer().toString());
+//			System.out.println(map.getPlayer().toString());
 			for (int i = 0; i < iteratorX; i++) {
 				for (int j = 0; j < iteratorY; j++) {
 					

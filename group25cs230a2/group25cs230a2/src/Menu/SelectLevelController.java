@@ -21,49 +21,62 @@ import java.io.FileNotFoundException;
 
 public class SelectLevelController {
 
-	@FXML private BorderPane borderpane;
 	@FXML private Button play;
 	@FXML private Button back;
 	@FXML private Button continueLevel;
 	@FXML private ImageView imageView;
-	@FXML private Label label;
 	
 	
 	
 	
 	@FXML
 	public void initialize() {
-		Image image = new Image("level1.png");
-        imageView.setImage(image);
-	}
+		int highest = Main.profile.getHighestCompletedLevel();
+		try {
+			 imageView.setImage(new Image("level" + (highest + 1) + ".png"));
+		} catch (IllegalArgumentException e) {
+			imageView.setImage(new Image("level" + (highest) + ".png"));
+		}
+	}  
 	
 	@FXML 
 	private void back(ActionEvent event) {
 		System.out.println("Back");
-		Stage stage = (Stage) back.getScene().getWindow();
 		Main.mainMenu();
 	}
 	
 	@FXML private void play() {
 		System.out.println("play");
-		Stage stage = (Stage) play.getScene().getWindow();
 		try {
-			Main.playGame("level2.csv", false);
+			int highest = Main.profile.getHighestCompletedLevel();
+			System.out.println("highest play(): " + highest);
+			if (highest == 0) {
+				Main.playGame("level1.csv", false);
+			} else {
+				Main.playGame("level" + (highest + 1) + ".csv", false);
+			}
+			
+		} catch (FileNotFoundException e) {
+			try {
+				Main.playGame("level1.csv", false);		
+			} catch (IOException r) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
-	
 	
 	@FXML private void continueLevel() {
 		System.out.println("continue");
 		Profile profile = Main.getProfile();
-		Stage stage = (Stage) continueLevel.getScene().getWindow();	
 		try {
 			Main.playGame(profile.getUserID(), true);
 		} catch (FileNotFoundException e) {
-			Main.levelSelectScene();
+			Main.selectLevel();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

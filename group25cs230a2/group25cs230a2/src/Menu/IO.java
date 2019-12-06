@@ -41,12 +41,16 @@ public class IO {
 	public static void saveMapToFile(Map map) throws IOException {
 		Player player = map.getPlayer();
 		Inventory inventory = player.getInventory();
-		
+		System.out.println(map.toString());
 		String fileName = map.getPlayer().getProfile().getUserID();
 		ArrayList<String> returnArrayList = new ArrayList<String>();
-		for (int y = 0; y < map.getWidth(); y++) {
-			for (int x = 0; x < map.getHeight(); x++) {
+
+		
+		for (int y = 0; y < map.getHeight(); y++) {
+			for (int x = 0; x < map.getWidth(); x++) {
 				String addToArray = map.getAt(x, y).getCellName();
+				System.out.println(map.getAt(x,y).toString());
+
 				
 				for (int i = 0; i < map.getCollectibles().size(); i++) {
 					if (map.getCollectibles().get(i).getX() == x & map.getCollectibles().get(i).getY() == y & map.getCollectibles().get(i).isCollected() == false) {

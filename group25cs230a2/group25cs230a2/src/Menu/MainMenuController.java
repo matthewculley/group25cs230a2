@@ -39,8 +39,7 @@ public class MainMenuController {
 	@FXML 
 	private void play(ActionEvent event) {
 		System.out.println("profile");
-		Stage stage = (Stage) play.getScene().getWindow();
-		Main.levelSelectScene();
+		Main.selectLevel();
 	}
 	
 	@FXML 
