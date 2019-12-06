@@ -9,8 +9,8 @@ wall,ground,ground,ground,ground,ground,water,water,wall,ground,ground,ground,gr
 wall,ground,ground,ground,token,ground,water,water,wall,ground,ground,ground,fire,fire,wall
 wall,ground,ground,ground,token,ground,ground,ground,wall,ground,fire,fire,fire,fire,wall
 wall,ground,ground,ground,ground,ground,ground,ground,wall,wall,wall,fire,fire,fire,wall
-wall,water,water,water,water,ground,ground,ground,wall,teleporter:1,wall,fire,fire,fire,wall
-wall,water,water,water,water,water,ground,ground,wall,ground,wall,fire,goal,fire,wall
-wall,water,water,water,water,water,water,flippers,wall,ground,wall,fire,fire,fire,wall
-wall,water,water,water,water,water,water,ground,wall,fireBoots,wall,fire,fire,fire,wall
+wall,water,water,water,water,ground,ground,ground,wall,teleporter:1,wall,fire,ground,ground,wall
+wall,water,water,water,water,water,ground,ground,wall,ground,wall,ground,ground,ground,wall
+wall,water,water,water,water,water,water,flippers,wall,ground,wall,ground,goal,ground,wall
+wall,water,water,water,water,water,water,ground,wall,fireBoots,wall,ground,ground,ground,wall
 wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall

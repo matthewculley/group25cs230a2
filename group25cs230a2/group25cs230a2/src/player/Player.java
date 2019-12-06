@@ -35,13 +35,14 @@ public class Player {
 		File playerFile = new File(fileName + "player" + ".txt");
 		Scanner in = new Scanner(playerFile);
 		this.profile = profile;
-		
 		this.inventory = new Inventory();
 		//set coordinates
 		System.out.println("filename: " + fileName + "player" + ".txt");
 		setX(Integer.parseInt(in.nextLine()));
 		setY(Integer.parseInt(in.nextLine()));
 		inventory.setTokens(Integer.parseInt(in.nextLine()));
+		setSprite("player.png");
+
 		while (in.hasNext()) {
 			switch (in.nextLine()) { 
 				case "flippers":

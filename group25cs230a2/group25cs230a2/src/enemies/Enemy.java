@@ -21,7 +21,6 @@ public abstract class Enemy {
 	 * 
 	 */
 	public Enemy(int x, int y) {
-		
 		setX(x);
 		setY(y);
 	}
@@ -76,8 +75,7 @@ public abstract class Enemy {
 		return false;
 	}
 
-	public void move(Map map) {
-		System.out.println("s");
+	public void move(Map map) {;
 
 	}
 	
