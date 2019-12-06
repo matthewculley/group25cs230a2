@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import game.Map;
 
 public class EnemySmart extends Enemy {
-	public EnemySmart(int x, int y) {
+	private Map map;
+	public EnemySmart(int x, int y,Map map) {
 		super(x, y);
+		this.map = map;
 		super.setSprite("enemySmart.png");
 	}
 	private CoordinateCost coordinateMatch(ArrayList<CoordinateCost> a) {
