@@ -1,6 +1,11 @@
 package menu;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import cells.*;
 import collectibles.*;
@@ -52,6 +57,46 @@ public class Main extends Application{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getMotd() throws Exception {
+		URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String puzzle = rd.readLine();
+		System.out.println(puzzle);
+		StringBuilder solution = new StringBuilder("");;
+		
+		
+		for(int i = 0;i<puzzle.length();i++) {
+			char current;
+			if(i%2==0) { // 1st,3rd,etc
+				int value = (int)puzzle.charAt(i);
+				if(value == 90) { // Z
+					current = 'A';
+				}else {
+					current = (char)(value+1);
+				}
+			}else {
+				int value = (int)puzzle.charAt(i);
+				if(value == 65) { // A
+					current = 'Z';
+				}else {
+					current = (char)(value-1);
+				}
+			}
+			solution.insert(i, current);
+		}
+		String solved = solution.toString();
+		System.out.println(solved);
+		
+		URL motdURL = new URL("http://cswebcat.swan.ac.uk/message?solution="+solved);
+		HttpURLConnection motdcon = (HttpURLConnection) motdURL.openConnection();
+		motdcon.setRequestMethod("GET");
+		BufferedReader readMotd = new BufferedReader(new InputStreamReader(motdcon.getInputStream()));
+		String motd = readMotd.readLine();
+		return motd;	
 	}
 	
 	public static void levelSelectScene(Stage primaryStage) {
