@@ -133,17 +133,11 @@ public class Main extends Application{
 	}
 	
 	public static void win() {
-		long timeFinished = System.currentTimeMillis();
-		int score = (int) ((timeFinished - timeStarted) / 1000);
-		int levelNumber = Character.getNumericValue(map.getParentLevelName().charAt( map.getParentLevelName().length() - 5));
+		int score = map.calculateScore();
+		//update score here
+		int levelNumber = Character.getNumericValue(map.getParentLevelName().charAt(map.getParentLevelName().length() - 5));
 		profile.completeLevel(levelNumber, score);
-		//save profile
 
-		System.out.println("lvl num: "+ levelNumber);
-		for (int i = 0; i < profile.getScoresForLevel(levelNumber).length; i++) {
-			System.out.println(profile.getScoresForLevel(levelNumber)[i]);
-		}
-		
 		selectLevel();
 	}
 	
@@ -154,15 +148,13 @@ public class Main extends Application{
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 		canvas = new Canvas(getCanvasWidth(), getCanvasHeight());
 		root.setCenter(canvas);
-
 		if (continueGame == false) {
 			map = new Map(profile, fileName);
-
 		} else {
-				map = new Map(fileName + "level.csv");
-				Player player = new Player(profile, fileName);
-				map.addPlayer(profile, player);
-				map.getPlayer().getInventory().unlockDoors(map);
+			map = new Map(fileName + "level.csv");
+			Player player = new Player(profile, fileName);
+			map.addPlayer(profile, player);
+			map.getPlayer().getInventory().unlockDoors(map);
 		}
 		System.out.println(map.toString());
 		timeStarted = System.currentTimeMillis();
@@ -321,7 +313,6 @@ public class Main extends Application{
 		}
 	
 		public static void drawGame() {
-//			System.out.println(map.getPlayer().getInventory().toString());
 			int offset = 7;	//distance from player to each side of the screen
 			int iteratorX = 15; //amount of rows to be drawn
 			int iteratorY = 15;	//ammount of rows to be drawn
