@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
 
@@ -24,8 +25,12 @@ public class PlayGameController {
 	
 	@FXML 
 	public void Initialize() {
+		
+		Main.stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> updateInventory(event));
+
 		tokens.setText("Tokens: 0");
 	}
+	
 	@FXML void restart() {
 		System.out.println("restart");
 		String fileName = Main.getParentLevelName();
@@ -51,12 +56,9 @@ public class PlayGameController {
 		
 	}
 
-	public PlayGameController() {
-		
-		
-	}
-
-	public void updateInventory() {	
+	
+	public void updateInventory(KeyEvent event) {	
+		System.out.println("hey");
 		ArrayList<Collectible> inv = new ArrayList<Collectible>();
 		inv = Main.map.getPlayer().getInventory().getInventory();
 		
@@ -71,7 +73,8 @@ public class PlayGameController {
 		} else if (Main.map.getPlayer().getInventory().getTokens() > 1) {
 			printString += "	Tokens: " + Integer.toString(Main.map.getPlayer().getInventory().getTokens());
 			tokens.setText(printString);	
-		}		
+		}	
+		event.consume();
 	}
 
 }

@@ -28,8 +28,7 @@ public class Key extends Collectible {
 	}
 
 	public Key(String colour) {
-		super("yellowKey.png");
-		this.colour = "yellow";
+		super(colour + "key.png");
 		
 	}
 

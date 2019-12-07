@@ -21,16 +21,24 @@ import java.io.FileNotFoundException;
 
 public class SelectLevelController {
 
-	@FXML private Button play;
+	@FXML private Button playHighestLevel;
 	@FXML private Button back;
 	@FXML private Button continueLevel;
 	@FXML private ImageView imageView;
+	@FXML private Button previousLevel;
+	@FXML private Button playLevel;
+	@FXML private Button nextLevel;
+	@FXML private Label levelNumber;
+	@FXML private Label errorMessage;
 	
+	private int level = 1;
+	private int numberOfLevels = 4;
 	
 	
 	
 	@FXML
 	public void initialize() {
+		levelNumber.setText("Level " + level);
 		int highest = Main.profile.getHighestCompletedLevel();
 		try {
 			 imageView.setImage(new Image("level" + (highest + 1) + ".png"));
@@ -67,7 +75,35 @@ public class SelectLevelController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	}
+	
+	@FXML private void nextLevel() {
+		if (level < numberOfLevels) {
+			level++;
+			initialize();
+		}
+	}
+	
+	@FXML private void previousLevel() {
+		if (level > 1) {
+			level--;
+			initialize();
+		}
+	}
+	
+	@FXML private void playLevel(){
+		System.out.println("highest: " + Main.profile.getHighestCompletedLevel());
+		System.out.println("attempted: " + level);
+		if (level > Main.profile.getHighestCompletedLevel() || level > 1) {
+			errorMessage.setText("You must beat this level first to unlock it in free play.");
+		} else {
+			String levelName = "level" + level + ".csv";
+			try {
+				Main.playGame(levelName, false);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
+		}
 	}
 	
 	@FXML private void continueLevel() {
@@ -81,8 +117,10 @@ public class SelectLevelController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@FXML private void playSelectedLevel() {
 		
-
 	}
 
 	

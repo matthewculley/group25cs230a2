@@ -41,7 +41,7 @@
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="quit" alignment="CENTER" mnemonicParsing="false" onAction="#quit" style="-fx-background-color: rgba(0,0,0,0);;" text="Quit" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="quit" alignment="CENTER" mnemonicParsing="false" onAction="#quit" style="-fx-background-color: rgba(0,0,0,0);" text="Quit" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Showcard Gothic" size="64.0" />
                </font>
