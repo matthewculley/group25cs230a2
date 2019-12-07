@@ -3,7 +3,7 @@ package cells;
 /**
  * A class that defines Ground.
  * @author Group25
- * @version 1.1
+ * @version 1.2
  */
 
 public class Ground extends Cell {
@@ -13,7 +13,7 @@ public class Ground extends Cell {
 
 	/**
  	* Overrides the method getCellName.
- 	* @return "ground".
+ 	* @return The cell name: ground.
  	*/
 	
 	@Override
