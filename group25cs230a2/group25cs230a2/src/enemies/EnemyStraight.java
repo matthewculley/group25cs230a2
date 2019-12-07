@@ -2,6 +2,7 @@ package enemies;
 
 import cells.*;
 import game.*;
+import javafx.scene.Scene;
 
 
 public class EnemyStraight extends Enemy {
@@ -45,6 +46,8 @@ public class EnemyStraight extends Enemy {
 				} else if (checkValidMove(map, getX(), getY() + 1)) {
 					this.setPosition(getX(), getY() + 1);
 					this.setDirection('d');
+					super.setSprite("enemyStraightD.png");
+
 				}
 				break;
 			case 'd':
@@ -54,6 +57,7 @@ public class EnemyStraight extends Enemy {
 				} else if (checkValidMove(map, getX(), getY() - 1)) {
 					this.setPosition(getX(), getY() - 1);
 					this.setDirection('u');
+					super.setSprite("enemyStraightU.png");
 				}
 				break;
 			case 'l':
@@ -63,6 +67,7 @@ public class EnemyStraight extends Enemy {
 				} else if (checkValidMove(map, getX() + 1, getY())) {
 					this.setPosition(getX() + 1, getY());
 					this.setDirection('r');
+					super.setSprite("enemyStraightR.png");
 				} 
 				break;
 			case 'r':
@@ -72,6 +77,7 @@ public class EnemyStraight extends Enemy {
 				} else if (checkValidMove(map, getX() - 1, getY())) {
 					this.setPosition(getX() - 1, getY());
 					this.setDirection('l');
+					super.setSprite("enemyStraightL.png");
 				}
 				
 			default:
