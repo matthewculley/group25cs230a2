@@ -1,0 +1,5 @@
+user password1 user1Avatar 10 20 30 
+user2 password2 user2Avatar 10 20 30 
+matthew matthew1 default.png 10 0 0 
+jack jack11 default.png 0 0 0 
+ethan ethan1 default.png -11 0 0 

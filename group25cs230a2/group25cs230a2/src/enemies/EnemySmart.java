@@ -40,7 +40,7 @@ public class EnemySmart extends Enemy {
 	public void move (Map map) {
 		int px = map.getPlayer().getX();
 		int py = map.getPlayer().getY();
-		System.out.print("\nPLAYER X + Y" +px+"  "+py);
+//		System.out.print("\nPLAYER X + Y" +px+"  "+py);
 		
 		ArrayList<CoordinateCost> openList = new ArrayList<>();
 		ArrayList<CoordinateCost> closedList = new ArrayList<>();
@@ -56,11 +56,11 @@ public class EnemySmart extends Enemy {
 					int o = openList.size();
 					openList.remove(current);
 					if(o-openList.size() == 1) {
-						System.out.println(" \n REMOVED 1");
+//						System.out.println(" \n REMOVED 1");
 					}
 					closedList.add(current);
 					
-					System.out.print("\n OPENLIST SIZE"+openList.size()+" \n CLOSED LIST SIZE: " + closedList.size() +"\nFILLING LIST");
+//					System.out.print("\n OPENLIST SIZE"+openList.size()+" \n CLOSED LIST SIZE: " + closedList.size() +"\nFILLING LIST");
 					
 					CoordinateCost above = new CoordinateCost(current.x,current.y-1,current.distanceTravelled+1,current,px,py,map);
 					CoordinateCost below = new CoordinateCost(current.x,current.y+1,current.distanceTravelled+1,current,px,py,map);
@@ -70,7 +70,7 @@ public class EnemySmart extends Enemy {
 					if(checkValidMove(map, above.x, above.y)&&!(coordinateMatch(closedList,above.x,above.y))) {
 						if(!(coordinateMatch(openList,above.x,above.y))) {
 							openList.add(above);
-							System.out.println(" \n ABOVE X ABD Y" + above.x+" "+above.y);
+//							System.out.println(" \n ABOVE X ABD Y" + above.x+" "+above.y);
 						}else if(above.distanceTravelled>current.distanceTravelled+1) {
 							above.parent = current;
 							above.distanceTravelled = current.distanceTravelled+1;
@@ -117,7 +117,7 @@ public class EnemySmart extends Enemy {
 				}
 			}while(!currentMatch(currentPath));
 		}else {
-			System.out.println(" \n FAILED FINDING PATH");
+//			System.out.println(" \n FAILED FINDING PATH");
 	        Random rand = new Random(); 
 			int nextDirection = rand.nextInt(3);
 			boolean moved = false;
@@ -153,7 +153,7 @@ public class EnemySmart extends Enemy {
 		if(path.size()>0) {
 			this.setPosition(path.get(0).x,path.get(0).y);
 		}else {
-			System.out.println(" \n FAILED creating path");
+//			System.out.println(" \n FAILED creating path");
 		}
 	}
 	@Override
