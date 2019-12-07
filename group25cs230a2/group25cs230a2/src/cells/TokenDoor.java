@@ -3,7 +3,7 @@ package cells;
 /**
  * A class that defines TokenDoor.
  * @author Group25
- * version 1.1
+ * @version 1.1
  */
 
 public class TokenDoor extends Cell{
