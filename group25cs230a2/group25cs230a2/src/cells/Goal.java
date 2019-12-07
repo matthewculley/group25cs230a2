@@ -3,7 +3,7 @@ package cells;
 /**
  * A class that defines Goal.
  * @author Group25
- * @version 1.1
+ * @version 1.2
  */
 
 public class Goal extends Cell{
@@ -13,8 +13,8 @@ public class Goal extends Cell{
 	}
 	
 	/**
-         * Overwrites the method isGoal
-         * @return true
+         * Overrides the method isGoal.
+         * @return true.
          */
 	
 	@Override
@@ -23,8 +23,8 @@ public class Goal extends Cell{
 	}
 
 	/**
-  	 * Overwrites the method getCellName
-	 * @return "goal"
+  	 * Overrides the method getCellName.
+	 * @return The cell name: goal.
  	 */
 	
 	@Override
