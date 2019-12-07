@@ -3,7 +3,7 @@ package cells;
 /**
  * A class that defines Teleporter.
  * @author Group25
- * @version 1.1
+ * @version 1.2
  */
 
 public class Teleporter extends Cell{
