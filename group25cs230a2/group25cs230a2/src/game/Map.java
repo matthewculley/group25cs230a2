@@ -22,6 +22,7 @@ public class Map {
 	private int height;	//the height of the map
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>(); //all the enemies in the map
 	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(); //all collectibles in the level
+	private ArrayList<Gas> gas = new ArrayList<Gas>(); //all the gas in the map	
 	private Profile profile;
 	private Player player;
 	private ArrayList<Teleporter> teleporters;
@@ -153,6 +154,10 @@ public class Map {
 					break;
 				case "fire":
 					map[i] = new Fire();
+					break;
+				case "gas":
+					map[i] = new Gas(x,y);
+					gas.add((Gas) map[i]);
 					break;
 				//below are collectibles that are in the level
 				//a ground cell will need to be created for each of these
@@ -406,6 +411,18 @@ public class Map {
 		return this.collectibles;
 	}
 	
+	public ArrayList<Gas> getGas(){
+		return this.gas;
+	}
+	
+	public boolean gasExists(int x,int y) {
+		for(int i = 0;i<gas.size();i++) {
+			if(gas.get(i).getX()==x && gas.get(i).getY()==y) {
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * Describes the map class
 	 * @return The dimensions of the map, and the array the map is stored in
