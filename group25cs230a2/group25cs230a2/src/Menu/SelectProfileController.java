@@ -21,49 +21,110 @@ public class SelectProfileController {
 	private ArrayList<Profile> allProfiles = new ArrayList<Profile>();
 	
 
-	@FXML public void initialize() {
-		allProfiles.add(new Profile("matt", "password1"));
-		allProfiles.add(new Profile("james", "password1"));
-		allProfiles.add(new Profile("culley", "password1"));
-		allProfiles.add(new Profile("mattmatt", "password1"));
-		allProfiles.add(new Profile("jamesjames", "password1"));
-		allProfiles.add(new Profile("culleyculley", "password1"));
-		
-		
-		
+	@FXML public void initialize() {		
+		allProfiles = IO.getSavedProfiles();
 		for (Profile ele : allProfiles) {
 			profiles.getItems().add(ele.getUserID());
 		}
-		
 	}
 	
 	
 	@FXML private void submitExistingUser() {
-		try {
+		for (Profile ele : allProfiles) {
 			String userId = (String) profiles.getValue();
 			String pass = passwordExistingUser.getText();
-			System.out.println(userId + " " + pass);
-		} catch (NullPointerException e) {
-			errorMessage.setText("One or more fields are empty.");
+			if (ele.getUserID().equals(userId) & ele.getPassword().equals(pass)) {
+				Main.setProfile(ele);
+				Main.setAllProfiles(allProfiles);
+				IO.saveProfiles(allProfiles);
+				Main.mainMenu();
+			}
 		}
-		
-		
-		//if userID and pass correct
-			//Main.mainMenu();
 	}
 	
 	@FXML private void submitNewUser() {
 		String userId = userNameNewUser.getText();
-		String pass = passwordNewUser.getText();
-		System.out.println(userId + " " + pass);
-		
-		if (userId.equals("") || pass.equals("")) {
-			errorMessage.setText("One or more fields are empty.");
-		}
+		String pass = passwordNewUser.getText(); 
 		//if valid pass and username
-			//create profile
-			//add to profiles
-			//save all profiles
+		if (isUniqueUserId(userId) & isValidPass(pass) & isValidString(userId)) {
+			//make new profile
+			Profile newProfile = new Profile(userId, pass);
+			
+			//add to and save profiles arraylist
+			allProfiles.add(newProfile);
+			IO.saveProfiles(allProfiles);
+			System.out.println(allProfiles.toString());
+			
+			//set profile and allProfiles in Main
+			Main.setAllProfiles(allProfiles);
+			Main.setProfile(newProfile);
+
+			Main.mainMenu();
+		}
 	}
+	
+	
+	public boolean isValidString(String input) {
+		if(input.equals("")) {
+			System.out.println("Input is empty!");
+			return false;
+		}else if(containsWhitespace(input)) {
+			System.out.println("Input can't contain any spaces");
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	
+	public boolean isValidPass(String pass) {
+		if((pass.length() < 6) || containsOnlyLetters(pass) || !isValidString(pass)) {
+			return false; 
+		}else {
+			return true;
+		}
+	}
+	
+	
+	private boolean containsOnlyLetters(String str) {
+		char[] chars = str.toCharArray();
+	
+		for (char c : chars) {
+			if (!Character.isLetter(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+		
+	
+	
+	private boolean containsWhitespace(String str) {
+		char[] chars = str.toCharArray();
+	
+		for (char c : chars) {
+			if (Character.isWhitespace(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	private boolean isUniqueUserId (String userID) {
+		for (Profile profile : allProfiles) {
+			if (profile.getUserID() == userID) {
+				return false;
+			}
+		}
+		return true;
+	}
+		
+	
+	
+	public Profile createProfile(String userID, String password) {
+		return new Profile(userID, password);
+	}
+		
 
 }

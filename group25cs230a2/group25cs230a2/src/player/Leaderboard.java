@@ -3,6 +3,7 @@ package player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import menu.*;
 
 import player.Profile;
 
@@ -11,25 +12,20 @@ import java.lang.Integer;
 
 public class Leaderboard {
 
-	String[][] leaderboard;
-	int levelNumber;
-	int leaderboardLength;
-	int numberOfEmptySpots;
+	private String[][] leaderboard;
+	private int levelNumber;
+	private int numberOfEmptySpots;
+	private Profile first;
+	private Profile second;
+	private Profile third;
+	
+	public Leaderboard (int levelNumber) {
+//		
 
-	public String toString () {
-		String leaderboardString = "LEADERBOARD FOR LVL " + levelNumber + ":\nUser		Score";
-		for (int i = 0; i < (this.getLength() - this.numberOfEmptySpots); i++) {
-			leaderboardString = leaderboardString + "\n" + this.leaderboard[i][0] + "		" + this.leaderboard[i][1];
-		}
-		return leaderboardString;
-	}
-
-	public Leaderboard (int levelNumber, int leaderboardLength) {
-		this(Profile.profiles, levelNumber, leaderboardLength);
 	}
 
 	public void update () {
-		Leaderboard updatedLeaderboard = new Leaderboard (Profile.profiles, this.getLevelNumber(), this.getLength());
+		Leaderboard updatedLeaderboard = new Leaderboard (Main.getProfiles(), this.getLevelNumber(), this.getLength());
 		this.leaderboard = updatedLeaderboard.leaderboard;
 	}
 
@@ -37,10 +33,14 @@ public class Leaderboard {
 
 	private Leaderboard (ArrayList<Profile> profiles, int levelNumber, int leaderboardLength) {
 
+		
 		this.levelNumber = levelNumber;
 		this.leaderboardLength = leaderboardLength;
 
-		if (profiles != null) {
+		//if profiles is empty
+		if (!(profiles.size() == 0)) {
+			
+			//
 			String[][] allScoreEntries = new String [0] [2] ;
 
 			for (Profile profile : profiles) {
@@ -113,5 +113,13 @@ public class Leaderboard {
 
 	void setLength(int length) {
 		this.leaderboardLength = length;
+	}
+	
+	public String toString () {
+		String leaderboardString = "LEADERBOARD FOR LVL " + levelNumber + ":\nUser		Score";
+		for (int i = 0; i < (this.getLength() - this.numberOfEmptySpots); i++) {
+			leaderboardString = leaderboardString + "\n" + this.leaderboard[i][0] + "		" + this.leaderboard[i][1];
+		}
+		return leaderboardString;
 	}
 }

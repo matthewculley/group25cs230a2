@@ -2,27 +2,24 @@ package player;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import java.util.Arrays;
 
 public class Profile {
 
-	static ArrayList<Profile> profiles = new ArrayList<>();
 	String userID;
 	String password;
 	ArrayList<int[]> levelScores = new ArrayList<>(); //index of arrayList = level number, int[] is personal best scores for that level
 	int highestCompletedLevel;
 	String avatar;
 
-	public Profile(String userID, String password, ArrayList<int[]> levelScores, String avatar) { //profile pic, map files...
-		setValidUniqueUserID(userID);
-		setValidPassword(password);
-		updateHighestCompletedLevel();
+	public Profile (String userID, String password,
+					ArrayList<int[]> levelScores, String avatar) { //profile pic, map files...
+		this.userID = userID;
+		this.password = password;
 		this.levelScores = levelScores;
 		this.avatar = avatar;
-
-		profiles.add(this);
+		updateHighestCompletedLevel();
 	}
 /**
  * @param userID
@@ -30,11 +27,14 @@ public class Profile {
  * Profile constructor with arguments only for userID and password,
  * sets default highestCompletedLevel as 0 and scores as an empty ArrayList.
  */
-	public Profile(String userID, String password) {
-		this(userID, password, new ArrayList<int[]>(), null);
+	public Profile (String userID, String password) {
+
+		this (userID, password, new ArrayList<int[]>(), "default.png");
 	}
 
-	public void chooseAvatarImageFile() {
+
+
+	public void chooseAvatarImageFile () {
 	    FileDialog fileChooser;
 
 		fileChooser = new FileDialog(new Frame() , "Choose a file", FileDialog.LOAD);
@@ -45,7 +45,7 @@ public class Profile {
 
 	    String filePath = fileChooser.getFile();
 
-	    if(fileChooser.getFile() == null) {
+	    if (fileChooser.getFile() == null) {
 	    	filePath = null;
 	        System.out.println("You cancelled the choice.");
 	    }
@@ -64,160 +64,93 @@ public class Profile {
 		this.avatar = avatar;
 	}
 
-	public void completeLevel(int completedLevel, int achievedScore) {
+	public void completeLevel (int completedLevel, int achievedScore) {
 
-		if(completedLevel > this.highestCompletedLevel) {
+		if (completedLevel > this.highestCompletedLevel) {
 			this.highestCompletedLevel = completedLevel;
-			this.levelScores.add(new int[0]);
+			int[] newScores = {0,0,0};
+			this.levelScores.add (newScores);
 		}
 		try {
 			addScore(completedLevel, achievedScore);
 		}
-		catch(IndexOutOfBoundsException e) {
-			this.levelScores.add(new int[0]);
-			completeLevel(completedLevel, achievedScore);
+		catch (IndexOutOfBoundsException e) {
+			this.levelScores.add (new int[0]);
+			completeLevel (completedLevel, achievedScore);
 		}
 	}
 
 
 
-	public String toString() {
+	public String toString () {
 		return "\nUser ID: " + this.userID +
 				"\nPassword: " + this.password +
 				"\nHighest completed level: " + this.highestCompletedLevel +
 				scoresToString();
 	}
 
-	private String scoresToString() {
+	public String scoresToString () {
 
-		String scoresString = "\nScores:";
+		String returnString = "\nScores: ";
 
-		for(int[] levelScores : this.levelScores) {
-			scoresString = scoresString + "\n  Level " +(this.levelScores.indexOf(levelScores) + 1) + ":";
-			for(int score : levelScores) {
-				scoresString = scoresString + " " + score;
+		for (int i = 0; i < levelScores.size(); i++) {
+			
+			returnString += "\nLevel: " + (i+1) + " ";
+			
+			for (int j = 0; j < levelScores.get(i).length; j++) {
+				returnString += levelScores.get(i)[j] + " ";
 			}
+			
+			
+//			scoresString += "\n  Level " + (levelScores.get(i)) + ":";
+			
 		}
-		return scoresString;
+		return returnString;
+	}
+
+	public String saveFormat() {
+		String scoreString = "";
+		
+		for (int i = 0; i < levelScores.size(); i++) {
+			for (int j = 0; j < levelScores.get(i).length; j++) {
+				scoreString += levelScores.get(i)[j] + " ";
+			}	
+		}
+		return (this.userID + " " +
+				this.password + " " +
+				this.avatar + " " +
+				scoreString + "\n");
 	}
 
 
-
-/**level scores can only be added in correct order, ie if adding score(1, 30) then
- *(3, 45) it will add score of 45 to level 2 rather than 3
+/**level scores can only be added in correct order, ie if adding score (1, 30) then
+ * (3, 45) it will add score of 45 to level 2 rather than 3
 */
-	public void addScore(int completedLevel, int newScore) {
+	private void addScore(int completedLevel, int newScore) {
+		
 
-		int[] oldScores = getScoresForLevel(completedLevel);
-		int[] newScores = new int[oldScores.length + 1];
-
-		for(int i = 0; i < oldScores.length; i++) {
-			newScores[i] = oldScores[i];
+		int[] levelScores = getScoresForLevel(completedLevel);
+		
+		Arrays.sort(levelScores);
+		
+		if (levelScores[0] < Math.abs(newScore)) {
+			levelScores[0] = Math.abs(newScore);
 		}
-		newScores[oldScores.length] = newScore;
-
-		Arrays.sort(newScores);
-
-		setScoresForLevel(newScores, completedLevel);
+		
 	}
 
-	public int[] getScoresForLevel(int levelNumber) {
+	public int[] getScoresForLevel (int levelNumber) {
 		return this.levelScores.get(levelNumber - 1);
 	}
+	
 
-	private void setScoresForLevel(int[] scores, int levelNumber) {
-		this.levelScores.set(levelNumber - 1, scores);
-	}
 
-	void setValidUniqueUserID(String userID) {
 
-		while(!isUniqueUserID(userID) || !isValidUserID(userID)) {
-
-			if(!isUniqueUserID(userID)) {
-				System.out.println("Username \"" + userID + "\" is taken, please enter a new one:");
-			}
-
-			else if(!isValidUserID(userID) ) {
-				System.out.println("\"" + userID + "\" is not a valid username, please enter a new one:");
-			}
-
-			userID = getUserInput();
-		}
-
-		this.userID = userID;
-	}
-
-	private String getUserInput() {
-
-		Scanner in = new Scanner(System.in);
-		String input = in.nextLine();
-		in.close();
-
-		return input;
-	}
-
-	private boolean isUniqueUserID(String userID) {
-
-		for(Profile profile : profiles) {
-			if(profile.getUserID() == userID) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private void setValidPassword(String password) {
-
-		while(!isValidPassword(password)) {
-			password = getUserInput();
-		}
-
-		this.password = password;
-	}
-
-	private boolean isValidPassword(String password) {
-
-		if(password.length() < 6) {
-			System.out.println("Password must be at least 6 characters in length.");
-			return false;
-		}
-		if(containsOnlyLetters(password)) {
-			System.out.println("Password must contain non-alpha character.");
-			return false;
-		}
-		return true;
-	}
-
-	private boolean containsOnlyLetters(String str) {
-		char[] chars = str.toCharArray();
-
-		for(char c : chars) {
-			if(!Character.isLetter(c)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean isValidUserID(String userID) {
-		if(userID == "") {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean checkPassword(String password) {
-		if(this.password == password) {
-			return true;
-		}
-		return false;
-	}
-
-	public String getUserID() {
+	public String getUserID () {
 		return this.userID;
 	}
 
-	private void setPassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -229,7 +162,7 @@ public class Profile {
 		this.highestCompletedLevel = levelScores.size();
 	}
 
-	private String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 }
