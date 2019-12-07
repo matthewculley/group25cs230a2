@@ -35,7 +35,6 @@ public class MainMenuController {
 		Main.quit();
 	}
 	
-
 	@FXML 
 	private void play(ActionEvent event) {
 		System.out.println("profile");

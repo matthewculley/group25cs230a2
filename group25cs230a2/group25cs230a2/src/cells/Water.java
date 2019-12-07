@@ -6,7 +6,7 @@ import player.*;
 
 public class Water extends Cell{
 	public Water () {
-		super("water.png", false);
+		super("water.png", true);
 	}	
 	
 	public boolean isPassable(Player p) {

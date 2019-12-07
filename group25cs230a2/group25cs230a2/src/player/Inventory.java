@@ -42,16 +42,14 @@ public class Inventory {
 		}
 		unlockDoors(map);
 		c.collect();
-		
 	}
 	
 	public void addItem(Collectible c) {
 		collectibles.add(c);
 	}
 	
-	
 	public void unlockDoors(Map map) {
-		for (int i = 0; i < map.getMap().length-1; i++) {
+		for (int i = 0; i < map.getMap().length - 1; i++) {
 			int x = map.indexToCoords(i)[0];
 			int y = map.indexToCoords(i)[1];
 			if (map.getAt(x,y).getClass() == (new TokenDoor().getClass())) {
@@ -110,21 +108,6 @@ public class Inventory {
 		collectibles = new ArrayList<Collectible>();
 	}
 	
-//	public static void main(String[] args) {
-//		Inventory myInv = new Inventory();
-//		RedKey redKey = new RedKey(2, 2);
-//		GreenKey greenKey = new GreenKey (1, 2);
-//		
-//		myInv.addItem(redKey);
-//		myInv.addToken();
-//		System.out.println("r key yes " +myInv.hasItem(redKey) + " " + myInv.getTokens());
-//		myInv.reset();
-//		System.out.println("r key no " + myInv.hasItem(redKey) + " " + myInv.getTokens());
-//		myInv.addItem(greenKey);
-//		
-//	}
-	
-	
 	public ArrayList<Collectible> getInventory() {
 		return collectibles;
 	}
@@ -136,7 +119,5 @@ public class Inventory {
 		}
 		return returnString += " tokens: " + getTokens();
 	}
-	
-	
-	
+
 }

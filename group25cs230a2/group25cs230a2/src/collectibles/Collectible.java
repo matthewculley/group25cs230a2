@@ -19,6 +19,7 @@ public abstract class Collectible {
 	public abstract String getCollectibleName();
 
 	public Collectible(String imageName) {
+		System.out.println("collectible name: "  + imageName);
 		sprite = new Image(imageName);
 	}
 
@@ -59,33 +60,5 @@ public abstract class Collectible {
 		this.collected = true;
 		
 	}
-
-//	public void addFireBoots(FireBoots fb) {
-//		listOfCollectibles.add(fb);
-//	}
-//
-//	public void addFlippers(Flippers fl) {
-//		listOfCollectibles.add(fl);
-//	}
-//
-//	public void addGasMask(GasMask gm) {
-//		listOfCollectibles.add(gm);
-//	}
-//
-//	public void addBlueKey(BlueKey bkey) {
-//		listOfCollectibles.add(bkey);
-//	}
-//
-//	public void addRedKey(RedKey rkey) {
-//		listOfCollectibles.add(rkey);
-//	}
-//
-//	public void addGreenKey(GreenKey gkey) {
-//		listOfCollectibles.add(gkey);
-//	}
-//
-//	public void addYellowKey(YellowKey ykey) {
-//		listOfCollectibles.add(ykey);
-//	}
 
 }

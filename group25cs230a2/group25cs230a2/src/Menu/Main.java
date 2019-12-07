@@ -137,6 +137,7 @@ public class Main extends Application{
 		int score = (int) ((timeFinished - timeStarted) / 1000);
 		int levelNumber = Character.getNumericValue(map.getParentLevelName().charAt( map.getParentLevelName().length() - 5));
 		profile.completeLevel(levelNumber, score);
+		//save profile
 
 		System.out.println("lvl num: "+ levelNumber);
 		for (int i = 0; i < profile.getScoresForLevel(levelNumber).length; i++) {
@@ -163,6 +164,7 @@ public class Main extends Application{
 				map.addPlayer(profile, player);
 				map.getPlayer().getInventory().unlockDoors(map);
 		}
+		System.out.println(map.toString());
 		timeStarted = System.currentTimeMillis();
 		drawGame();
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
@@ -236,7 +238,6 @@ public class Main extends Application{
 			int x = map.getPlayer().getX();
 			int y = map.getPlayer().getY();
 			
-			
 			//check player walk into enemy
 			for (int k = 0; k < map.getEnemies().size(); k++) {
 //				System.out.println("Enemy: (" + map.getEnemies().get(k).getX() + "," + map.getEnemies().get(k).getX() + ") Player: (" + map.getPlayer().getX() + "," + map.getPlayer().getY() + ")");
@@ -256,12 +257,11 @@ public class Main extends Application{
 			//check if player collect anything
 			for (int k = 0; k < map.getCollectibles().size(); k++) {
 				if (map.getCollectibles().get(k).getX() == map.getPlayer().getX() & map.getCollectibles().get(k).getY() == map.getPlayer().getY() & map.getCollectibles().get(k).isCollected() == false) {
-					
 					//add to inventory
 					map.getPlayer().getInventory().addItem(map.getCollectibles().get(k), map);
-//					PlayGameController.updateInventory();
 				}
 			}
+			
 			//teleport player
 			//if player on a teleporter
 			if (map.getAt(x, y).getClass() == (new Teleporter()).getClass()) {
@@ -270,27 +270,40 @@ public class Main extends Application{
 				map.getPlayer().setY(tele.getPartner().getY());
 			}
 			
+			//check if player in water or fire
+			//if player doesnt have flippers and is in water
+			if (map.getPlayer().getInventory().hasItem(new Flippers()) == false & map.getAt(x, y).getClass() == new Water().getClass()) {
+				die();
+			}
+			//if the player doesnt have fireboots and in fire
+			if (map.getPlayer().getInventory().hasItem(new FireBoots()) == false & map.getAt(x, y).getClass() == new Fire().getClass()) {
+				die();				
+			}
+			
 			//check enemy walk into player
 			for (int k = 0; k < map.getEnemies().size(); k++) {
 //				System.out.println("Enemy: (" + map.getEnemies().get(k).getX() + "," + map.getEnemies().get(k).getX() + ") Player: (" + map.getPlayer().getX() + "," + map.getPlayer().getY() + ")");
 				if (map.getEnemies().get(k).getX() == map.getPlayer().getX() & map.getEnemies().get(k).getY() == map.getPlayer().getY()) {
 					drawGame();
-					try {
-						playGame(map.getParentLevelName(), false);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					die();
 				}
 			}
 			
 			//check if on goal
 			if (map.getAt(map.getPlayer().getX(), map.getPlayer().getY()).isGoal()) {
 				System.out.println("victory");
-				
 				win();
 			}
 			// Redraw game as the player may have moved.
 			drawGame();
+		}
+		
+		public static void die() {
+			try {
+				playGame(map.getParentLevelName(), false);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		private static boolean checkValidMove(int x, int y) {
@@ -300,15 +313,8 @@ public class Main extends Application{
 				returnValue = false;
 			//else if the spot is an impassable cell e.g. wall
 			} else if (map.getAt(x, y).isPassable() == false) {
-				//if the player has water boots
-				if (map.getPlayer().getInventory().hasItem(new Flippers()) & map.getAt(x, y).getClass() == new Water().getClass()) {
-					returnValue = true;
-				}
-				//if the player has fire boots
-				if (map.getPlayer().getInventory().hasItem(new FireBoots()) & map.getAt(x, y).getClass() == new Fire().getClass()) {
-					returnValue = true;
-				}
-			} else { 
+				return false;
+			} else {
 				returnValue = true;
 			}
 			return returnValue;
@@ -362,7 +368,12 @@ public class Main extends Application{
 						currentCell = map.getAt(x, y);
 						gc.drawImage(currentCell.getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 					}
-					
+					//draw collectibles
+					for (int k = 0; k < map.getCollectibles().size(); k++) {
+						if (map.getCollectibles().get(k).getX() == x & map.getCollectibles().get(k).getY() == y & map.getCollectibles().get(k).isCollected() == false) {
+							gc.drawImage(map.getCollectibles().get(k).getSprite(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+						}
+					}
 					//draw enemies
 					for (int k = 0; k < map.getEnemies().size(); k++) {
 						if (map.getEnemies().get(k).getX() == x & map.getEnemies().get(k).getY() == y) {
@@ -370,13 +381,6 @@ public class Main extends Application{
 							gc.drawImage(map.getEnemies().get(k).getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 						}
 					}
-					//draw collectibles
-					for (int k = 0; k < map.getCollectibles().size(); k++) {
-						if (map.getCollectibles().get(k).getX() == x & map.getCollectibles().get(k).getY() == y & map.getCollectibles().get(k).isCollected() == false) {
-							gc.drawImage(map.getCollectibles().get(k).getSprite(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-						}
-					}
-					
 					//draw the player
 					if (map.getPlayer().getX() == x & map.getPlayer().getY() == y) {
 						gc.drawImage(map.getPlayer().getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);

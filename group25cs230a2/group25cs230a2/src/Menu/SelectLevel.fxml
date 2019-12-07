@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,7 +17,7 @@
          <children>
             <VBox alignment="CENTER_LEFT" prefHeight="320.0" prefWidth="400.0">
                <children>
-                  <Button fx:id="continueLevel" mnemonicParsing="false" onAction="#continueLevel" style="-fx-background-color: rgba(0,0,0,0);;" text="Continue">
+                  <Button fx:id="continueLevel" mnemonicParsing="false" onAction="#continueLevel" style="-fx-background-color: rgba(0,0,0,0);;" text="Continue" wrapText="true">
                      <font>
                         <Font name="Showcard Gothic" size="48.0" />
                      </font>
@@ -29,12 +31,12 @@
                         </RadialGradient>
                      </textFill>
                   </Button>
-                  <Button fx:id="play" mnemonicParsing="false" onAction="#play" style="-fx-background-color: rgba(0,0,0,0);;" text="Play" textFill="WHITE">
+                  <Button fx:id="playHighestLevel" mnemonicParsing="false" onAction="#play" style="-fx-background-color: rgba(0,0,0,0);;" text="Play Next Level" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Showcard Gothic" size="48.0" />
                      </font>
                   </Button>
-                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" style="-fx-background-color: rgba(0,0,0,0);;" text="Back" textFill="WHITE">
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" style="-fx-background-color: rgba(0,0,0,0);;" text="Back" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Showcard Gothic" size="48.0" />
                      </font>
@@ -43,7 +45,49 @@
             </VBox>
             <VBox alignment="CENTER_RIGHT">
                <children>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Free Play" textFill="WHITE">
+                           <font>
+                              <Font name="Showcard Gothic" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="levelNumber" alignment="CENTER" text="Level x" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Showcard Gothic" size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                   <ImageView fx:id="imageView" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="previousLevel" mnemonicParsing="false" onAction="#previousLevel" style="-fx-background-color: rgba(0,0,0,0);" text="&lt;" textAlignment="JUSTIFY" textFill="WHITE">
+                           <font>
+                              <Font name="Showcard Gothic" size="50.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="playLevel" mnemonicParsing="false" onAction="#playLevel" prefWidth="153.0" style="-fx-background-color: rgba(0,0,0,0);" text="Play" textFill="WHITE" textOverrun="CLIP">
+                           <font>
+                              <Font name="Showcard Gothic" size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="nextLevel" mnemonicParsing="false" onAction="#nextLevel" style="-fx-background-color: rgba(0,0,0,0);;" text="&gt;" textFill="WHITE">
+                           <font>
+                              <Font name="Showcard Gothic" size="50.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <Label fx:id="errorMessage" textFill="WHITE">
+                     <font>
+                        <Font name="Showcard Gothic" size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
          </children>
