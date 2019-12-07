@@ -38,7 +38,7 @@ public class Key extends Collectible {
 		return "key:" + getColour();
 	}
 
-	private String getColour() {
+	public String getColour() {
 		return colour;
 	}
 }

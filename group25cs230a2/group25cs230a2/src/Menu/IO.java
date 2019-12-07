@@ -39,9 +39,17 @@ public class IO {
 	*/
 	
 	public static void saveMapToFile(Map map) throws IOException {
+		map.addToTime(System.currentTimeMillis() - map.getTimeStarted());
+//		System.out.println("\nStarted: " + map.getTimeStarted());
+//		
+//		System.out.println("finished: " + System.currentTimeMillis());
+//		System.out.print("taken: ");
+//		System.out.println(System.currentTimeMillis() - map.getTimeStarted());
+//		
+		System.out.println("Time Taken: " + map.getTimeTaken());
 		Player player = map.getPlayer();
 		Inventory inventory = player.getInventory();
-		System.out.println(map.toString());
+//		System.out.println(map.toString());
 		String fileName = map.getPlayer().getProfile().getUserID();
 		ArrayList<String> returnArrayList = new ArrayList<String>();
 
@@ -92,6 +100,8 @@ public class IO {
 				count++;
 			}
 		}
+		fwLevel.append(Long.toString(map.getTimeTaken()));
+		fwLevel.append("\r");
 		fwLevel.append(map.getParentLevelName());
 		fwLevel.close();
 		

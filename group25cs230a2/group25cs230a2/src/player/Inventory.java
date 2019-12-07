@@ -61,25 +61,41 @@ public class Inventory {
 			if (map.getAt(x,y).getClass() == (new Door().getClass())) {
 				switch (((Door)map.getAt(x,y)).getColour()) {
 					case "red":
-						if (hasItem(new Key("red"))) {
-							map.getAt(x, y).setPassable(true);
-						}
+							for (Collectible ele : collectibles) {
+								if (ele.getClass() == (new Key("red").getClass())) {
+									if (((Key)ele).getColour().equals("red")) {
+										map.getAt(x, y).setPassable(true);
+									}
+								}
+							}
 						break;
 					case "blue":
-						if (hasItem(new Key("blue"))) {
-							map.getAt(x, y).setPassable(true);
+						for (Collectible ele : collectibles) {
+							if (ele.getClass() == (new Key("blue").getClass())) {
+								if (((Key)ele).getColour().equals("blue")) {
+									map.getAt(x, y).setPassable(true);
+								}
+							}
 						}
-						break;
+					break;
 					case "green":
-						if (hasItem(new Key("green"))) {
-							map.getAt(x, y).setPassable(true);
+						for (Collectible ele : collectibles) {
+							if (ele.getClass() == (new Key("green").getClass())) {
+								if (((Key)ele).getColour().equals("green")) {
+									map.getAt(x, y).setPassable(true);
+								}
+							}
 						}
-						break;
+					break;
 					case "yellow":
-						if (hasItem(new Key("yellow"))) {
-							map.getAt(x, y).setPassable(true);
+						for (Collectible ele : collectibles) {
+							if (ele.getClass() == (new Key("yellow").getClass())) {
+								if (((Key)ele).getColour().equals("yellow")) {
+									map.getAt(x, y).setPassable(true);
+								}
+							}
 						}
-						break;
+					break;
 					case "token":
 							System.out.println("Player Tokens: " + getTokens());
 							if (getTokens() >= ((TokenDoor) map.getAt(x,y)).getNeededTokens()) {

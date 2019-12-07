@@ -41,9 +41,9 @@ public class SelectLevelController {
 		levelNumber.setText("Level " + level);
 		int highest = Main.profile.getHighestCompletedLevel();
 		try {
-			 imageView.setImage(new Image("level" + (highest + 1) + ".png"));
+			 imageView.setImage(new Image("level" + (level) + ".png"));
 		} catch (IllegalArgumentException e) {
-			imageView.setImage(new Image("level" + (highest) + ".png"));
+			System.out.println("boo");
 		}
 	}  
 	
@@ -94,7 +94,7 @@ public class SelectLevelController {
 	@FXML private void playLevel(){
 		System.out.println("highest: " + Main.profile.getHighestCompletedLevel());
 		System.out.println("attempted: " + level);
-		if (level > Main.profile.getHighestCompletedLevel() || level > 1) {
+		if (level > Main.profile.getHighestCompletedLevel() || level < 1) {
 			errorMessage.setText("You must beat this level first to unlock it in free play.");
 		} else {
 			String levelName = "level" + level + ".csv";

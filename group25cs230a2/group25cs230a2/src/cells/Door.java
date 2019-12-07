@@ -29,8 +29,8 @@ public class Door extends Cell{
 				break;
 		}
 	}
-	private void open() {
-		//Change into ground tile
+	public String toString() {
+		return "door:" + getColour() + "Open: " + isPassable();
 	}
 	public String getColour() {
 		// TODO Auto-generated method stub

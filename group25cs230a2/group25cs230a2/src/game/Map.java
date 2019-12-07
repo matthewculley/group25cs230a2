@@ -26,6 +26,8 @@ public class Map {
 	private Player player;
 	private ArrayList<Teleporter> teleporters;
 	private String parentLevelName;
+	private Long timeStarted;
+	private Long timeTaken;
 		
 	/**
 	 * Constructor method to create an instance of Map
@@ -41,16 +43,19 @@ public class Map {
 		mapAl.add(fn);
 		map = convertStringToObjects(mapAl);	//read the map file and create the array and various objects
 		if (teleporters.size() > 0) connectTeleporters();
-		
+		timeStarted = System.currentTimeMillis();
+		timeTaken = (long) 0;
 	}
 	
+	//map from just a string, used to cointineu a game
 	public Map(String fn) throws FileNotFoundException {
+		timeTaken = (long)0;
 		filename = fn;
 		setParentLevelName("");
 		teleporters = new ArrayList<Teleporter>();
 		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
 		if (teleporters.size() > 0) connectTeleporters();
-		System.out.print(filename);
+		timeStarted = System.currentTimeMillis();
 	}
 	
 	public void addPlayer(Profile profile, Player player) {
@@ -110,6 +115,9 @@ public class Map {
 		if (parentLevelName.equals("")) {
 			setParentLevelName(mapAl.get(mapAl.size() - 1));
 			mapAl.remove(mapAl.size() - 1);
+			addToTime(Long.parseLong(mapAl.get(mapAl.size() - 1)));
+			mapAl.remove(mapAl.size() - 1);
+
 		}
 		
 		width = Integer.parseInt(mapAl.get(0));
@@ -427,6 +435,26 @@ public class Map {
 
 	public String getFileName() {
 		return this.filename;
+	}
+
+	
+
+	public Long getTimeStarted() {
+		return timeStarted;
+	}
+
+	public void addToTime(long time) {
+		timeTaken += time;
+	}
+
+	public long getTimeTaken() {
+		return timeTaken;
+	}
+
+	public int calculateScore() {
+		Long totalTimeTaken = (getTimeStarted() - System.currentTimeMillis()) + getTimeTaken();
+		int score = (int) (totalTimeTaken /1000);
+		return score;
 	}
 	
 	//convert from String to correct cell types

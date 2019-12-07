@@ -1,6 +1,7 @@
 package enemies;
 
 import java.util.ArrayList;
+import java.util.Random; 
 
 import game.Map;
 
@@ -117,6 +118,37 @@ public class EnemySmart extends Enemy {
 			}while(!currentMatch(currentPath));
 		}else {
 			System.out.println(" \n FAILED FINDING PATH");
+	        Random rand = new Random(); 
+			int nextDirection = rand.nextInt(3);
+			boolean moved = false;
+			while (!moved) {
+				switch (nextDirection) {
+					case 0:
+						if(checkValidMove(map, getX(), getY() - 1)) {
+							this.setPosition(getX(), getY() - 1);
+							moved = true;
+							break;
+						}
+					case 1:
+						if(checkValidMove(map, getX() + 1, getY())) {
+							this.setPosition(getX() + 1, getY());
+							moved = true;
+							break;
+						}
+					case 2:
+						if(checkValidMove(map, getX(), getY() + 1)) {
+							this.setPosition(getX(), getY() + 1);
+							moved = true;
+							break;
+						}
+					case 3:
+						if(checkValidMove(map, getX() - 1, getY())) {
+							this.setPosition(getX() - 1, getY());
+							moved = true;
+							break;
+					}
+				}
+			}			
 		}
 		if(path.size()>0) {
 			this.setPosition(path.get(0).x,path.get(0).y);
