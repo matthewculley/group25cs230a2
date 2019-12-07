@@ -1,8 +1,9 @@
 package cells;
 
 /**
- * A class that defines Goal
+ * A class that defines Goal.
  * @author Group25
+ * @version 1.1
  */
 
 public class Goal extends Cell{
