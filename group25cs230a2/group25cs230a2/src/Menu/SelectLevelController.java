@@ -30,7 +30,6 @@ public class SelectLevelController {
 	@FXML private Button nextLevel;
 	@FXML private Label levelNumber;
 	@FXML private Label errorMessage;
-	@FXML private Label highScore;
 	
 	private int level = 1;
 	private int numberOfLevels = 4;
@@ -40,22 +39,18 @@ public class SelectLevelController {
 	@FXML
 	public void initialize() {
 		levelNumber.setText("Level " + level);
-//		int highest = Main.profile.getHighestCompletedLevel();
+		int highest = Main.profile.getHighestCompletedLevel();
 		try {
 			 imageView.setImage(new Image("level" + (level) + ".png"));
 		} catch (IllegalArgumentException e) {
+			System.out.println("boo");
 		}
-		displayHighScore();
 	}  
 	
 	@FXML 
 	private void back(ActionEvent event) {
 		System.out.println("Back");
 		Main.mainMenu();
-	}
-	
-	@FXML public void displayHighScore(){
-		highScore.setText("Highscore: " + Main.getProfile().getScoresForLevel(level)[0]);
 	}
 	
 	@FXML private void play() {

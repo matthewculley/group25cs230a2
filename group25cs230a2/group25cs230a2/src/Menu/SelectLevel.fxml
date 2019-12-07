@@ -57,11 +57,6 @@
                               <Font name="Showcard Gothic" size="36.0" />
                            </font>
                         </Label>
-                        <Label fx:id="highScore" text="Highscore: " textFill="WHITE">
-                           <font>
-                              <Font name="Showcard Gothic" size="24.0" />
-                           </font>
-                        </Label>
                      </children>
                   </VBox>
                   <ImageView fx:id="imageView" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" />

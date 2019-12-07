@@ -21,6 +21,7 @@ public class MainMenuController {
 	@FXML private Label motd;
 	
 	
+	
 	@FXML public void initialize() {
 		try {
 			motd.setText(Main.getMotd());
@@ -31,7 +32,7 @@ public class MainMenuController {
 	
 	@FXML 
 	private void quit(ActionEvent event) {
-		System.exit(0);
+		Main.quit();
 	}
 	
 	@FXML 
