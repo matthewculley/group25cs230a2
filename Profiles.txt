@@ -1,1 +1,2 @@
-user password1 0 1 20;30;40
+user password1 user1Avatar 10 20 30 11 12 13 21 22 23 
+user2 password2 user2Avatar 10 20 30 11 12 13 
