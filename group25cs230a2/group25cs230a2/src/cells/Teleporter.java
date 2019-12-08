@@ -2,7 +2,7 @@ package cells;
 
 /**
  * A class that defines Teleporter.
- * @author Group25
+ * @author alan
  * @version 1.3
  */
 
@@ -14,12 +14,11 @@ public class Teleporter extends Cell {
 	private int y;
 
 	/**
- 	 * Constructs teleporter in x,y coordinate and which teleporter it connects.
+ 	 * Constructs the teleporter in x,y coordinate and which teleporter it connects.
  	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @param pairing The pairing id of the other teleporter.
  	 */
-	
 	public Teleporter(int x, int y, int pairing) {
 		super("teleporter.png", true);
 		setPairingId(pairing);
@@ -28,6 +27,9 @@ public class Teleporter extends Cell {
 		
 	}
 	
+	/**
+ 	 * Constructs the teleporter.
+ 	 */
 	public Teleporter() {
 		super("teleporter.png", true);
 	}
@@ -36,7 +38,6 @@ public class Teleporter extends Cell {
  	 * Get the pariringId.
  	 * @return pairingId.
  	 */
-	
 	public int getPairingId() {
 		return pairingId;
 	}
@@ -45,7 +46,6 @@ public class Teleporter extends Cell {
  	 * Set the pairingId.
  	 * @param The new pairingId.
  	 */
-	
 	public void setPairingId(int pairingId) {
 		this.pairingId = pairingId;
 	}
@@ -54,7 +54,6 @@ public class Teleporter extends Cell {
  	 * Get the x coordinate.
  	 * @return x The x coordinate.
  	 */
-	
 	public int getX() {
 		return x;
 	}
@@ -63,7 +62,6 @@ public class Teleporter extends Cell {
 	 * Set the x coordinate.
  	 * @param x The new x coordinate.
  	 */
-	
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -72,7 +70,6 @@ public class Teleporter extends Cell {
  	 * Get the y coordinate.
  	 * @return y The y coordinate.
  	 */
-	
 	public int getY() {
 		return y;
 	}
@@ -81,7 +78,6 @@ public class Teleporter extends Cell {
  	 * Set the y coordinate.
  	 * @param y The new y coordinate.
  	 */
-	
 	public void setY(int y) {
 		this.y = y;
 	}
@@ -90,7 +86,6 @@ public class Teleporter extends Cell {
 	 * Get the partner.
  	 * @return partner.
  	 */
-	
 	public Teleporter getPartner() {
 		return partner;
 	}
@@ -99,7 +94,6 @@ public class Teleporter extends Cell {
  	 * Set the partner.
  	 * @param partner The new partner.
  	 */
-	
 	public void setPartner(Teleporter partner) {
 		this.partner = partner;
 	}
@@ -108,7 +102,6 @@ public class Teleporter extends Cell {
  	 * Prints the pairingId.
  	 * @return pairingId for teleporter.
  	 */
-	
 	public String toString() {
 		return  "teleporter:" + pairingId;
 	}
@@ -117,7 +110,6 @@ public class Teleporter extends Cell {
  	 * Overrides the method getCellName.
  	 * @return pairingId for teleporter.
  	 */
-	
 	@Override
 	public String getCellName() {
 		return "teleporter:" + getPairingId();
