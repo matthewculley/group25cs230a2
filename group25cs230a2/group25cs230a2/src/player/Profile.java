@@ -5,16 +5,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Profile stores all the information about a single user
+ * Profile is an object that contains all the information required for a single user
  * @author Tom McKee
  * */
+
 public class Profile {
 
-  private String userID;    //login, username and unique identifier for each profile.
+  private String userID;    //login, username and unique identifier for each
+  							//profile.
   private String password;  //password used by user to login to their profile.
-  private ArrayList<int[]> levelScores = new ArrayList<>(); //stores user's achieved scores for each level.
-  private int highestCompletedLevel;  //the level number (identifier) of the a user's highest completed level, used to track the user's progression throught the game
-  private String avatar;    //the file path & name of the png/jpg/jpeg file used for a user's profile picture.
+
+  private ArrayList<int[]> levelScores = new ArrayList<>(); //user's scores
+  															//for each level.
+
+  private int highestCompletedLevel;//the level number (identifier) of the
+  									//a user's highest completed level, used
+  									//to track the user's progression through
+  									//the game.
+
+  private String avatar;    //the file path & name of the png/jpg/jpeg file
+  							//used for a user's profile picture.
 
 
   /**
@@ -25,7 +35,7 @@ public class Profile {
    * @param avatar string containing file location for avatar image
    */
   public Profile(String userID, String password,
-          ArrayList<int[]> levelScores, String avatar) { //profile pic, map files...
+		  ArrayList<int[]> levelScores, String avatar) {
     this.userID = userID;
     this.password = password;
     this.levelScores = levelScores;
@@ -49,9 +59,10 @@ public class Profile {
    * It adds the new score to the user's levelScores for the given level
    * if it is one of their best 3 scores for that level. It also marks their
    * progress if it is their first level completion.
-   * @param completedLevel - the level number (identifier) of the completed level
+   * @param completedLevel - the level number (identifier) of the completed
+   * 						 level
    * @param achievedScore  - the score (number of moves made) in a given level
-   * */
+   */
   public void completeLevel(int completedLevel, int achievedScore) {
 
     if(completedLevel > this.highestCompletedLevel) {
