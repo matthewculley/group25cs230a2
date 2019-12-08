@@ -3,10 +3,15 @@ package cells;
 /**
  * A class that defines Ground.
  * @author Group25
- * @version 1.2
+ * @version 1.3
  */
 
 public class Ground extends Cell {
+	
+	/**
+ 	 * Sets the image and passable of Ground.
+ 	 */
+	
 	public Ground() {
 		super("ground.png", true);
 	}
