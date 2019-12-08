@@ -2,7 +2,7 @@ package player;
 /**
  * Inventory.java
  * 
- * @author Ethan
+ * @author Jack, Ethan F
  */
 import java.util.ArrayList;
 
