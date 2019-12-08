@@ -3,15 +3,23 @@ package cells;
 /**
  * A class that defines Teleporter.
  * @author Group25
- * @version 1.2
+ * @version 1.3
  */
 
-public class Teleporter extends Cell{
+public class Teleporter extends Cell {
+	
 	private int pairingId;
 	private Teleporter partner;
 	private int x;
 	private int y;
 
+	/**
+ 	 * Constructs teleporter in x,y coordinate and which teleporter it connects.
+ 	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+	 * @param pairing The pairing id of the other teleporter.
+ 	 */
+	
 	public Teleporter(int x, int y, int pairing) {
 		super("teleporter.png", true);
 		setPairingId(pairing);
