@@ -3,15 +3,27 @@ package cells;
 /**
  * A class that holds all the basic features of doors.
  * @author Group25
- * @version 1.1
+ * @version 1.3
  */
 
-public class Door extends Cell{
+public class Door extends Cell {
+	
 	private String colour;
-		
+	
+	/**
+ 	 * Always false.
+ 	 */
+	
 	public Door() {
 		super(false);
 	}
+	
+	/**
+ 	 * Constructs the door with colour and passable.
+ 	 * @param passable Decides if the door is passable.
+	 * @param colour The colour of the door.
+ 	 */
+	
 	public Door(boolean passable, String colour) {
 		super(passable);
 		switch (colour) {
