@@ -22,7 +22,7 @@ public class PlayGameController {
 	@FXML private Label items;
 
 	/**
-	 * On startup, set the text of the inventory label to 0 tokens
+	 * On startup, set the text of the inventory label to 0 tokens.
 	 */
 	@FXML 
 	public void Initialize() {
@@ -33,19 +33,18 @@ public class PlayGameController {
 	
 	/**
 	 * When the restart button is pressed, cause the game to restart the level
-	 * currently being played
+	 * currently being played.
 	 */
-	@FXML void restart() {
+	@FXML 
+	void restart() {
 		System.out.println("restart");
 		String fileName = Main.getMapFileName();
 		try {
 			Main.playGame(fileName, false);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
 	
 	@FXML
 	private void quit() {
@@ -58,8 +57,12 @@ public class PlayGameController {
 			System.out.println("Save");
 			Main.saveMapToFile();
 		}
-		
 	}
+	
+	/**
+ 	 * Updates the inventory.
+ 	 * @param event When the player did something.
+ 	 */
 	
 	public void updateInventory(KeyEvent event) {	
 		System.out.println("hey");
