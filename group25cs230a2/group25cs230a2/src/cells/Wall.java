@@ -3,10 +3,14 @@ package cells;
 /**
  * A class that defines Wall.
  * @author Group25
- * @version 1.1
+ * @version 1.3
  */
 
-public class Wall extends Cell{
+public class Wall extends Cell {
+	
+	/**
+ 	 * Constructs the Wall with the image name and passable.
+ 	 */
 	
 	public Wall () {
 		super("wall.png", false);
