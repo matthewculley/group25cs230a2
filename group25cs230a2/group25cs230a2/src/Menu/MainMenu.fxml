@@ -30,6 +30,11 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Button>
+            <Button fx:id="Leaderboard" mnemonicParsing="false" onAction="#leaderboard" style="-fx-background-color: rgba(0,0,0,0);" text="Leaderboard" textFill="WHITE">
+               <font>
+                  <Font name="Showcard Gothic" size="64.0" />
+               </font>
+            </Button>
             <Button fx:id="selectProfile" alignment="CENTER" mnemonicParsing="false" onAction="#selectProfile" style="-fx-background-color: rgba(0,0,0,0);;" text="Select Profile" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Showcard Gothic" size="64.0" />

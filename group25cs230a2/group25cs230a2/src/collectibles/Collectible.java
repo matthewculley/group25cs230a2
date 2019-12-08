@@ -19,7 +19,6 @@ public abstract class Collectible {
 	public abstract String getCollectibleName();
 
 	public Collectible(String imageName) {
-		System.out.println("collectible name: "  + imageName);
 		sprite = new Image(imageName);
 	}
 

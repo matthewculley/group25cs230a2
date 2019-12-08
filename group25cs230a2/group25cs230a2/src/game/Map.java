@@ -29,6 +29,7 @@ public class Map {
 	private String parentLevelName;
 	private Long timeStarted;
 	private Long timeTaken;
+	private ArrayList<Gas> allGas;
 		
 	/**
 	 * Constructor method to create an instance of Map
@@ -36,6 +37,7 @@ public class Map {
 	 * @throws FileNotFoundException 
 	 */
 	public Map(Profile p, String fn) throws FileNotFoundException {
+		allGas = new ArrayList<Gas>();
 		profile = p;
 		filename = fn;
 		setParentLevelName(fn);
@@ -50,6 +52,8 @@ public class Map {
 	
 	//map from just a string, used to cointineu a game
 	public Map(String fn) throws FileNotFoundException {
+		allGas = new ArrayList<Gas>();
+
 		timeTaken = (long)0;
 		filename = fn;
 		setParentLevelName("");
@@ -57,6 +61,7 @@ public class Map {
 		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
 		if (teleporters.size() > 0) connectTeleporters();
 		timeStarted = System.currentTimeMillis();
+		//TODO REINFECT ALL GAS
 	}
 	
 	public void addPlayer(Profile profile, Player player) {
@@ -118,7 +123,6 @@ public class Map {
 			mapAl.remove(mapAl.size() - 1);
 			addToTime(Long.parseLong(mapAl.get(mapAl.size() - 1)));
 			mapAl.remove(mapAl.size() - 1);
-
 		}
 		
 		width = Integer.parseInt(mapAl.get(0));
@@ -164,8 +168,8 @@ public class Map {
 					map[i] = new Fire();
 					break;
 				case "gas":
-					map[i] = new Gas(x,y);
-					gas.add((Gas) map[i]);
+					map[i] = new Ground();
+					allGas.add(new Gas(x, y));
 					break;
 				//below are collectibles that are in the level
 				//a ground cell will need to be created for each of these
@@ -189,6 +193,10 @@ public class Map {
 				case "fireBoots":
 					map[i] = new Ground();
 					collectibles.add(new FireBoots(x, y));
+					break;
+				case "gasMask":
+					map[i] = new Ground();
+					collectibles.add(new GasMask(x, y));
 					break;
 				default:
 					break;
@@ -420,15 +428,16 @@ public class Map {
 	}
 	
 	public ArrayList<Gas> getGas(){
-		return this.gas;
+		return this.allGas;
 	}
 	
-	public boolean gasExists(int x,int y) {
-		for(int i = 0;i<gas.size();i++) {
-			if(gas.get(i).getX()==x && gas.get(i).getY()==y) {
+	public boolean gasExists(int x, int y) {
+		for(int i = 0; i < allGas.size(); i++) {
+			if(allGas.get(i).getX() == x && allGas.get(i).getY() == y) {
 				return true;
 			}
-		}
+		} 
+
 		return false;
 	}
 	/**
@@ -449,12 +458,13 @@ public class Map {
 		return returnString;
 	}
 
+	public void addGas (Gas newGas) {
+		allGas.add(newGas);
+	}
 
 	public String getFileName() {
 		return this.filename;
-	}
-
-	
+	}	
 
 	public Long getTimeStarted() {
 		return timeStarted;
@@ -469,10 +479,17 @@ public class Map {
 	}
 
 	public int calculateScore() {
-		Long totalTimeTaken = (getTimeStarted() - System.currentTimeMillis()) + getTimeTaken();
+		
+		System.out.println("//////////////////started" + getTimeStarted());
+		System.out.println("//////////////////mill" + System.currentTimeMillis());
+		System.out.println("//////////////////" + getTimeTaken());
+		
+		Long totalTimeTaken = (System.currentTimeMillis() - getTimeStarted())  + getTimeTaken();
 		int score = (int) (totalTimeTaken /1000);
 		return score;
 	}
+
+
 	
 	//convert from String to correct cell types
 	//

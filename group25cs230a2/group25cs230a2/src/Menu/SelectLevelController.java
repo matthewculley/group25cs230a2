@@ -33,7 +33,7 @@ public class SelectLevelController {
 	@FXML private Label highScore;
 	
 	private int level = 1;
-	private int numberOfLevels = 4;
+	private int numberOfLevels = 7;
 	
 	
 	
@@ -55,30 +55,39 @@ public class SelectLevelController {
 	}
 	
 	@FXML public void displayHighScore(){
-		highScore.setText("Highscore: " + Main.getProfile().getScoresForLevel(level)[0]);
+		try {
+			highScore.setText("Highscore: " + Main.getProfile().getScoresForLevel(level)[0]);
+		} catch (java.lang.IndexOutOfBoundsException e) {
+			highScore.setText("Highscore: ---");
+		}
+		
 	}
 	
 	@FXML private void play() {
-		System.out.println("play");
-		try {
-			int highest = Main.profile.getHighestCompletedLevel();
-			System.out.println("highest play(): " + highest);
-			if (highest == 0) {
-				Main.playGame("level1.csv", false);
-			} else {
-				Main.playGame("level" + (highest + 1) + ".csv", false);
-			}
-			
-		} catch (FileNotFoundException e) {
+		if (Main.profile.getHighestCompletedLevel() == numberOfLevels) {
+			errorMessage.setText("You have completed all levels, use free play to play them again!");
+		} else {
+			System.out.println("play");
 			try {
-				Main.playGame("level1.csv", false);		
-			} catch (IOException r) {
+				int highest = Main.profile.getHighestCompletedLevel();
+				System.out.println("highest play(): " + highest);
+				if (highest == 0) {
+					Main.playGame("level1.csv", false);
+				} else {
+					Main.playGame("level" + (highest + 1) + ".csv", false);
+				}
+				
+			} catch (FileNotFoundException e) {
+				try {
+					Main.playGame("level1.csv", false);		
+				} catch (IOException r) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	

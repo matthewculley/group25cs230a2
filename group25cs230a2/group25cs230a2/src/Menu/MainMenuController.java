@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class MainMenuController {
 	@FXML private BorderPane borderpane;
 	@FXML private Button play;
+	@FXML private Button Leaderboard;
 	@FXML private Button selectProfile;
 	@FXML private Button quit;
 	@FXML private ImageView imageView;
@@ -27,6 +28,11 @@ public class MainMenuController {
 		} catch (Exception e) {
 			motd.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
 		}
+	}
+	
+	@FXML 
+	private void leaderboard() {
+		Main.leaderboard();
 	}
 	
 	@FXML 
@@ -43,6 +49,7 @@ public class MainMenuController {
 	@FXML 
 	private void selectProfile(ActionEvent event) {
 		System.out.println("profile");
+		Main.selectProfileInGame();
 	}
 	
 
