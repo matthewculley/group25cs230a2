@@ -7,8 +7,8 @@ import game.*;
 /**
  * Enemy is a superclass containing other enemy types,
  * the superclass stores data common between them such as position and the map
- * @author Group25
- * @version 1.0
+ * @author ethan J
+ * @version 1.3
  */
 
 public abstract class Enemy {
@@ -22,7 +22,6 @@ public abstract class Enemy {
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 */
-	
 	public Enemy(int x, int y) {
 		setX(x);
 		setY(y);
@@ -32,7 +31,6 @@ public abstract class Enemy {
  	 * Get the sprite.
  	 * @return The sprite.
  	 */
-	
 	public Image getSprite() {
 		return sprite;
 	}
@@ -41,7 +39,6 @@ public abstract class Enemy {
  	 * Set the sprite.
  	 * @param sprite The sprite name.
  	 */
-	
 	protected void setSprite(String sprite) {
 		this.sprite = new Image(sprite);
 	}
@@ -49,14 +46,12 @@ public abstract class Enemy {
 	/**
  	 * Abstract method for getEnemyName, allows subclasses to override.
  	 */
-	
 	public abstract String getEnemyName();
 	
 	/**
 	 * Get the x coordinate.
 	 * @return The x coordinate.
 	 */
-	
 	public int getX() {
 		return x;
 	}
@@ -69,7 +64,6 @@ public abstract class Enemy {
 	 * Get the y coordinate.
 	 * @return The y coordinate.
 	 */
-	
 	public int getY() {
 		return y;
 	}
@@ -83,7 +77,6 @@ public abstract class Enemy {
  	 * @param x The x coordinate.
 	 * @param y The y coordinate.
  	 */
-	
 	public void setPosition(int x, int y) {
 		setX(x);
 		setY(y);
@@ -91,12 +84,11 @@ public abstract class Enemy {
 	
 	/**
  	 * Checks if the enemy is making a valid move.
- 	 * @param map The map
+ 	 * @param map The map.
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @return The result that determines the enemy is making a valid move.
  	 */
-	
 	public boolean checkValidMove(Map map, int x, int y) {
 		if(!map.isValidCoords(x, y)) {
 			return false;
@@ -114,7 +106,6 @@ public abstract class Enemy {
  	 * 
  	 * @param map The map
  	 */
-	
 	public void move(Map map) {
 
 	}
