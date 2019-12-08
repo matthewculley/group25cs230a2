@@ -2,7 +2,7 @@ package collectibles;
 
 /**
  * A subclass that defines FireBoots.
- * @author Evans, Ethan F
+ * @author Lloyd, Ethan F
  * @version 1.1
  */
 
