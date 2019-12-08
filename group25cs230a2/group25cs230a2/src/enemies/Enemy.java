@@ -7,8 +7,10 @@ import game.*;
 /**
  * Enemy is a superclass containing other enemy types,
  * the superclass stores data common between them such as position and the map
- * 
+ * @author Group25
+ * @version 1.0
  */
+
 public abstract class Enemy {
 
 	Image sprite;
@@ -16,28 +18,45 @@ public abstract class Enemy {
 	private int y;	
 	
 	/**
-	 * Enemy is a superclass containing other enemy types,
-	 * the superclass stores data common between them such as position
-	 * 
+	 * Constructs a enemy in the specified coordinate.
+	 * @param x The x coordinate.
+	 * @param y The y coordinate.
 	 */
+	
 	public Enemy(int x, int y) {
 		setX(x);
 		setY(y);
 	}
 	
+	/**
+ 	 * Get the sprite.
+ 	 * @return The sprite.
+ 	 */
+	
 	public Image getSprite() {
 		return sprite;
 	}
+	
+	/**
+ 	 * Set the sprite.
+ 	 * @param sprite The sprite name.
+ 	 */
 	
 	protected void setSprite(String sprite) {
 		this.sprite = new Image(sprite);
 	}
 
+	/**
+ 	 * Abstract method for getEnemyName, allows subclasses to override.
+ 	 */
+	
 	public abstract String getEnemyName();
 	
 	/**
-	 * @return the x
+	 * Get the x coordinate.
+	 * @return The x coordinate.
 	 */
+	
 	public int getX() {
 		return x;
 	}
@@ -47,8 +66,10 @@ public abstract class Enemy {
 	}
 
 	/**
-	 * @return the y
+	 * Get the y coordinate.
+	 * @return The y coordinate.
 	 */
+	
 	public int getY() {
 		return y;
 	}
@@ -57,13 +78,27 @@ public abstract class Enemy {
 		y = yPos;
 	}
 	
+	/**
+ 	 * Sets the positiion.
+ 	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+ 	 */
+	
 	public void setPosition(int x, int y) {
 		setX(x);
 		setY(y);
 	}
 	
+	/**
+ 	 * Checks if the enemy is making a valid move.
+ 	 * @param map The map
+	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+	 * @return The result that determines the enemy is making a valid move.
+ 	 */
+	
 	public boolean checkValidMove(Map map, int x, int y) {
-		if(!map.isValidCoords(x,y)) {
+		if(!map.isValidCoords(x, y)) {
 			return false;
 		}
 		Class<? extends Cell> cell = map.getAt(x, y).getClass();
@@ -75,7 +110,12 @@ public abstract class Enemy {
 		return false;
 	}
 
-	public void move(Map map) {;
+	/**
+ 	 * 
+ 	 * @param map The map
+ 	 */
+	
+	public void move(Map map) {
 
 	}
 	
