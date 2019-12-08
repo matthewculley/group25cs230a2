@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -18,6 +19,7 @@
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
+            <ImageView fx:id="avatarImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
             <HBox alignment="CENTER">
                <children>
                   <VBox alignment="CENTER">
@@ -27,7 +29,7 @@
                               <Font name="Showcard Gothic" size="24.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="profiles" prefWidth="150.0" promptText="Select a user:">
+                        <ComboBox fx:id="profiles" onAction="#updateAvatarImage" prefWidth="150.0" promptText="Select a user:">
                            <VBox.margin>
                               <Insets bottom="5.0" left="20.0" right="20.0" top="20.0" />
                            </VBox.margin>

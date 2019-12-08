@@ -19,10 +19,38 @@
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="avatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <ImageView fx:id="avatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="138.0">
+                     <children>
+                        <Button fx:id="avatarButton" mnemonicParsing="false" onAction="#changeAvatar" style="-fx-background-color: &quot;rgba(0,0,0,0)&quot;;;" text="Change Avatar" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Label fx:id="avatarText" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </children></HBox>
+            <Label fx:id="currentUserDisplay" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteCurrentUser" style="-fx-background-color: &quot;rgba(0,0,0,0)&quot;;;" text="Delete Current Profile" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="deleteMessage" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
             <HBox alignment="CENTER">
                <children>
-                  <VBox alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="138.0" prefWidth="190.0">
                      <children>
                         <Label text="Existing User" textFill="WHITE">
                            <font>
