@@ -65,7 +65,7 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Load the main menu scene
+	 * load the select profile scene
 	 */
 	public static void selectProfile() {		
 		//try to laod scene with from MainMenu.fxml
@@ -82,14 +82,51 @@ public class Main extends Application{
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Select a profile while the game is being played
+	 */
+	public static void selectProfileInGame() {
+		// TODO Auto-generated method stub
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(SelectLevelController.class.getResource("SelectProfileInGame.fxml"));
+			BorderPane root = (BorderPane) loader.load();
+			//create the scene
+			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+			//set scene and show the stage
+			stage.setScene(scene);
+			stage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	/**
+	 * Load the leaderboard scene
+	 */
+	public static void leaderboard() {		
+		//try to laod scene with from MainMenu.fxml
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(SelectLevelController.class.getResource("leaderboard.fxml"));
+			BorderPane root = (BorderPane) loader.load();
+			//create the scene
+			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+			//set scene and show the stage
+			stage.setScene(scene);
+			stage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Load the main menu scene
 	 */
 	public static void mainMenu() {		
 		//try to laod scene with from MainMenu.fxml
-		System.out.println(profile.toString());
+//		System.out.println(profile.toString());
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("MainMenu.fxml"));
@@ -146,6 +183,7 @@ public class Main extends Application{
 			Player player = new Player(profile, fileName);
 			//add the player to the map, and update the map to opend doors that the player can open
 			getMap().addPlayer(profile, player);
+			System.out.println("\n\n\n\n\n" + map.getPlayer().getInventory().toString());
 			getMap().getPlayer().getInventory().unlockDoors(map);
 		}
 //		System.out.println(getMap().toString());
@@ -173,7 +211,7 @@ public class Main extends Application{
 		    	} 
 		    	event.consume();
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
-		    		afterValidMove();
+		    		afterValidMove('r');
 		    	}
 	        	break;	
 		    case LEFT:
@@ -183,7 +221,7 @@ public class Main extends Application{
 		    	} 
 		    	event.consume();
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
-		    		afterValidMove();
+		    		afterValidMove('l');
 		    	}
 	        	break;		
 		    case UP:
@@ -193,7 +231,7 @@ public class Main extends Application{
 		    	} 
 		    	event.consume();
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
-		    		afterValidMove();
+		    		afterValidMove('u');
 		    	}
 	        	break;		
 		    case DOWN:
@@ -202,7 +240,7 @@ public class Main extends Application{
 		    		getMap().getPlayer().setY(y + 1);
 		    	} 
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
-		    		afterValidMove();
+		    		afterValidMove('d');
 		    	}
 	        	break;		
 	        default:
@@ -233,12 +271,13 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Deal with aftermath of a players move
+	 * Deal with the aftermath of a players move
+	 * @param direction, the direction the player just moved
 	 */
-	private static void afterValidMove() {
+	private static void afterValidMove(char direction) {
 		int x = getMap().getPlayer().getX();
 		int y = getMap().getPlayer().getY();
-		
+
 		//check player walk into enemy
 		//for each enemy, if the player and the enemy shair the same position
 		for (int k = 0; k < getMap().getEnemies().size(); k++) {
@@ -252,6 +291,14 @@ public class Main extends Application{
 			getMap().getEnemies().get(k).move(map);
 		}
 		
+//		expand gas
+		int gasSize = map.getGas().size();
+		System.out.println(gasSize);
+		for (int i = 0; i < gasSize; i++) {
+			map.getGas().get(i).infect(map);
+		}
+		
+		
 		//check if player collect anything
 		for (int k = 0; k < getMap().getCollectibles().size(); k++) {
 			if (getMap().getCollectibles().get(k).getX() == getMap().getPlayer().getX() & getMap().getCollectibles().get(k).getY() == getMap().getPlayer().getY() & getMap().getCollectibles().get(k).isCollected() == false) {
@@ -260,16 +307,33 @@ public class Main extends Application{
 			}
 		}
 		
-		//teleport player
-		//if player on a teleporter
+		//teleport player if player on a teleporter
 		if (getMap().getAt(x, y).getClass() == (new Teleporter()).getClass()) {
 			Teleporter tele = (Teleporter) getMap().getAt(x, y);
+			
 			//move the player to the teleporters partners coords
-			getMap().getPlayer().setX(tele.getPartner().getX());
-			getMap().getPlayer().setY(tele.getPartner().getY());
+			if (direction == 'u') {
+				getMap().getPlayer().setX(tele.getPartner().getX());
+				getMap().getPlayer().setY(tele.getPartner().getY() - 1);
+			}
+			
+			if (direction == 'd') {
+				getMap().getPlayer().setX(tele.getPartner().getX());
+				getMap().getPlayer().setY(tele.getPartner().getY() + 1);
+			}
+			
+			if (direction == 'l') {
+				getMap().getPlayer().setX(tele.getPartner().getX() - 1);
+				getMap().getPlayer().setY(tele.getPartner().getY());
+			}
+			
+			if (direction == 'r') {
+				getMap().getPlayer().setX(tele.getPartner().getX() + 1);
+				getMap().getPlayer().setY(tele.getPartner().getY());
+			}
+			
 		}
 		
-		//check if player in water or fire
 		//if player doesnt have flippers and is in water
 		if (getMap().getPlayer().getInventory().hasItem(new Flippers()) == false & getMap().getAt(x, y).getClass() == new Water().getClass()) {
 			drawGame();
@@ -281,6 +345,15 @@ public class Main extends Application{
 			die();				
 		}
 		
+		//if the player doesnt have gasj mask and in gas
+//		System.out.println("GAS SIZE: " + map.getGas().size());
+		for (int i = 0; i < map.getGas().size(); i++) {
+			if (map.getGas().get(i).getX() == x & map.getGas().get(i).getY() == y & getMap().getPlayer().getInventory().hasItem(new GasMask()) == false) {
+				drawGame();
+				die();				
+			}
+		}
+
 		//check enemy walk into player
 		for (int k = 0; k < getMap().getEnemies().size(); k++) {
 			if (getMap().getEnemies().get(k).getX() == getMap().getPlayer().getX() & getMap().getEnemies().get(k).getY() == getMap().getPlayer().getY()) {
@@ -347,14 +420,14 @@ public class Main extends Application{
 			newZeroY = 0;
 		}
 
-		
+		 
 		Cell currentCell;
 		for (int i = 0; i < iteratorX; i++) {
 			for (int j = 0; j < iteratorY; j++) {
 				//the coords of cells being drawn are the zero points, plus the current iteration away from them
 				int x = newZeroX + i;
 				int y = newZeroY + j;
-				
+//				System.out.println("(" + x + "," + y + ")");
 				//draw cells
 				if (getMap().isValidCoords(x,y)) {
 					currentCell = getMap().getAt(x, y);
@@ -376,9 +449,18 @@ public class Main extends Application{
 						gc.drawImage(getMap().getEnemies().get(k).getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 					}
 				}
+				
+				
 				//draw the player
 				if (getMap().getPlayer().getX() == x & getMap().getPlayer().getY() == y) {
 					gc.drawImage(getMap().getPlayer().getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
+				}
+				
+				//draw gas
+				for (int k = 0; k < getMap().getGas().size(); k++) {
+					if (getMap().getGas().get(k).getX() == x & getMap().getGas().get(k).getY() == y) {
+						gc.drawImage(getMap().getGas().get(k).getSprite(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+					}
 				}
 			}
 		}
@@ -495,11 +577,6 @@ public class Main extends Application{
 	
 	
 
-	public void deleteCurrentProfile(Profile profile) {
-		Menu.profiles.remove(currentProfile);
-		currentProfile = null;
-	}
-
 	/**
 	 * Launch the program
 	 * @param args arguments to run the programm with
@@ -560,5 +637,7 @@ public class Main extends Application{
 	public static ArrayList<Profile> getProfiles() {
 		return allProfiles;
 	}
+
+	
 	
 }

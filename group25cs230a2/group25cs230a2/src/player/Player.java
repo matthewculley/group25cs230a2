@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cells.Ground;
 import collectibles.*;
@@ -52,11 +54,23 @@ public class Player {
 				case "fireBoots":
 					inventory.addItem(new FireBoots(0, 0));
 					break;
+				case "key:red":
+					inventory.addItem(new Key("red"));
+					break;
+				case "key:blue":
+					inventory.addItem(new Key("blue"));
+					break;
+				case "key:green":
+					inventory.addItem(new Key("green"));
+					break;
+				case "key:yellow":
+					inventory.addItem(new Key("yellow"));
+					break;
 				default:
 					break;
 			}
 		}
-		System.out.println(inventory.toString());
+//		System.out.println(inventory.toString());
 		in.close();
 	}
 

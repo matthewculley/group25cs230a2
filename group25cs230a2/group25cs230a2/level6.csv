@@ -1,0 +1,16 @@
+15,15
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall
+wall,enemy:dumb,wall,ground,ground,ground,wall,enemy:smart,ground,ground,ground,ground,ground,ground,wall
+wall,ground,wall,ground,wall,ground,wall,key:red,wall,ground,wall,ground,ground,ground,wall
+wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,ground,ground,wall
+wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,ground,ground,wall
+wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,wall,wall
+wall,ground,wall,ground,wall,ground,wall,ground,ground,ground,wall,ground,wall,ground,wall
+wall,player ,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,door:red,goal,wall
+wall,ground,wall,ground,wall,ground,wall,ground,ground,ground,wall,ground,wall,ground,wall
+wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,wall,wall
+wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,ground,ground,wall
+wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,ground,ground,wall
+wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,wall,ground,ground,ground,wall
+wall,ground,token,ground,wall,ground,door:token:1,ground,ground,ground,ground,ground,ground,ground,wall
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall

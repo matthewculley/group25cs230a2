@@ -1,0 +1,16 @@
+15,15
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall
+wall,ground,ground,enemy:straight:d,ground,ground,ground,wall,ground,ground,ground,ground,ground,ground,wall
+wall,ground,ground,ground,ground,token,ground,wall,ground,ground,ground,wall,flippers,ground,wall
+wall,ground,ground,token,ground,ground,ground,wall,ground,wall,ground,wall,water,water,wall
+wall,ground,ground,ground,ground,ground,ground,wall,ground,enemy:wall:a:u,ground,wall,ground,fireBoots,wall
+wall,ground,ground,ground,ground,ground,ground,wall,ground,ground,ground,wall,fire,fire,wall
+wall,ground,ground,ground,ground,token,ground,wall,ground,wall,wall,wall,ground,ground,wall
+wall,player,ground,ground,ground,ground,ground,door:token:5,ground,wall,wall,wall,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,wall,wall,wall,wall,wall,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,wall,key:red,ground,teleporter:1,wall,ground,ground,wall
+wall,ground,ground,ground,ground,token,ground,wall,wall,wall,wall,wall,ground,ground,wall
+wall,ground,ground,token,ground,ground,ground,wall,goal,ground,ground,door:red,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,wall,ground,ground,ground,wall,wall,ground,wall
+wall,ground,ground,ground,ground,enemy:straight:u,ground,wall,ground,ground,ground,wall,teleporter:1,ground,wall
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import java.util.Arrays;
 
+import javafx.scene.image.Image;
+
 public class Profile {
 
 	String userID;
@@ -21,15 +23,14 @@ public class Profile {
 		this.avatar = avatar;
 		updateHighestCompletedLevel();
 	}
-/**
- * @param userID
- * @param password
- * Profile constructor with arguments only for userID and password,
- * sets default highestCompletedLevel as 0 and scores as an empty ArrayList.
- */
+	/**
+	 * @param userID
+	 * @param password
+	 * Profile constructor with arguments only for userID and password,
+	 * sets default highestCompletedLevel as 0 and scores as an empty ArrayList.
+	 */
 	public Profile (String userID, String password) {
-
-		this (userID, password, new ArrayList<int[]>(), "default.png");
+		this(userID, password, new ArrayList<int[]>(), "default.png");
 	}
 
 
@@ -141,6 +142,10 @@ public class Profile {
 
 	public int[] getScoresForLevel (int levelNumber) {
 		return this.levelScores.get(levelNumber - 1);
+	}
+	
+	public int getHighScoreForLevel(int levelNumber) {
+		return getScoresForLevel(levelNumber)[0];
 	}
 	
 

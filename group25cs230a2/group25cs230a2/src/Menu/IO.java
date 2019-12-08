@@ -40,6 +40,14 @@ public class IO {
 			for (int x = 0; x < map.getWidth(); x++) {
 				String addToArray = map.getAt(x, y).getCellName();
 
+				//add gas
+				for (int i = 0; i < map.getGas().size(); i++) {
+					if (map.getGas().get(i).getX() == x & map.getGas().get(i).getY() == y) {
+						addToArray = "gas";
+					} 
+				}
+				
+				
 				//also add any collectibles 
 				for (int i = 0; i < map.getCollectibles().size(); i++) {
 					if (map.getCollectibles().get(i).getX() == x & map.getCollectibles().get(i).getY() == y & map.getCollectibles().get(i).isCollected() == false) {
@@ -55,7 +63,6 @@ public class IO {
 						}
 					}
 				}
-				
 				//add the goal
 				if (map.getAt(x, y).getClass() == new Goal().getClass()) {
 					addToArray = "goal";
@@ -68,7 +75,7 @@ public class IO {
 				returnArrayList.add(addToArray);
 			}
 		}	
-		//create filewriterobject to write to he level file
+		//create filewriter object to write to he level file
 		FileWriter fwLevel = new FileWriter(fileName + "level.csv");
 		//add the sizes of the map to the file
 		fwLevel.append(Integer.toString(map.getWidth()));
@@ -90,8 +97,11 @@ public class IO {
 				count++;
 			}
 		}
+		
+		
 		//add the time taken data to the file
-		fwLevel.append(Long.toString(map.getTimeTaken()));
+		System.out.println("///////////////////////////score: " + Math.abs(map.getTimeTaken()));
+		fwLevel.append(Long.toString(Math.abs(map.getTimeTaken())));
 		fwLevel.append("\r");
 		//add the parent level name, so the continued map can be restarted properly
 		fwLevel.append(map.getParentLevelName());
@@ -116,7 +126,7 @@ public class IO {
 		fwPlayer.close();
 		System.out.println(returnArrayList.toString());
 		
-	}
+	} 
 	
 	public static ArrayList<Profile> getSavedProfiles() {
 		try {
@@ -148,7 +158,10 @@ public class IO {
 				levelScores.add(temp);
 			}
 			profileList.add(IO.makeProfileObj(id, pass, levelScores, avatar));
+			lineIn.close();
 		}
+		
+		
 		return profileList;
 	}
 	

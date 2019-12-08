@@ -49,7 +49,7 @@ public class Inventory {
 	}
 	
 	public void unlockDoors(Map map) {
-		for (int i = 0; i < map.getMap().length - 1; i++) {
+		for (int i = 0; i < map.getMap().length - 2; i++) {
 			int x = map.indexToCoords(i)[0];
 			int y = map.indexToCoords(i)[1];
 			if (map.getAt(x,y).getClass() == (new TokenDoor().getClass())) {

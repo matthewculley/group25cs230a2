@@ -1,0 +1,16 @@
+15,15
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall
+wall,ground,ground,ground,ground,token,ground,ground,token,ground,wall,water,water,water,wall
+wall,ground,enemy:wall:c:d,ground,ground,enemy:wall:a:d,ground,ground,enemy:wall:c:d,ground,wall,water,ground,ground,wall
+wall,ground,wall,ground,ground,wall,ground,ground,wall,ground,wall,water,goal,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,wall,water,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,wall,water,ground,ground,wall
+wall,ground,ground,ground,ground,enemy:wall:c:d,ground,ground,enemy:wall:a:d,ground,wall,wall,wall,ground,wall
+wall,ground,player,ground,ground,wall,ground,ground,wall,ground,door:token:4,ground,wall,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,wall,ground,wall,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,wall,teleporter:1,wall,ground,wall
+wall,ground,enemy:wall:a:d,ground,ground,enemy:wall:a:d,ground,ground,enemy:wall:a:d,ground,wall,wall,wall,ground,wall
+wall,ground,wall,ground,ground,wall,ground,ground,wall,ground,wall,teleporter:1,wall,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,wall,ground,ground,ground,wall
+wall,ground,ground,ground,ground,token,ground,ground,token,ground,wall,ground,ground,ground,wall
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall

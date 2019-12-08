@@ -2,8 +2,13 @@ package collectibles;
 
 public class GasMask extends Collectible {
 
-	public GasMask(int mapPosY, int mapPosX) {
-		super(mapPosY, mapPosX);
+	public GasMask(int x, int y) {
+		super(x, y, "gasMask.png");
+	}
+
+	public GasMask() {
+		super("gasMask.png");
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

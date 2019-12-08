@@ -29,8 +29,9 @@ public class Key extends Collectible {
 
 	public Key(String colour) {
 		super(colour + "key.png");
-		
+		this.colour = colour;
 	}
+
 
 	@Override
 	public String getCollectibleName() {

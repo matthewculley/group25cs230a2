@@ -1,0 +1,16 @@
+15,15
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall
+wall,teleporter:1,wall,ground,ground,ground,ground,ground,ground,enemy:smart,ground,wall,ground,token,wall
+wall,ground,wall,ground,ground,ground,ground,ground,ground,ground,ground,wall,player,key:blue,wall
+wall,fireBoots,wall,ground,ground,ground,ground,ground,ground,ground,ground,wall,door:blue,wall,wall
+wall,wall,wall,ground,ground,ground,ground,ground,ground,ground,ground,fire,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,ground,fire,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,ground,fire,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,ground,fire,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,token,ground,fire,ground,ground,wall
+wall,ground,ground,ground,ground,ground,ground,ground,ground,ground,flippers,fire,ground,ground,wall
+wall,door:token:3,wall,water,water,water,water,water,water,water,water,water,teleporter:1,wall,wall
+wall,ground,wall,ground,ground,ground,ground,ground,ground,ground,ground,water,wall,wall,wall
+wall,ground,wall,ground,ground,ground,ground,ground,token,ground,ground,water,wall,wall,wall
+wall,goal,wall,ground,ground,ground,ground,ground,ground,ground,ground,water,wall,wall,wall
+wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall

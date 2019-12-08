@@ -88,14 +88,16 @@
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" />
-                  <Label fx:id="errorMessage" textFill="WHITE">
-                     <font>
-                        <Font name="Showcard Gothic" size="14.0" />
-                     </font>
-                  </Label>
                </children>
             </VBox>
          </children>
       </HBox>
    </center>
+   <bottom>
+      <Label fx:id="errorMessage" textFill="WHITE" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Showcard Gothic" size="18.0" />
+         </font>
+      </Label>
+   </bottom>
 </BorderPane>

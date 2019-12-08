@@ -8,9 +8,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import player.Profile;
 
-public class SelectProfileController {
+public class SelectProfileInGameController {
 	@FXML ComboBox profiles;
 	@FXML Button submitExistingUser;
 	@FXML PasswordField passwordExistingUser;
@@ -18,6 +19,7 @@ public class SelectProfileController {
 	@FXML PasswordField passwordNewUser;
 	@FXML Button submitNewUser;
 	@FXML Label errorMessage;
+	@FXML ImageView avatar;
 	private ArrayList<Profile> allProfiles = new ArrayList<Profile>();
 	
 
@@ -28,6 +30,9 @@ public class SelectProfileController {
 		}
 	}
 	
+	@FXML private void back() {
+		Main.mainMenu();
+	}
 	
 	@FXML private void submitExistingUser() {
 		for (Profile ele : allProfiles) {
@@ -38,14 +43,12 @@ public class SelectProfileController {
 				Main.setAllProfiles(allProfiles);
 				IO.saveProfiles(allProfiles);
 				Main.mainMenu();
-			} else {
-				errorMessage.setText("Invalid username or password");
 			}
 		}
 	}
 	
 	@FXML private void submitNewUser() {
-		String userId = userNameNewUser.getText(); 
+		String userId = userNameNewUser.getText();
 		String pass = passwordNewUser.getText(); 
 		//if valid pass and username
 		if (isUniqueUserId(userId) & isValidPass(pass) & isValidString(userId)) {
@@ -62,8 +65,6 @@ public class SelectProfileController {
 			Main.setProfile(newProfile);
 
 			Main.mainMenu();
-		} else {
-			errorMessage.setText("Invalid username or password");
 		}
 	}
 	
