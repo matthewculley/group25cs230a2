@@ -3,7 +3,7 @@ package cells;
 /**
  * A class that defines TokenDoor.
  * @author Group25
- * @version 1.2
+ * @version 1.3
  */
 
 public class TokenDoor extends Cell {
@@ -44,7 +44,6 @@ public class TokenDoor extends Cell {
 	
 	@Override
 	public String getCellName() {
-		
 		return "door:token:" + getNeededTokens();
 	}
 }
