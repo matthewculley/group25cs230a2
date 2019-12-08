@@ -4,10 +4,22 @@ import cells.*;
 import game.*;
 import javafx.scene.Scene;
 
+/**
+ * A subclass that defines enemy that only goes striaght.
+ * @author Ethan J
+ * @version 1.3
+ */
 
 public class EnemyStraight extends Enemy {
+	
 	private char direction;
 
+	/**
+ 	 * Constructs striaght enemy.
+ 	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+	 * @param direction Which direction the enemy is going.
+ 	 */
 	public EnemyStraight(int x, int y, char direction) { 
 		super(x, y);
 		switch(direction) {
@@ -20,21 +32,18 @@ public class EnemyStraight extends Enemy {
 		setDirection(direction);
 	}
 	
-
-	/**
-	 * @return the direction
-	 */
 	private char getDirection() {
 		return direction;
 	}
 
-	/**
-	 * @param direction the direction to set
-	 */
 	private void setDirection(char direction) {
 		this.direction = direction;
 	}
 
+	/**
+ 	 * Overrides the method move.
+ 	 * @param map The map.
+ 	 */
 	@Override
 	public void move(Map map) {
 		switch (direction) {
@@ -84,12 +93,6 @@ public class EnemyStraight extends Enemy {
 				return;
 		}
 	}
-				
-		
-		
-//
-		
-		
 		
 //		Cell toUp = map.getAt(super.getX(),super.getY()-1) ;
 //		Cell toDown = map.getAt(super.getX(),super.getY()+1);
@@ -127,12 +130,18 @@ public class EnemyStraight extends Enemy {
 //				}
 //		}
 	
-	
+	/**
+ 	 * Prints the coordinate of straight line enemy.
+ 	 * @return Straight line enemy and the coordinate.
+ 	 */
 	public String toString() {
 		return "Straight Line Enemy (" + this.getX() + "," + this.getY() + ")";
 	}
 
-
+	/**
+ 	 * Prints the direction of the straight line enemy.
+ 	 * @return Straight enemy and the direction.
+ 	 */
 	@Override
 	public String getEnemyName() {
 		return "enemy:straight:" + getDirection();
