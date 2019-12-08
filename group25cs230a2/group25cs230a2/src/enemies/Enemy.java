@@ -8,7 +8,7 @@ import game.*;
  * Enemy is a superclass containing other enemy types,
  * the superclass stores data common between them such as position and the map
  * @author ethan J
- * @version 1.3
+ * @version 1.4
  */
 
 public abstract class Enemy {
