@@ -4,7 +4,7 @@ import game.Map;
 /**
  * This class defines path finding mechanic for enemy.
  * @author Ethan J
- * version 1.3
+ * version 1.31
  */
 
 public class CoordinateCost {
