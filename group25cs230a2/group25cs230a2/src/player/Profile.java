@@ -116,7 +116,8 @@ public class Profile {
 
 
   /**
-   * */
+   * Method to add a new score for a given level to levelScores.
+   */
   private void addScore(int completedLevel, int newScore) {
 
 
