@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 
 /**
  * A class that defines collectible.
- * @author Evans
+ * @author Evans, Ethan F
  * @version 1.4
  */
 
