@@ -10,6 +10,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import player.Profile;
 
+/**
+ * A class that constructs the leaderboard.
+ * @author Matt
+ * @version 1.5
+ */
+
 public class LeaderboardController {
 	@FXML private BorderPane bp;
 	@FXML private Button nextLevel;
@@ -25,6 +31,9 @@ public class LeaderboardController {
 	private int currentLevel = 1;
 	private int numberOfLevels = 8;
 	
+	/**
+ 	 * Shows top 3 result on the leaderboard.
+	 */
 	@FXML
 	public void initialize() {
 		ArrayList<Profile> podium = getHighScores(IO.getSavedProfiles());
@@ -109,23 +118,24 @@ public class LeaderboardController {
 		return podium;
 	}
 	
-	@FXML private void nextLevel() {
+	@FXML
+	private void nextLevel() {
 		if (currentLevel < numberOfLevels) {
 			currentLevel++;
 			initialize();
 		}
 	}
 	
-	@FXML private void previousLevel() {
+	@FXML
+	private void previousLevel() {
 		if (currentLevel > 1) {
 			currentLevel--;
 			initialize();
 		}
 	}
 	
-	@FXML private void back() {
+	@FXML
+	private void back() {
 		Main.mainMenu();
-	}
-	
+	}	
 }
-
