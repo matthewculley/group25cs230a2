@@ -145,7 +145,7 @@ public class Profile {
     this.highestCompletedLevel = levelScores.size();
   }
 
-  private String getPassword() {
+  public String getPassword() {
     return password;
   }
 
