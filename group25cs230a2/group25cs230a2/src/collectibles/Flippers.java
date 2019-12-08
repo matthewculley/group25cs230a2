@@ -2,7 +2,7 @@ package collectibles;
 
 /**
  * A subclass that defines Flippers.
- * @author Evans
+ * @author Evans, Ethan F
  * @version 1.1
  */
 
