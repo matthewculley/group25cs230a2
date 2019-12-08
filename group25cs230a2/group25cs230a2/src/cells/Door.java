@@ -2,8 +2,8 @@ package cells;
 
 /**
  * A class that holds all the basic features of doors.
- * @author Group25
- * @version 1.3
+ * @author alan
+ * @version 1.4
  */
 
 public class Door extends Cell {
@@ -13,7 +13,6 @@ public class Door extends Cell {
 	/**
  	 * Always false.
  	 */
-	
 	public Door() {
 		super(false);
 	}
@@ -23,7 +22,6 @@ public class Door extends Cell {
  	 * @param passable Decides if the door is passable.
 	 * @param colour The colour of the door.
  	 */
-	
 	public Door(boolean passable, String colour) {
 		super(passable);
 		switch (colour) {
@@ -52,7 +50,6 @@ public class Door extends Cell {
  	 * Prints the colour of the door.
  	 * @return The colour of the door and is it passable.
  	 */
-	
 	public String toString() {
 		return "door:" + getColour() + "Open: " + isPassable();
 	}
@@ -61,7 +58,6 @@ public class Door extends Cell {
  	 * Get the colour.
  	 * @return The colour
  	 */
-	
 	public String getColour() {
 		return colour;
 	}
@@ -70,7 +66,6 @@ public class Door extends Cell {
  	 * Overrides the method getCellName.
  	 * @return The door colour.
  	 */
-	
 	@Override
 	public String getCellName() {
 		return "door:" + getColour();
