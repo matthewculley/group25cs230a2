@@ -11,6 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import player.Profile;
 
+/**
+ * Gives the player an option to select profiles in game.
+ * @author Matt
+ * @version 1.5
+ */
+
 public class SelectProfileInGameController {
 	@FXML ComboBox profiles;
 	@FXML Button submitExistingUser;
@@ -22,19 +28,24 @@ public class SelectProfileInGameController {
 	@FXML ImageView avatar;
 	private ArrayList<Profile> allProfiles = new ArrayList<Profile>();
 	
-
-	@FXML public void initialize() {		
+	/**
+ 	 * Shows all the profile.
+ 	 */
+	@FXML
+	public void initialize() {		
 		allProfiles = IO.getSavedProfiles();
 		for (Profile ele : allProfiles) {
 			profiles.getItems().add(ele.getUserID());
 		}
 	}
 	
-	@FXML private void back() {
+	@FXML
+	private void back() {
 		Main.mainMenu();
 	}
 	
-	@FXML private void submitExistingUser() {
+	@FXML
+	private void submitExistingUser() {
 		for (Profile ele : allProfiles) {
 			String userId = (String) profiles.getValue();
 			String pass = passwordExistingUser.getText();
@@ -49,7 +60,8 @@ public class SelectProfileInGameController {
 		}
 	}
 	
-	@FXML private void submitNewUser() {
+	@FXML
+	private void submitNewUser() {
 		String userId = userNameNewUser.getText();
 		String pass = passwordNewUser.getText(); 
 		//if valid pass and username
@@ -72,20 +84,28 @@ public class SelectProfileInGameController {
 		}
 	}
 	
-	
+	/**
+ 	 * Checks if the input is a string.
+ 	 * @param input User input
+	 * @return True if yes, false otherwise.
+ 	 */
 	public boolean isValidString(String input) {
 		if(input.equals("")) {
 			System.out.println("Input is empty!");
 			return false;
-		}else if(containsWhitespace(input)) {
+		} else if(containsWhitespace(input)) {
 			System.out.println("Input can't contain any spaces");
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
 
-	
+	/**
+ 	 * Checks if the string only cotains letters.
+ 	 * @param pass The string needs to be checked.
+	 * @return True if yes, false otherwise.
+ 	 */
 	public boolean isValidPass(String pass) {
 		if((pass.length() < 6) || containsOnlyLetters(pass) || !isValidString(pass)) {
 			return false; 
@@ -93,7 +113,6 @@ public class SelectProfileInGameController {
 			return true;
 		}
 	}
-	
 	
 	private boolean containsOnlyLetters(String str) {
 		char[] chars = str.toCharArray();
@@ -105,8 +124,6 @@ public class SelectProfileInGameController {
 		}
 		return true;
 	}
-		
-	
 	
 	private boolean containsWhitespace(String str) {
 		char[] chars = str.toCharArray();
@@ -119,7 +136,6 @@ public class SelectProfileInGameController {
 		return false;
 	}
 	
-	
 	private boolean isUniqueUserId (String userID) {
 		for (Profile profile : allProfiles) {
 			if (profile.getUserID() == userID) {
@@ -128,12 +144,14 @@ public class SelectProfileInGameController {
 		}
 		return true;
 	}
-		
 	
-	
+	/**
+ 	 * Creates a new profile.
+ 	 * @param userID User name.
+	 * @param password Password.
+	 * @return The new profile.
+ 	 */
 	public Profile createProfile(String userID, String password) {
 		return new Profile(userID, password);
 	}
-		
-
 }
