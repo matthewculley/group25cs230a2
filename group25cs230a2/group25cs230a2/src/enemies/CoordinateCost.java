@@ -2,9 +2,9 @@ package enemies;
 import game.Map;
 
 /**
- * This class defines the coordinate of the enemy.
- * @author Group25
- * version 1.0
+ * This class defines path finding mechanic for enemy.
+ * @author Ethan J
+ * version 1.3
  */
 
 public class CoordinateCost {
@@ -20,17 +20,16 @@ public class CoordinateCost {
 	protected CoordinateCost parent;
 	
 	/**
- 	 * 
+ 	 * Constructer method that gets the player coordinate, distance travelled and so on.
  	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @param distanceTravelled Distance travelled of the enemy.
-	 * @param parent 
+	 * @param parent A cell that has been explored, use to track player.
 	 * @param playerX The x coordinate of the player.
 	 * @param playerY The y coordinate of the player.
 	 * @param map The map.
  	 */
-	
-	public CoordinateCost(int x,int y,int distanceTravelled,CoordinateCost parent,int playerX, int playerY,Map map) {
+	public CoordinateCost(int x,int y,int distanceTravelled,CoordinateCost parent,int playerX, int playerY, Map map) {
 		this.x = x;
 		this.y = y;
 		this.map = map;
@@ -44,11 +43,10 @@ public class CoordinateCost {
 	
 	/**
  	 * Checks the player is in a certain coordinate.
- 	 * @return The result whether the coordinate have player or not.
+ 	 * @return True if yes, false otherwise.
  	 */
-	
 	public boolean isPlayer() {
-		if(x==playerX && y==playerY) {
+		if(x == playerX && y == playerY) {
 			return true;
 		}
 		return false;
