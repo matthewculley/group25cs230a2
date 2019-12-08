@@ -15,7 +15,7 @@ public class EnemyStraight extends Enemy {
 	private char direction;
 
 	/**
- 	 * Constructs striaght enemy.
+ 	 * Constructs straight enemy.
  	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @param direction Which direction the enemy is going.
@@ -93,42 +93,6 @@ public class EnemyStraight extends Enemy {
 				return;
 		}
 	}
-		
-//		Cell toUp = map.getAt(super.getX(),super.getY()-1) ;
-//		Cell toDown = map.getAt(super.getX(),super.getY()+1);
-//		Cell toLeft = map.getAt(super.getX()-1,super.getY()) ;
-//		Cell toRight = map.getAt(super.getX()+1,super.getY());
-//		
-//		switch (direction) {
-//			case 'u' :
-//				if (super.canTraverse(toUp) {
-//					super.move(direction);
-//				}else if(super.canTraverse(toDown){
-//					setDirection('d')
-//					super.move('d'); 
-//				}
-//			case 'd' :
-//				if (super.canTraverse(toDown) {
-//					super.move(direction);
-//				}else if(super.canTraverse(toUp){
-//					setDirection('u');
-//					super.move('u'); 
-//				}
-//			case 'l' :
-//				if (super.canTraverse(toLeft) {
-//					super.move(direction);
-//				}else if(super.canTraverse(toRight){
-//					setDirection('r');
-//					super.move('r'); 
-//				}
-//			case 'r' :
-//				if (super.canTraverse(toRight) {
-//					super.move(direction);
-//				}else if(super.canTraverse(toLeft){
-//					setDirection('l');
-//					super.move('l'); 
-//				}
-//		}
 	
 	/**
  	 * Prints the coordinate of straight line enemy.
