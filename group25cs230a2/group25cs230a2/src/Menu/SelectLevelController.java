@@ -19,6 +19,12 @@ import player.Player;
 import player.Profile;
 import java.io.FileNotFoundException;
 
+/**
+ * A class that switchs levels.
+ * @author Matt
+ * @version 1.5
+ */
+
 public class SelectLevelController {
 
 	@FXML private Button playHighestLevel;
@@ -35,12 +41,13 @@ public class SelectLevelController {
 	private int level = 1;
 	private int numberOfLevels = 8;
 	
-	
-	
+	/**
+ 	 * The correspond level image appears.
+ 	 */
 	@FXML
 	public void initialize() {
 		levelNumber.setText("Level " + level);
-//		int highest = Main.profile.getHighestCompletedLevel();
+		//int highest = Main.profile.getHighestCompletedLevel();
 		try {
 			 imageView.setImage(new Image("level" + (level) + ".png"));
 		} catch (IllegalArgumentException e) {
@@ -54,7 +61,11 @@ public class SelectLevelController {
 		Main.mainMenu();
 	}
 	
-	@FXML public void displayHighScore(){
+	/**
+ 	 * Displays high score.
+ 	 */
+	@FXML
+	public void displayHighScore(){
 		try {
 			highScore.setText("Highscore: " + Main.getProfile().getScoresForLevel(level)[0]);
 		} catch (java.lang.IndexOutOfBoundsException e) {
@@ -63,7 +74,8 @@ public class SelectLevelController {
 		
 	}
 	
-	@FXML private void play() {
+	@FXML
+	private void play() {
 		if (Main.profile.getHighestCompletedLevel() == numberOfLevels) {
 			errorMessage.setText("You have completed all levels, use free play to play them again!");
 		} else {
@@ -91,21 +103,24 @@ public class SelectLevelController {
 		}
 	}
 	
-	@FXML private void nextLevel() {
+	@FXML
+	private void nextLevel() {
 		if (level < numberOfLevels) {
 			level++;
 			initialize();
 		}
 	}
 	
-	@FXML private void previousLevel() {
+	@FXML
+	private void previousLevel() {
 		if (level > 1) {
 			level--;
 			initialize();
 		}
 	}
 	
-	@FXML private void playLevel(){
+	@FXML
+	private void playLevel(){
 		System.out.println("highest: " + Main.profile.getHighestCompletedLevel());
 		System.out.println("attempted: " + level);
 		if (level > Main.profile.getHighestCompletedLevel() || level < 1) {
@@ -120,7 +135,8 @@ public class SelectLevelController {
 		}
 	}
 	
-	@FXML private void continueLevel() {
+	@FXML
+	private void continueLevel() {
 		System.out.println("continue");
 		Profile profile = Main.getProfile();
 		try {
@@ -133,7 +149,8 @@ public class SelectLevelController {
 		}
 	}
 	
-	@FXML private void playSelectedLevel() {
+	@FXML
+	private void playSelectedLevel() {
 		
 	}
 
