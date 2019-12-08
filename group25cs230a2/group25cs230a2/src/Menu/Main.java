@@ -28,6 +28,12 @@ import javafx.stage.Stage;
 import player.Player;
 import player.Profile;
 
+/**
+ * A class that starts the game.
+ * @author Matt
+ * @version 1.5
+ */
+
 public class Main extends Application{
 
 	//Height and width of the game window
@@ -57,16 +63,19 @@ public class Main extends Application{
 
 
 	/**
-	 * Start the game
+	 * Start the game.
+	 * @param primaryStage 
 	 */
+	
 	public void start(Stage primaryStage) {
 		stage = primaryStage;		
 		selectProfile();
 	}
 	
 	/**
-	 * load the select profile scene
+	 * Load the select profile scene.
 	 */
+	
 	public static void selectProfile() {		
 		//try to laod scene with from MainMenu.fxml
 		try {
@@ -84,10 +93,11 @@ public class Main extends Application{
 	}
 
 	/**
-	 * Select a profile while the game is being played
+	 * Select a profile while the game is being played.
 	 */
+	
 	public static void selectProfileInGame() {
-		// TODO Auto-generated method stub
+		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("SelectProfileInGame.fxml"));
@@ -97,14 +107,16 @@ public class Main extends Application{
 			//set scene and show the stage
 			stage.setScene(scene);
 			stage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Load the leaderboard scene
+	 * Load the leaderboard scene.
 	 */
+	
 	public static void leaderboard() {		
 		//try to laod scene with from MainMenu.fxml
 		try {
@@ -122,11 +134,12 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Load the main menu scene
+	 * Load the main menu scene.
 	 */
+	
 	public static void mainMenu() {		
 		//try to laod scene with from MainMenu.fxml
-//		System.out.println(profile.toString());
+		//System.out.println(profile.toString());
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("MainMenu.fxml"));
@@ -136,15 +149,18 @@ public class Main extends Application{
 			//set scene and show the stage
 			stage.setScene(scene);
 			stage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Load the select level scene
+	 * Load the select level scene.
 	 */
+	
 	public static void selectLevel() {
+		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("SelectLevel.fxml"));
@@ -152,17 +168,19 @@ public class Main extends Application{
 			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);			
 			stage.setScene(scene);
 			stage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Load the play game scene and allow the game to be played
-	 * @param fileName The name of the map file
-	 * @param continueGame Wether or not the game is being played from a saved file
-	 * @throws IOException in case of error with the map name
+	 * Load the play game scene and allow the game to be played.
+	 * @param fileName The name of the map file.
+	 * @param continueGame Wether or not the game is being played from a saved file.
+	 * @throws IOException In case of error with the map name.
 	 */
+	
 	public static void playGame(String fileName, boolean continueGame) throws IOException  {
 		//load and display play game scene
 		FXMLLoader loader = new FXMLLoader();
@@ -186,7 +204,7 @@ public class Main extends Application{
 			System.out.println("\n\n\n\n\n" + map.getPlayer().getInventory().toString());
 			getMap().getPlayer().getInventory().unlockDoors(map);
 		}
-//		System.out.println(getMap().toString());
+		//System.out.println(getMap().toString());
 		//draw the game
 		drawGame();
 		
@@ -200,6 +218,7 @@ public class Main extends Application{
 	 * Process a key event due to a key being pressed, e.g., to the player.
 	 * @param event The key event that was pressed.
 	 */
+	
 	private static void processKeyEvent(KeyEvent event) {
 		int x = getMap().getPlayer().getX();
 		int y = getMap().getPlayer().getY();
@@ -251,11 +270,12 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Chech if the move the player wants to make is valid
-	 * @param x The x coordinate of the players next move
-	 * @param y The y coordinate of the players next move
-	 * @return boolean, true if a valid move, false otherwise
+	 * Chech if the move the player wants to make is valid.
+	 * @param x The x coordinate of the players next move.
+	 * @param y The y coordinate of the players next move.
+	 * @return True if a valid move, false otherwise.
 	 */
+	
 	private static boolean checkValidMove(int x, int y) {
 		boolean returnValue = false;
 		//if out of bounds
@@ -271,9 +291,10 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Deal with the aftermath of a players move
-	 * @param direction, the direction the player just moved
+	 * Deal with the aftermath of a players move.
+	 * @param direction, the direction the player just moved.
 	 */
+	
 	private static void afterValidMove(char direction) {
 		int x = getMap().getPlayer().getX();
 		int y = getMap().getPlayer().getY();
@@ -284,20 +305,20 @@ public class Main extends Application{
 			if (getMap().getEnemies().get(k).getX() == getMap().getPlayer().getX() & getMap().getEnemies().get(k).getY() == getMap().getPlayer().getY()) {
 				die();
 			}
-		}			
+		}
+		
 		//move enemies
 		//for every enemy move it
 		for (int k = 0; k < getMap().getEnemies().size(); k++) {
 			getMap().getEnemies().get(k).move(map);
 		}
 		
-//		expand gas
+		//expand gas
 		int gasSize = map.getGas().size();
 		System.out.println(gasSize);
 		for (int i = 0; i < gasSize; i++) {
 			map.getGas().get(i).infect(map);
 		}
-		
 		
 		//check if player collect anything
 		for (int k = 0; k < getMap().getCollectibles().size(); k++) {
@@ -346,7 +367,7 @@ public class Main extends Application{
 		}
 		
 		//if the player doesnt have gasj mask and in gas
-//		System.out.println("GAS SIZE: " + map.getGas().size());
+		//System.out.println("GAS SIZE: " + map.getGas().size());
 		for (int i = 0; i < map.getGas().size(); i++) {
 			if (map.getGas().get(i).getX() == x & map.getGas().get(i).getY() == y & getMap().getPlayer().getInventory().hasItem(new GasMask()) == false) {
 				drawGame();
@@ -372,8 +393,9 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Draw the game in its current status
+	 * Draw the game in its current status.
 	 */
+	
 	public static void drawGame() {
 		int offset = 7;	//distance from player to each side of the screen
 		int iteratorX = 15; //amount of rows to be drawn
@@ -396,14 +418,14 @@ public class Main extends Application{
 		 * edge, and the drawing is centered on the player again
 		 */
 		
-		//update iterators for small levels
+		//Update iterators for small levels
 		if (getMap().getWidth() < iteratorX) {
 			iteratorX = getMap().getWidth();
 		}
 		if (getMap().getHeight() < iteratorY) {
 			iteratorY = getMap().getHeight();
 		}
-		//ensure new zero coordiantes cannot be invalid
+		//Ensure new zero coordiantes cannot be invalid
 		while (newZeroX + iteratorX > getMap().getWidth()) {
 			newZeroX--;
 		}
@@ -424,16 +446,16 @@ public class Main extends Application{
 		Cell currentCell;
 		for (int i = 0; i < iteratorX; i++) {
 			for (int j = 0; j < iteratorY; j++) {
-				//the coords of cells being drawn are the zero points, plus the current iteration away from them
+				//The coords of cells being drawn are the zero points, plus the current iteration away from them
 				int x = newZeroX + i;
 				int y = newZeroY + j;
-//				System.out.println("(" + x + "," + y + ")");
-				//draw cells
+				//System.out.println("(" + x + "," + y + ")");
+				//Draw cells
 				if (getMap().isValidCoords(x,y)) {
 					currentCell = getMap().getAt(x, y);
 					gc.drawImage(currentCell.getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 				}
-				//draw collectibles
+				//Draw collectibles
 				for (int k = 0; k < getMap().getCollectibles().size(); k++) {
 					if (getMap().getCollectibles().get(k).getX() == x & getMap().getCollectibles().get(k).getY() == y & getMap().getCollectibles().get(k).isCollected() == false) {
 						gc.drawImage(getMap().getCollectibles().get(k).getSprite(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
@@ -467,8 +489,9 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Deal with player victory, update score in profile, return to level select screen
+	 * Deal with player victory, update score in profile, return to level select screen.
 	 */
+	
 	public static void win() {
 		int score = getMap().calculateScore();
 		System.out.println("Score: " + score);
@@ -482,8 +505,9 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * deal with player death, restart the level
+	 * deal with player death, restart the level.
 	 */
+	
 	public static void die() {
 		try {
 			playGame(getMap().getParentLevelName(), false);
@@ -493,17 +517,19 @@ public class Main extends Application{
 	}
 	
 	/**
-	 * Set the map of the level
-	 * @param newMap the map to be played
+	 * Set the map of the level.
+	 * @param newMap The map to be played.
 	 */
+	
 	private static void setMap(Map newMap) {
 		map = newMap;
 	}
 
 	/**
-	 * check if the player is in a position where the game can be saved from
-	 * @return
+	 * check if the player is in a position where the game can be saved from.
+	 * @return True if player is on ground tile, false otherwise.
 	 */
+	
 	public static boolean canSave() {
 		//if player on ground cell
 		if (getMap().getAt(getMap().getPlayer().getX(), getMap().getPlayer().getY()).getClass() 
@@ -516,20 +542,23 @@ public class Main extends Application{
 	}
 
 	/**
-	 * Return the name of the map file being played
-	 * @return
+	 * Return the name of the map file being played.
+	 * @return Parent level name.
 	 */
+	
 	public static String getMapFileName() {
 		//return parent name, so that the game can be restarted
 		return getMap().getParentLevelName();
 	}
 	
 	/**
-	 * Gets the message of the day form the web server
-	 * @return String, the message of the day
-	 * @throws Exception if error connecting to the web server
+	 * Gets the message of the day form the web server.
+	 * @return The message of the day.
+	 * @throws Exception if error connecting to the web server.
 	 */
+	
 	public static String getMotd() throws Exception {
+		
 		//set up commcetion mdetails
 		URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -537,11 +566,11 @@ public class Main extends Application{
 		//get the puzzle
 		BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String puzzle = rd.readLine();
-//		System.out.println(puzzle);
+		//System.out.println(puzzle);
 		StringBuilder solution = new StringBuilder("");
 
 		//solve the puzzle
-		for(int i = 0; i<puzzle.length(); i++) {
+		for(int i = 0; i < puzzle.length(); i++) {
 			char current;
 			if(i % 2 == 0) { // 1st,3rd,etc
 				int value = (int) puzzle.charAt(i);
@@ -550,18 +579,18 @@ public class Main extends Application{
 				}else {
 					current = (char) (value + 1);
 				}
-			}else {
+			} else {
 				int value = (int) puzzle.charAt(i);
 				if(value == 65) { // A
 					current = 'Z';
-				}else {
+				} else {
 					current = (char) (value - 1);
 				}
 			}
 			solution.insert(i, current);
 		}
 		String solved = solution.toString();
-//		System.out.println(solved);
+		//System.out.println(solved);
 		//set up connection to get the message
 		URL motdURL = new URL("http://cswebcat.swan.ac.uk/message?solution="+solved);
 		HttpURLConnection motdcon = (HttpURLConnection) motdURL.openConnection();
@@ -571,73 +600,86 @@ public class Main extends Application{
 		String motd = readMotd.readLine();
 		return motd;	
 	}
-	
-	
-	
-	
-	
 
 	/**
-	 * Launch the program
-	 * @param args arguments to run the programm with
+	 * Launch the program.
+	 * @param args arguments to run the programm with.
 	 */
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
 	/**
-	 * Return the map that is being played
-	 * @return Map, the current malp beign played
+	 * Return the map that is being played.
+	 * @return Map, the current malp beign played.
 	 */
+	
 	public static Map getMap() {
 		return map;
 	}
 	
 	/**
-	 * Save the map that is currently being played to a file
-	 * @throws IOException Error if the map is named incorrecty
+	 * Save the map that is currently being played to a file.
+	 * @throws IOException Error if the map is named incorrecty.
 	 */
+	
 	public static void saveMapToFile() throws IOException {
 		IO.saveMapToFile(map); 
 	}
 	
 	/**
-	 * return the profile that is currently selected
-	 * @return Profile, the profile that is currently used
+	 * Return the profile that is currently selected.
+	 * @return The profile that is currently used.
 	 */
 	public static Profile getProfile() {
 		return profile;
 	}
 	
 	/**
-	 * get the width of the canvas
-	 * @return int, the width of the canvas in px
+	 * Get the width of the canvas.
+	 * @return The width of the canvas in px.
 	 */
+	
 	public static int getCanvasWidth() {
 		return CANVAS_WIDTH;
 	}
 	
 	/**
-	 * get the height of the canvas
-	 * @return int, the height, of the canvas in px
+	 * Get the height of the canvas.
+	 * @return The height, of the canvas in px.
 	 */
+	
 	public static int getCanvasHeight() {
 		return CANVAS_HEIGHT;
 	}
 
+	/**
+ 	 * Set the profile.
+ 	 * @param newProfile A new profile.
+ 	 */
+	
 	public static void setProfile(Profile newProfile) {
 		profile = newProfile;
 		
 	}
 
+	/**
+ 	 * Set all the profiles.
+ 	 * @param newAllProfiles All the new profiles.
+ 	 */
+	
 	public static void setAllProfiles(ArrayList<Profile> newAllProfiles) {
 		allProfiles = newAllProfiles;
 	}
 
+	/**
+ 	 * Get all the profiles.
+ 	 * @return All the profiles.
+ 	 */
+	
 	public static ArrayList<Profile> getProfiles() {
 		return allProfiles;
 	}
-
-	
 	
 }
