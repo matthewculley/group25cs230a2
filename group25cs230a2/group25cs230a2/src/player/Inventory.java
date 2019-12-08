@@ -1,39 +1,25 @@
 package player;
-/**
- * Inventory.java
- * 
- * @author Jack, Ethan F
- */
 import java.util.ArrayList;
-
 import cells.*;
 import collectibles.*;
 import game.*;
 
+/**
+ * Inventory stores all information regarding what the player is carrying (eg tokens, keys, flippers)
+ * and checks what should therefore be passable in the map.
+ * @author Jack, Ethan F
+ */
+
 public class Inventory {
 
-	private int token = 0;
-	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();
-	private Map map;
-	
-	
-	/*
-	 * Player's inventory has a token counter and checks if the keys or other
-	 * collectibles have been picked up.
+	private int token = 0;		//Number of tokens collected by the player in the current level playthrough
+	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();	//Contains every item collected by the player in the given level
+
+	/**
+	 * Method for adding a collectible item to the player's inventory.
+	 * @param c - collectible item to be added to inventory
+	 * @param map - map of the current level playthrough in its current state
 	 */
-	
-	public void addToken() {
-		token++;
-	}
-	
-	public int getTokens() {
-		return token;	
-	}
-	
-	public void setTokens(int amount) {
-		token = amount;
-	}
-	
 	public void addItem(Collectible c, Map map) {
 		if (c.getClass() != new Token().getClass()) {
 			collectibles.add(c);
@@ -43,11 +29,12 @@ public class Inventory {
 		unlockDoors(map);
 		c.collect();
 	}
-	
-	public void addItem(Collectible c) {
-		collectibles.add(c);
-	}
-	
+
+   /**
+	* Method checks which doors in the map should be unlocked (based on what items the player has collected)
+	* and unlocks them.
+	* @param map - the map of the current level playthrough
+	*/
 	public void unlockDoors(Map map) {
 		for (int i = 0; i < map.getMap().length - 2; i++) {
 			int x = map.indexToCoords(i)[0];
@@ -57,7 +44,7 @@ public class Inventory {
 					map.getAt(x, y).setPassable(true);
 				}
 			}
-			
+
 			if (map.getAt(x,y).getClass() == (new Door().getClass())) {
 				switch (((Door)map.getAt(x,y)).getColour()) {
 					case "red":
@@ -105,11 +92,16 @@ public class Inventory {
 					default:
 						break;
 				}
-				
+
 			}
 		}
 	}
-	
+
+	/**
+	 * Method to check whether the player has a given collectible item in their inventory
+	 * @param c - the collectible item whose presence in inventory is being checked
+	 * @return true - if player has collectible c, false - if player does not have it
+	 */
 	public boolean hasItem(Collectible c) {
 		for (Collectible elem : collectibles) {
 			if (elem.getClass() == c.getClass()) {
@@ -118,16 +110,29 @@ public class Inventory {
 		}
 		return false;
 	}
-	
+
+	//Sets the player's inventory to empty.
 	public void reset() {
 		token = 0;
 		collectibles = new ArrayList<Collectible>();
 	}
-	
+
 	public ArrayList<Collectible> getInventory() {
 		return collectibles;
 	}
-	
+
+	public void addToken() {
+		token++;
+	}
+
+	public int getTokens() {
+		return token;
+	}
+
+	public void setTokens(int amount) {
+		token = amount;
+	}
+
 	public String toString() {
 		String returnString = "";
 		for (Collectible elem : collectibles) {
