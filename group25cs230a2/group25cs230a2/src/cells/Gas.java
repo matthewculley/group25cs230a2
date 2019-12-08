@@ -5,8 +5,8 @@ import game.Map;
 
 /**
  * A class that defines Gas.
- * @author Group25
- * @version 1.0
+ * @author alan
+ * @version 1.3
  */
 
 public class Gas extends Cell {
@@ -19,7 +19,6 @@ public class Gas extends Cell {
  	 * @param x The x coordinate.
 	 * @param y The y coordinate.
  	 */
-	
 	public Gas(int x,int y) {
 		super("gas.png", true);
 		setX(x);
@@ -29,7 +28,6 @@ public class Gas extends Cell {
 	/**
  	 * Constructs Gas without coordinate.
  	 */
-	
 	public Gas() {
 		super("gas.png", true);
 	}
@@ -38,7 +36,6 @@ public class Gas extends Cell {
  	 * A method that makes the gas spread.
  	 * @param map The map
  	 */
-	
 	public void infect(Map map) {
 		Gas newGas;
 		//add gas right
@@ -79,7 +76,6 @@ public class Gas extends Cell {
  	 * Get the x coordinate.
  	 * @return The x coordinate.
  	 */
-	
 	public int getX() {
 		return x;
 	}
@@ -88,7 +84,6 @@ public class Gas extends Cell {
  	 * Get the y coordinate.
  	 * @return The y coordinate.
  	 */
-	
 	public int getY() {
 		return y;
 	}
@@ -97,7 +92,6 @@ public class Gas extends Cell {
  	 * Overrides the method getCellName.
  	 * @return The cell name: gas.
  	 */
-	
 	@Override
 	public String getCellName() {
 		return "gas";
