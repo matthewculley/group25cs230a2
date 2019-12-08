@@ -5,8 +5,8 @@ import java.lang.Math;
 
 /**
  * A class that defines dumb enemy.
- * @author Group25
- * @version 1.0
+ * @author ethan J
+ * @version 1.3
  */
 
 public class EnemyDumb extends Enemy {
@@ -16,7 +16,6 @@ public class EnemyDumb extends Enemy {
  	 * @param x The x coordinate.
 	 * @param y The y coordinate.
  	 */
-	
 	public EnemyDumb(int x, int y) {
 		super(x, y);
 		setSprite("enemyDumb.png");
@@ -26,7 +25,6 @@ public class EnemyDumb extends Enemy {
  	 * A method that decides the direction dumb enemy is moving.
  	 * @param map The map.
  	 */
-	
 	public void move (Map map) {
 		int px = map.getPlayer().getX();
 		int py = map.getPlayer().getY();
@@ -53,7 +51,6 @@ public class EnemyDumb extends Enemy {
  	 * Overrides the method getEnemyName.
  	 * @return enemy:dumb
  	 */
-	
 	@Override
 	public String getEnemyName() {
 		return "enemy:dumb";
