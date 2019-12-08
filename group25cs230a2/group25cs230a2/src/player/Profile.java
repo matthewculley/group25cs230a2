@@ -22,8 +22,8 @@ public class Profile {
    * Constructor method to create an instance of Profile.
    * @param userID
    * @param password
-   * @param levelScores
-   * @param avatar
+   * @param levelScores ArrayList of int lists of scores for each level
+   * @param avatar string containing file location for avatar image
    */
   public Profile(String userID, String password,
           ArrayList<int[]> levelScores, String avatar) { //profile pic, map files...
@@ -42,7 +42,7 @@ public class Profile {
    * @param password
    */
   public Profile(String userID, String password) {
-    this(userID, password, new ArrayList<int[]>(), null);
+    this(userID, password, new ArrayList<int[]>(), "default.png");
   }
   
   /**
