@@ -14,6 +14,12 @@ import cells.*;
 import enemies.*;
 import collectibles.*;
 
+/**
+ * A class that constructs the map
+ * @author Matt
+ * @version 1.3
+ */
+
 public class IO {
 	
 	/**
@@ -22,7 +28,9 @@ public class IO {
 	 * @param map the current map being played on
 	 * @throws IOException if the file names are invalid
 	 */
+	
 	public static void saveMapToFile(Map map) throws IOException {
+		
 		//get time played so far
 		map.addToTime(System.currentTimeMillis() - map.getTimeStarted());
 		//get player objects to make code easier
@@ -46,7 +54,6 @@ public class IO {
 						addToArray = "gas";
 					} 
 				}
-				
 				
 				//also add any collectibles 
 				for (int i = 0; i < map.getCollectibles().size(); i++) {
@@ -74,7 +81,8 @@ public class IO {
 				}
 				returnArrayList.add(addToArray);
 			}
-		}	
+		}
+		
 		//create filewriter object to write to he level file
 		FileWriter fwLevel = new FileWriter(fileName + "level.csv");
 		//add the sizes of the map to the file
@@ -97,7 +105,6 @@ public class IO {
 				count++;
 			}
 		}
-		
 		
 		//add the time taken data to the file
 		System.out.println("///////////////////////////score: " + Math.abs(map.getTimeTaken()));
@@ -128,6 +135,11 @@ public class IO {
 		
 	} 
 	
+	/**
+ 	 * Get the saved profiles.
+ 	 * @return The profile in an arraylist.
+ 	 */
+	
 	public static ArrayList<Profile> getSavedProfiles() {
 		try {
 			File fileIn = new File("Profiles.txt");
@@ -138,7 +150,14 @@ public class IO {
 		}
 	}
 
-	private static ArrayList<Profile> getSavedProfiles(Scanner fileScan){
+	/**
+ 	 * Get the saved profiles.
+	 * @param scanner
+	 * @return The profile in an arraylist.
+ 	 */
+	
+	private static ArrayList<Profile> getSavedProfiles(Scanner fileScan) {
+		
 		ArrayList<Profile> profileList= new ArrayList<Profile>();
 
 		while(fileScan.hasNextLine()) {
@@ -161,9 +180,13 @@ public class IO {
 			lineIn.close();
 		}
 		
-		
 		return profileList;
 	}
+	
+	/**
+ 	 * A method that saves the profile.
+ 	 * @param profileList The profile that is going to save.
+ 	 */
 	
 	public static void saveProfiles(ArrayList<Profile> profileList) {
 		File fNew = new File("Profiles.txt");
@@ -183,10 +206,18 @@ public class IO {
 		}   
 	}	
 
-
+	/**
+ 	 * A method that creates a new profile.
+ 	 * @param id UserId.
+	 * @param pass Password.
+	 * @param scores Scores on each level.
+	 * @param avatar Avatar of the player.
+	 * @return The new profile.
+ 	 */
 	
-	public static Profile makeProfileObj(String id, String pass,
-									ArrayList<int[]> scores, String avatar) {
+	public static Profile makeProfileObj(String id, String pass, 
+					     ArrayList<int[]> scores, String avatar) {
+		
 		Profile p = new Profile(id, pass, scores, avatar);
 		return p;
 	}
