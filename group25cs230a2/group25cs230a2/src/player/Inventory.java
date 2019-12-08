@@ -29,6 +29,11 @@ public class Inventory {
 		unlockDoors(map);
 		c.collect();
 	}
+	
+	//Adds collectible item to player's inventory (except token).
+	public void addItem(Collectible c) {
+		collectibles.add(c);
+	}
 
    /**
 	* Method checks which doors in the map should be unlocked (based on what items the player has collected)
