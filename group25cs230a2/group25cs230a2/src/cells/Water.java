@@ -6,10 +6,14 @@ import player.*;
 /**
  * A class that defines Water.
  * @author Group25
- * @version 1.1
+ * @version 1.2
  */
 
 public class Water extends Cell{
+	
+	/**
+ 	 * Constructs Water with the image name and passable.
+ 	 */
 	
 	public Water () {
 		super("water.png", true);
@@ -18,7 +22,7 @@ public class Water extends Cell{
 	/**
  	 * A method that checks if the player have Flippers in their inventory.
  	 * @param p The player
-	 * @return True/False
+	 * @return The result if the player have Flippers or not.
  	 */
 	
 	public boolean isPassable(Player p) {
