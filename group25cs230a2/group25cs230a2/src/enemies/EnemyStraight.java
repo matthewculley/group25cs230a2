@@ -1,8 +1,6 @@
 package enemies;
 
-import cells.*;
 import game.*;
-import javafx.scene.Scene;
 
 /**
  * A subclass that defines enemy that only goes striaght.
