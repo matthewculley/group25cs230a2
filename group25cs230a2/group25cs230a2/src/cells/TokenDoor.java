@@ -3,17 +3,26 @@ package cells;
 /**
  * A class that defines TokenDoor.
  * @author Group25
- * @version 1.1
+ * @version 1.2
  */
 
-public class TokenDoor extends Cell{
+public class TokenDoor extends Cell {
 
 	private int tokenReq;
+	
+	/**
+ 	 * Constructs the TokenDoor with the image name and passable.
+ 	 * @param tokens The required tokens to unlock the door.
+ 	 */
 	
 	public TokenDoor(int tokens) {
 		super("tokenDoor.png", false);
 		tokenReq = tokens;
 	}
+	
+	/**
+ 	 * Constructs the TokenDoor without the required tokens.
+ 	 */
 	
 	public TokenDoor() {
 		super("tokenDoor.png", false);
