@@ -66,7 +66,6 @@ public class Main extends Application{
 	 * Start the game.
 	 * @param primaryStage 
 	 */
-	
 	public void start(Stage primaryStage) {
 		stage = primaryStage;		
 		selectProfile();
@@ -75,7 +74,6 @@ public class Main extends Application{
 	/**
 	 * Load the select profile scene.
 	 */
-	
 	public static void selectProfile() {		
 		//try to laod scene with from MainMenu.fxml
 		try {
@@ -95,9 +93,7 @@ public class Main extends Application{
 	/**
 	 * Select a profile while the game is being played.
 	 */
-	
 	public static void selectProfileInGame() {
-		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("SelectProfileInGame.fxml"));
@@ -116,7 +112,6 @@ public class Main extends Application{
 	/**
 	 * Load the leaderboard scene.
 	 */
-	
 	public static void leaderboard() {		
 		//try to laod scene with from MainMenu.fxml
 		try {
@@ -136,7 +131,6 @@ public class Main extends Application{
 	/**
 	 * Load the main menu scene.
 	 */
-	
 	public static void mainMenu() {		
 		//try to laod scene with from MainMenu.fxml
 		//System.out.println(profile.toString());
@@ -158,9 +152,7 @@ public class Main extends Application{
 	/**
 	 * Load the select level scene.
 	 */
-	
 	public static void selectLevel() {
-		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("SelectLevel.fxml"));
@@ -180,7 +172,6 @@ public class Main extends Application{
 	 * @param continueGame Wether or not the game is being played from a saved file.
 	 * @throws IOException In case of error with the map name.
 	 */
-	
 	public static void playGame(String fileName, boolean continueGame) throws IOException  {
 		//load and display play game scene
 		FXMLLoader loader = new FXMLLoader();
@@ -213,11 +204,6 @@ public class Main extends Application{
 		stage.setScene(scene);
 		stage.show();	
 	}
-	
-	/**
-	 * Process a key event due to a key being pressed, e.g., to the player.
-	 * @param event The key event that was pressed.
-	 */
 	
 	private static void processKeyEvent(KeyEvent event) {
 		int x = getMap().getPlayer().getX();
@@ -269,13 +255,6 @@ public class Main extends Application{
 		}
 	}
 	
-	/**
-	 * Chech if the move the player wants to make is valid.
-	 * @param x The x coordinate of the players next move.
-	 * @param y The y coordinate of the players next move.
-	 * @return True if a valid move, false otherwise.
-	 */
-	
 	private static boolean checkValidMove(int x, int y) {
 		boolean returnValue = false;
 		//if out of bounds
@@ -289,12 +268,7 @@ public class Main extends Application{
 		}
 		return returnValue;
 	}
-	
-	/**
-	 * Deal with the aftermath of a players move.
-	 * @param direction, the direction the player just moved.
-	 */
-	
+
 	private static void afterValidMove(char direction) {
 		int x = getMap().getPlayer().getX();
 		int y = getMap().getPlayer().getY();
@@ -395,7 +369,6 @@ public class Main extends Application{
 	/**
 	 * Draw the game in its current status.
 	 */
-	
 	public static void drawGame() {
 		int offset = 7;	//distance from player to each side of the screen
 		int iteratorX = 15; //amount of rows to be drawn
@@ -491,7 +464,6 @@ public class Main extends Application{
 	/**
 	 * Deal with player victory, update score in profile, return to level select screen.
 	 */
-	
 	public static void win() {
 		int score = getMap().calculateScore();
 		System.out.println("Score: " + score);
@@ -507,7 +479,6 @@ public class Main extends Application{
 	/**
 	 * deal with player death, restart the level.
 	 */
-	
 	public static void die() {
 		try {
 			playGame(getMap().getParentLevelName(), false);
@@ -515,11 +486,6 @@ public class Main extends Application{
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Set the map of the level.
-	 * @param newMap The map to be played.
-	 */
 	
 	private static void setMap(Map newMap) {
 		map = newMap;
@@ -529,7 +495,6 @@ public class Main extends Application{
 	 * check if the player is in a position where the game can be saved from.
 	 * @return True if player is on ground tile, false otherwise.
 	 */
-	
 	public static boolean canSave() {
 		//if player on ground cell
 		if (getMap().getAt(getMap().getPlayer().getX(), getMap().getPlayer().getY()).getClass() 
@@ -545,7 +510,6 @@ public class Main extends Application{
 	 * Return the name of the map file being played.
 	 * @return Parent level name.
 	 */
-	
 	public static String getMapFileName() {
 		//return parent name, so that the game can be restarted
 		return getMap().getParentLevelName();
@@ -554,9 +518,8 @@ public class Main extends Application{
 	/**
 	 * Gets the message of the day form the web server.
 	 * @return The message of the day.
-	 * @throws Exception if error connecting to the web server.
+	 * @throws Exception If error connecting to the web server.
 	 */
-	
 	public static String getMotd() throws Exception {
 		
 		//set up commcetion mdetails
@@ -603,18 +566,16 @@ public class Main extends Application{
 
 	/**
 	 * Launch the program.
-	 * @param args arguments to run the programm with.
+	 * @param args Arguments to run the programm with.
 	 */
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
 	/**
 	 * Return the map that is being played.
-	 * @return Map, the current malp beign played.
+	 * @return The current map beign played.
 	 */
-	
 	public static Map getMap() {
 		return map;
 	}
@@ -623,7 +584,6 @@ public class Main extends Application{
 	 * Save the map that is currently being played to a file.
 	 * @throws IOException Error if the map is named incorrecty.
 	 */
-	
 	public static void saveMapToFile() throws IOException {
 		IO.saveMapToFile(map); 
 	}
@@ -640,7 +600,6 @@ public class Main extends Application{
 	 * Get the width of the canvas.
 	 * @return The width of the canvas in px.
 	 */
-	
 	public static int getCanvasWidth() {
 		return CANVAS_WIDTH;
 	}
@@ -649,7 +608,6 @@ public class Main extends Application{
 	 * Get the height of the canvas.
 	 * @return The height, of the canvas in px.
 	 */
-	
 	public static int getCanvasHeight() {
 		return CANVAS_HEIGHT;
 	}
@@ -658,7 +616,6 @@ public class Main extends Application{
  	 * Set the profile.
  	 * @param newProfile A new profile.
  	 */
-	
 	public static void setProfile(Profile newProfile) {
 		profile = newProfile;
 		
@@ -668,7 +625,6 @@ public class Main extends Application{
  	 * Set all the profiles.
  	 * @param newAllProfiles All the new profiles.
  	 */
-	
 	public static void setAllProfiles(ArrayList<Profile> newAllProfiles) {
 		allProfiles = newAllProfiles;
 	}
@@ -677,9 +633,7 @@ public class Main extends Application{
  	 * Get all the profiles.
  	 * @return All the profiles.
  	 */
-	
 	public static ArrayList<Profile> getProfiles() {
 		return allProfiles;
 	}
-	
 }
