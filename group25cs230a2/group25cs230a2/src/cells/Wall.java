@@ -11,7 +11,6 @@ public class Wall extends Cell {
 	/**
  	 * Constructs the Wall with the image name and passable.
  	 */
-	
 	public Wall () {
 		super("wall.png", false);
 	}
@@ -20,7 +19,6 @@ public class Wall extends Cell {
  	 * Overrides the method getCellName.
 	 * @return The cell name: wall.
  	 */
-
 	@Override
 	public String getCellName() {
 		return "wall";
