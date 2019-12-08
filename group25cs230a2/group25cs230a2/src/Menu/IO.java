@@ -26,11 +26,9 @@ public class IO {
 	 * Saves the current file the player is on to a csv file, named "<userId>level.csv". 
 	 * A serparate file, "<userId>player.txt" stores the player objects details
 	 * @param map the current map being played on
-	 * @throws IOException if the file names are invalid
+	 * @throws IOException If the file names are invalid
 	 */
-	
 	public static void saveMapToFile(Map map) throws IOException {
-		
 		//get time played so far
 		map.addToTime(System.currentTimeMillis() - map.getTimeStarted());
 		//get player objects to make code easier
@@ -139,7 +137,6 @@ public class IO {
  	 * Get the saved profiles.
  	 * @return The profile in an arraylist.
  	 */
-	
 	public static ArrayList<Profile> getSavedProfiles() {
 		try {
 			File fileIn = new File("Profiles.txt");
@@ -155,9 +152,7 @@ public class IO {
 	 * @param scanner
 	 * @return The profile in an arraylist.
  	 */
-	
 	private static ArrayList<Profile> getSavedProfiles(Scanner fileScan) {
-		
 		ArrayList<Profile> profileList= new ArrayList<Profile>();
 
 		while(fileScan.hasNextLine()) {
@@ -187,7 +182,6 @@ public class IO {
  	 * A method that saves the profile.
  	 * @param profileList The profile that is going to save.
  	 */
-	
 	public static void saveProfiles(ArrayList<Profile> profileList) {
 		File fNew = new File("Profiles.txt");
 		String source = "";
