@@ -5,7 +5,7 @@ import player.Player;
 
 /** 
  * A class that holds all basic features of cell type.
- * @author Group25
+ * @author alan
  * @version 1.3
  */
 
