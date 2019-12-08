@@ -14,9 +14,14 @@ import collectibles.*;
 import java.lang.Math; 
 import java.lang.ClassCastException;
 
+/**
+ * A class that defines the map.
+ * @author Matt
+ * @version 1.4
+ */
 
 public class Map {
-	private Cell[] map;	//store the data representing the map			//will be cell when can create cell objects
+	private Cell[] map;	//store the data representing the map		//will be cell when can create cell objects
 	private String filename;
 	private int width;	//the width of the map
 	private int height;	//the height of the map
@@ -32,7 +37,7 @@ public class Map {
 	private ArrayList<Gas> allGas;
 		
 	/**
-	 * Constructor method to create an instance of Map
+	 * Constructor method to create an instance of Map.
 	 * @param filename The name of the file that contains the map.
 	 * @throws FileNotFoundException 
 	 */
@@ -50,7 +55,11 @@ public class Map {
 		timeTaken = (long) 0;
 	}
 	
-	//map from just a string, used to cointineu a game
+	/**
+ 	 * Creates a map from a string.
+ 	 * @param fn Map file name.
+	 * @throws FileNotFoundException
+ 	 */
 	public Map(String fn) throws FileNotFoundException {
 		allGas = new ArrayList<Gas>();
 
@@ -61,19 +70,31 @@ public class Map {
 		map = convertStringToObjects(readFileToMap());	//read the map file and create the array and various objects
 		if (teleporters.size() > 0) connectTeleporters();
 		timeStarted = System.currentTimeMillis();
-		//TODO REINFECT ALL GAS
 	}
 	
+	/**
+ 	 * Add player to the map.
+ 	 * @param profile The player's profile.
+	 * @param player The player.
+ 	 */
 	public void addPlayer(Profile profile, Player player) {
 		this.profile = profile;
 		this.player = player;
 		
 	}
 	
+	/**
+ 	 * Set the parent level name.
+ 	 * @param fileName The parent level map file name.
+ 	 */
 	public void setParentLevelName(String fileName) {
 		this.parentLevelName = fileName;
 	}
 	
+	/**
+ 	 * Get the parent level name.
+	 * @return Parent level name.
+ 	 */
 	public String getParentLevelName() {
 		return this.parentLevelName;
 	}
@@ -134,8 +155,8 @@ public class Map {
 	}
 	
 	/**
-	 * Get the map object for use by other classes
-	 * @return Cell[], the map 
+	 * Get the map object for use by other classes.
+	 * @return The map in an array.
 	 */
 	public Cell[] getMap() {
 		return map;
@@ -228,7 +249,6 @@ public class Map {
 			Pattern doorPattern = Pattern.compile("^door:(red|blue|green|yellow|token:[1-9])$");
 			Matcher doorMatcher = doorPattern.matcher(stringAl.get(i));
 		
-		
 			if (doorMatcher.matches()) {
 				String[] parts = stringAl.get(i).split(":");
 			    //if the door is a token door, then create a token door, otherwise create a colour door
@@ -248,7 +268,6 @@ public class Map {
 				map[i] = new Ground();
 				collectibles.add(new Key(x, y, parts[1]));
 			} 
-			
 			
 			//create enemies
 			Pattern enemyPattern = Pattern.compile("^enemy:((smart|dumb)|(wall:[ac]:[udlr]|straight:[udlr]))$");
@@ -282,21 +301,19 @@ public class Map {
 				}					
 			} 
 		}
-		
 		if (map.length < getWidth() * getHeight()) {
 			System.out.println("Error loading map, the map does contain all cells");
 			System.exit(0);
 		}
-		
 		return map;
 	}
 
 	
 	/**
-	 * Get and return the cell at a given index
-	 * @param x The x component of the coordinate
-	 * @param y The y component of the coordinate
-	 * @return Cell, The cell at the given coordinate
+	 * Get and return the cell at a given index.
+	 * @param x The x component of the coordinate.
+	 * @param y The y component of the coordinate.
+	 * @return The cell at the given coordinate.
 	 */
 	public Cell getAt(int x, int y)  {
 		try {
@@ -312,11 +329,11 @@ public class Map {
 	}
 	
 	/**
-	 * Get the index of a map location from the coordinates
-	 * @param x the x location of the item in the map
-	 * @param y the y location of the item in the map
-	 * @return int, The index of the item at position (x,y) in the map
-	 * @throws ArrayIndexOutOfBoundsException if the given coordinates are invalid
+	 * Get the index of a map location from the coordinates.
+	 * @param x The x location of the item in the map.
+	 * @param y The y location of the item in the map.
+	 * @return The index of the item at position (x,y) in the map.
+	 * @throws ArrayIndexOutOfBoundsException If the given coordinates are invalid.
 	 */
 	public int getIndexFromCoords(int x, int y) throws ArrayIndexOutOfBoundsException {	
 		if (isValidCoords(x, y)) {	//if the coordinates are valid return the index
@@ -327,15 +344,15 @@ public class Map {
 	}
 	
 	/**
-	 * Checks if two sets of coordinates are different locations
-	 * @param x1 the x position of the first location
-	 * @param y1 the y position of the first location
-	 * @param x2 the x position of the second location
-	 * @param y2 the y position of the second location
-	 * @return true if different, false otherwise
+	 * Checks if two sets of coordinates are different locations.
+	 * @param x1 The x position of the first location.
+	 * @param y1 The y position of the first location.
+	 * @param x2 The x position of the second location.
+	 * @param y2 The y position of the second location.
+	 * @return True if different, false otherwise.
 	 */
 	public boolean isDifferentPosition(int x1, int y1, int x2, int y2) {
-		if (x1 == x2 & y1 ==y2) {
+		if (x1 == x2 & y1 == y2) {
 			return false;
 		} else {
 			return true;
@@ -343,33 +360,33 @@ public class Map {
 	}
 	
 	/**
-	 * Check if a set of coordinates are valid 
-	 * @param x the x componenet of the coordinates
-	 * @param y the y componenet of the coordinates
-	 * @return true if valid, false otherwise
+	 * Check if a set of coordinates are valid.
+	 * @param x The x componenet of the coordinates.
+	 * @param y The y componenet of the coordinates.
+	 * @return True if valid, false otherwise.
 	 */
 	public boolean isValidCoords(int x, int y) {
 		//if either coordinate is less than 0 or greater than width or height respectivley
-		if (x < 0 || y < 0 || x > width -1 || y > height -1) {
+		if (x < 0 || y < 0 || x > width - 1 || y > height - 1) {
 			return false;
 		}
 		return true;
 	}
 	
 	/**
-	 * Get the distance between two points on the map
-	 * @param x1 the x position of the first location
-	 * @param y1 the y position of the first location
-	 * @param x2 the x position of the second location
-	 * @param y2 the y position of the second location
-	 * @return int, the distance between the points
+	 * Get the distance between two points on the map.
+	 * @param x1 The x position of the first location.
+	 * @param y1 The y position of the first location.
+	 * @param x2 The x position of the second location.
+	 * @param y2 The y position of the second location.
+	 * @return The distance between the points.
 	 */
 	public int distanceBetween(int x1, int y1, int x2, int y2) {
 		return (int) Math.sqrt( Math.pow(x2 - x1 , 2) + Math.pow(y2 - y1, 2));
 	}
 	
 	/**
-	 * Prints a list of the enemies on the map
+	 * Prints a list of enemies on the map.
 	 */
 	public void listEnemies() {
 		for (int i = 0; i < enemies.size(); i++) {
@@ -379,58 +396,68 @@ public class Map {
 	
 	/**
 	 * Get the player object
-	 * @return Player, the player on the map
+	 * @return The player on the map
 	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
 	/**
-	 * Returns the height of the map
-	 * @return int, the height of the map
+	 * Get the height of the map.
+	 * @return The height of the map.
 	 */
 	public int getHeight() {
 		return this.height;
 	}
 	
 	/**
-	 * Returns the width of the map
-	 * @return int, the width of the map
+	 * Get the width of the map.
+	 * @return The width of the map.
 	 */
 	public int getWidth() {
 		return this.width;
 	}
 	
 	/**
-	 * Get the coordinates of a location on the map from an index in the map array
-	 * @param i the location in the array to find the coords for
-	 * @return int[], containg the x coord at index 0, and the y at index 1
+	 * Get the coordinates of a location on the map from an index in the map array.
+	 * @param i The location in the array to find the coords for.
+	 * @return The coordinate in an array, [x,y].
 	 */
 	public int[] indexToCoords(int i) {
-		int[] coords = {i % width, i/width};		
+		int[] coords = {i % width, i / width};		
 		return coords;
 	}
 	
 	/**
-	 * Get an arraylist containing all the enemies on the map
-	 * @return ArrayList<Enemy>, containing all enemies on the map
+	 * Get an arraylist containing all the enemies on the map.
+	 * @return All the enemies on the map in an arraylist.
 	 */
 	public ArrayList<Enemy> getEnemies() {
 		return this.enemies;
 	}
 	
 	/**
-	 * Get an arraylist containing all the collectibles on the map
-	 * @return ArrayList<Collectible>, containing all collectibles on the map
+	 * Get an arraylist containing all the collectibles on the map.
+	 * @return All the collectibles on the map in an arraylist.
 	 */
 	public ArrayList<Collectible> getCollectibles() {
 		return this.collectibles;
 	}
 	
+	/**
+ 	 * Get the gas on the map.
+ 	 * @return All the gas on the map in an arraylist.
+ 	 */
 	public ArrayList<Gas> getGas(){
 		return this.allGas;
 	}
 	
+	/**
+ 	 * Checks if the gas exists on the map.
+ 	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+	 * @return True if exist, false otherwise.
+ 	 */
 	public boolean gasExists(int x, int y) {
 		for(int i = 0; i < allGas.size(); i++) {
 			if(allGas.get(i).getX() == x && allGas.get(i).getY() == y) {
@@ -441,8 +468,8 @@ public class Map {
 		return false;
 	}
 	/**
-	 * Describes the map class
-	 * @return The dimensions of the map, and the array the map is stored in
+	 * Describes the map class.
+	 * @return The dimensions of the map, and the array the map is stored in.
 	 */
 	public String toString(){
 		String returnString = "File: " + getFileName() + " Parent name: "+ getParentLevelName() + "x: " + width + ", y: " + height + "\n";
@@ -458,39 +485,57 @@ public class Map {
 		return returnString;
 	}
 
+	/**
+ 	 * Add new gas to the map.
+ 	 * @param newGas New Gas.
+ 	 */
 	public void addGas (Gas newGas) {
 		allGas.add(newGas);
 	}
 
+	/**
+ 	 * Get the file name.
+ 	 * @return File name.
+ 	 */
 	public String getFileName() {
 		return this.filename;
 	}	
 
+	/**
+ 	 * Get the starting time.
+ 	 * @return The starting time
+ 	 */
 	public Long getTimeStarted() {
 		return timeStarted;
 	}
 
+	/**
+ 	 * Add the time to the total time taken.
+ 	 * @param time Time taken.
+ 	 */
 	public void addToTime(long time) {
 		timeTaken += time;
 	}
 
+	/**
+	 * Get the total time taken.
+ 	 * @return Total time taken.
+ 	 */
 	public long getTimeTaken() {
 		return timeTaken;
 	}
 
+	/**
+ 	 * Calculates the score.
+ 	 * @return The player score.
+ 	 */
 	public int calculateScore() {
-		
 		System.out.println("//////////////////started" + getTimeStarted());
 		System.out.println("//////////////////mill" + System.currentTimeMillis());
 		System.out.println("//////////////////" + getTimeTaken());
 		
 		Long totalTimeTaken = (System.currentTimeMillis() - getTimeStarted())  + getTimeTaken();
-		int score = (int) (totalTimeTaken /1000);
+		int score = (int) (totalTimeTaken / 1000);
 		return score;
 	}
-
-
-	
-	//convert from String to correct cell types
-	//
 }
