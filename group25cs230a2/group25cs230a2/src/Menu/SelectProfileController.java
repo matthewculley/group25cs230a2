@@ -10,7 +10,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import player.Profile;
 
+/**
+ * A class that switchs profile.
+ * @author Tom
+ * @version 1.5
+ */
+
 public class SelectProfileController {
+	
 	@FXML ComboBox profiles;
 	@FXML Button submitExistingUser;
 	@FXML PasswordField passwordExistingUser;
@@ -20,8 +27,11 @@ public class SelectProfileController {
 	@FXML Label errorMessage;
 	private ArrayList<Profile> allProfiles = new ArrayList<Profile>();
 	
-
-	@FXML public void initialize() {		
+	/**
+ 	 * Shows all the saved profile.
+ 	 */
+	@FXML
+	public void initialize() {		
 		allProfiles = IO.getSavedProfiles();
 		for (Profile ele : allProfiles) {
 			profiles.getItems().add(ele.getUserID());
@@ -29,7 +39,8 @@ public class SelectProfileController {
 	}
 	
 	
-	@FXML private void submitExistingUser() {
+	@FXML
+	private void submitExistingUser() {
 		for (Profile ele : allProfiles) {
 			String userId = (String) profiles.getValue();
 			String pass = passwordExistingUser.getText();
@@ -44,7 +55,8 @@ public class SelectProfileController {
 		}
 	}
 	
-	@FXML private void submitNewUser() {
+	@FXML
+	private void submitNewUser() {
 		String userId = userNameNewUser.getText(); 
 		String pass = passwordNewUser.getText(); 
 		//if valid pass and username
@@ -67,28 +79,35 @@ public class SelectProfileController {
 		}
 	}
 	
-	
+	/**
+ 	 * Check if input is a string.
+ 	 * @param input User input.
+	 * @return True if yes, false otherwise.
+ 	 */
 	public boolean isValidString(String input) {
 		if(input.equals("")) {
 			System.out.println("Input is empty!");
 			return false;
-		}else if(containsWhitespace(input)) {
+		} else if(containsWhitespace(input)) {
 			System.out.println("Input can't contain any spaces");
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
 
-	
+	/**
+ 	 * Check if the string only contains letters.
+ 	 * @param pass The string needs to be checked.
+	 * @return True if yes, false otherwise.
+ 	 */
 	public boolean isValidPass(String pass) {
 		if((pass.length() < 6) || containsOnlyLetters(pass) || !isValidString(pass)) {
 			return false; 
-		}else {
+		} else {
 			return true;
 		}
 	}
-	
 	
 	private boolean containsOnlyLetters(String str) {
 		char[] chars = str.toCharArray();
@@ -101,8 +120,6 @@ public class SelectProfileController {
 		return true;
 	}
 		
-	
-	
 	private boolean containsWhitespace(String str) {
 		char[] chars = str.toCharArray();
 	
@@ -114,7 +131,6 @@ public class SelectProfileController {
 		return false;
 	}
 	
-	
 	private boolean isUniqueUserId (String userID) {
 		for (Profile profile : allProfiles) {
 			if (profile.getUserID() == userID) {
@@ -124,11 +140,13 @@ public class SelectProfileController {
 		return true;
 	}
 		
-	
-	
+	/**
+ 	 * Creates a new profile.
+ 	 * @param userID The username.
+	 * @param password The password.
+	 * @return A new profile.
+ 	 */
 	public Profile createProfile(String userID, String password) {
 		return new Profile(userID, password);
 	}
-		
-
 }
