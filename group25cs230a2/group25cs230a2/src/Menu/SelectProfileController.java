@@ -14,12 +14,12 @@ import player.Profile;
 
 /**
  * Class to handle the initial profile selection at the beginning of the game
- * 
  * @author Tom
  * @version 1.5
  */
 
 public class SelectProfileController {
+	
 	@FXML ComboBox profiles;
 	@FXML Button submitExistingUser;
 	@FXML PasswordField passwordExistingUser;
@@ -31,7 +31,7 @@ public class SelectProfileController {
 	private ArrayList<Profile> allProfiles = new ArrayList<Profile>();
 
 	/**
-	 * initialize gets the variables needed for the scren ready for use
+	 * Initialize gets the variables needed for the screen ready for use
 	 */
 	@FXML
 	public void initialize() {
@@ -97,8 +97,7 @@ public class SelectProfileController {
 	}
 
 	/**
-	 * Check if inputted string is a valid input
-	 * 
+	 * Check if inputted string is a valid input.
 	 * @param input User input.
 	 * @return True if string is valid, false otherwise.
 	 */
@@ -116,7 +115,6 @@ public class SelectProfileController {
 
 	/**
 	 * Check that password is strong enough (to be valid).
-	 * 
 	 * @param pass the inputted password.
 	 * @return True if yes, false otherwise.
 	 */
@@ -161,7 +159,6 @@ public class SelectProfileController {
 
 	/**
 	 * Creates a new profile instance with inputted data.
-	 * 
 	 * @param userID   The inputted username.
 	 * @param password The inputted password.
 	 * @return A new profile object.
