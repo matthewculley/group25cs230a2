@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Profile is an object that contains all the information required for a single user
+ * Profile stores all the information about a single user
  * @author Tom McKee
  * */
-
 public class Profile {
 
   private String userID;    //login, username and unique identifier for each profile.
@@ -44,7 +43,7 @@ public class Profile {
   public Profile(String userID, String password) {
     this(userID, password, new ArrayList<int[]>(), "default.png");
   }
-  
+
   /**
    * Method must be called whenever a user completes a level.
    * It adds the new score to the user's levelScores for the given level
@@ -70,7 +69,8 @@ public class Profile {
   }
 
   /**Method for creating a string that contains all the information about
-   * an instance of a Profile, so that it can be saved/loaded to/from a .txt file.
+   * an instance of a Profile, so that it can be saved/loaded to/from a
+   * .txt file.
    * @return String containing all the information for a given profile.
    */
   public String saveFormat() {
@@ -92,7 +92,7 @@ public class Profile {
    * Method to add a new score for a given level to levelScores.
    */
   private void addScore(int completedLevel, int newScore) {
-    
+
     int[] levelScores = getScoresForLevel(completedLevel);
 
     Arrays.sort(levelScores);
@@ -106,7 +106,8 @@ public class Profile {
   /**
    * Method to get top 3 scores achieved by the user for a given level.
    * @param levelNumber - identifies the level
-   * @return levelScores - the best (up to) 3 scores achieved for given level on this profile*/
+   * @return levelScores - the best (up to) 3 scores achieved for given level
+   * 						on this profile*/
   public int[] getScoresForLevel(int levelNumber) {
     return this.levelScores.get(levelNumber - 1);
   }
