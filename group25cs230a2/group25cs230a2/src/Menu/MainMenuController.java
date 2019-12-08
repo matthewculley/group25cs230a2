@@ -12,7 +12,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * A class that constructs the main menu.
+ * @author Matt
+ * @version 1.5
+ */
+
 public class MainMenuController {
+	
 	@FXML private BorderPane borderpane;
 	@FXML private Button play;
 	@FXML private Button Leaderboard;
@@ -21,8 +28,11 @@ public class MainMenuController {
 	@FXML private ImageView imageView;
 	@FXML private Label motd;
 	
-	
-	@FXML public void initialize() {
+	/**
+ 	 * Message of the day appear on the main menu.
+ 	 */
+	@FXML
+	public void initialize() {
 		try {
 			motd.setText(Main.getMotd());
 		} catch (Exception e) {
@@ -51,7 +61,4 @@ public class MainMenuController {
 		System.out.println("profile");
 		Main.selectProfileInGame();
 	}
-	
-
-
 }
