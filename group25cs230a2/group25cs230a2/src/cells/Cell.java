@@ -6,7 +6,7 @@ import player.Player;
 /** 
  * A class that holds all basic features of cell type.
  * @author Group25
- * @version 1.1
+ * @version 1.3
  */
 
 public abstract class Cell {
@@ -19,7 +19,6 @@ public abstract class Cell {
  	 * @param imageName The png name of the cell.
 	 * @param passable Decides whether the cell is passable or not.
  	 */
-	
 	public Cell(String imageName, boolean passable) {
 		setSprite(imageName);
 		setPassable(passable);
@@ -29,25 +28,14 @@ public abstract class Cell {
  	 * Defines if the cell is passable.
 	 * @param passable Decides whether the cell is passable or not.
  	 */
-	
 	public Cell(boolean passable) {
 		setPassable(passable);
-	}
-
-	/**
-	 * 
-	 * @return false
-	 */
-	
-	public boolean Cell() {
-		return false;
 	}
 
 	/**
 	 * Get the sprite.
 	 * @return The sprite.
 	 */
-	
 	public Image getSprite() {
 		return sprite;
 	}
@@ -56,7 +44,6 @@ public abstract class Cell {
 	 * Set the sprite.
 	 * @param sprite The new sprite image.
 	 */
-	
 	public void setSprite(String imageName) {
 		sprite = new Image(imageName);
 	}
@@ -65,16 +52,14 @@ public abstract class Cell {
 	 * Get the passable.
 	 * @return The passable.
 	 */
-	
 	public boolean isPassable() {
 		return passable;
 	}
 
 	/**
 	 * Set the passable.
-	 * @param 
+	 * @param passable
 	 */
-	
 	public void setPassable(boolean passable) {
 		this.passable = passable;
 	}
@@ -82,14 +67,12 @@ public abstract class Cell {
 	/**
  	 * Abstract method for getCellName, allows subclasses to override.
  	 */
-	
 	public abstract String getCellName();
 
 	/**
-	 * Get the goal.
+	 * The goal is always deactivate.
 	 * @return false
 	 */
-	
 	public boolean isGoal() {
 		return false;
 	}
