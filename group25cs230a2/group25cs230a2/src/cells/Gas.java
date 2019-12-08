@@ -1,20 +1,23 @@
 package cells;
 
-import java.util.Random;
 
+import java.util.Random;
 import game.Map;
 
 public class Gas extends Cell{
+
 
 	private int x;
 	private int y;
 	
 	public Gas(int x,int y) {
 		super("gas.png", true);
+
 		setX(x);
 		setY(y);
 	}
 	
+
 	
 	public Gas() {
 		super("gas.png", true);
@@ -50,6 +53,7 @@ public class Gas extends Cell{
 //	   System.out.println("returning null");
 	}
 	
+
 	private void setX(int x) {
 		this.x = x;		
 	}

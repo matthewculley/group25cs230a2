@@ -22,6 +22,7 @@ public class Map {
 	private int height;	//the height of the map
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>(); //all the enemies in the map
 	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(); //all collectibles in the level
+	private ArrayList<Gas> gas = new ArrayList<Gas>(); //all the gas in the map	
 	private Profile profile;
 	private Player player;
 	private ArrayList<Teleporter> teleporters;
@@ -436,6 +437,7 @@ public class Map {
 				return true;
 			}
 		} 
+
 		return false;
 	}
 	/**
