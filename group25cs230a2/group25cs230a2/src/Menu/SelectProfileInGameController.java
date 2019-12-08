@@ -43,6 +43,8 @@ public class SelectProfileInGameController {
 				Main.setAllProfiles(allProfiles);
 				IO.saveProfiles(allProfiles);
 				Main.mainMenu();
+			} else {
+				errorMessage.setText("Invalid username or password");
 			}
 		}
 	}
@@ -65,6 +67,8 @@ public class SelectProfileInGameController {
 			Main.setProfile(newProfile);
 
 			Main.mainMenu();
+		} else {
+			errorMessage.setText("Invalid username or password");
 		}
 	}
 	
