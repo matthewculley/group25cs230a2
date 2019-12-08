@@ -15,8 +15,7 @@ import javafx.scene.image.ImageView;
 import player.Profile;
 
 /**
- * Gives the player an option to select profiles in game
- * 
+ * Gives the player an option to select profiles in game.
  * @author Tom
  * @version 1.5
  */
@@ -41,7 +40,7 @@ public class SelectProfileInGameController {
 	private Profile currentUser;
 
 	/**
-	 * generates variables required for levelSelect screen
+	 * Generates variables required for levelSelect screen.
 	 */
 	@FXML
 	public void initialize() {
@@ -121,7 +120,7 @@ public class SelectProfileInGameController {
 	/**
 	 * Method that allows to browse for image files (jpg/jpeg/png) in file explorer
 	 * and choose an avatar. Their choice is saved to their profile as the image's
-	 * filepath
+	 * filepath.
 	 */
 	@FXML
 	private void changeAvatar() {
@@ -150,8 +149,7 @@ public class SelectProfileInGameController {
 	}
 
 	/**
-	 * Check if inputted string is a valid input
-	 * 
+	 * Check if inputted string is a valid input.
 	 * @param input User input.
 	 * @return True if string is valid, false otherwise.
 	 */
@@ -169,7 +167,6 @@ public class SelectProfileInGameController {
 
 	/**
 	 * Check that password is strong enough (to be valid).
-	 * 
 	 * @param pass the inputted password.
 	 * @return True if yes, false otherwise.
 	 */
@@ -214,7 +211,6 @@ public class SelectProfileInGameController {
 
 	/**
 	 * Creates a new profile instance with inputted data.
-	 * 
 	 * @param userID   The inputted username.
 	 * @param password The inputted password.
 	 * @return A new profile object.
@@ -222,5 +218,4 @@ public class SelectProfileInGameController {
 	public Profile createProfile(String userID, String password) {
 		return new Profile(userID, password);
 	}
-
 }
