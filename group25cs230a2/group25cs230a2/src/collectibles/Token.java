@@ -2,7 +2,7 @@ package collectibles;
 
 /**
  * A subclass that defines Token.
- * @author Evans, Ethan F
+ * @author Lloyd, Ethan F
  * @version 1.2
  */
 
