@@ -3,10 +3,14 @@ package cells;
 /**
  * A class that defines Fire.
  * @author Group25
- * @version 1.1
+ * @version 1.2
  */
 
 public class Fire extends Cell {
+	
+	/**
+ 	 * Sets the image and passable of Fire.
+ 	 */
 	
 	public Fire() {
 		super("fire.png", true);
