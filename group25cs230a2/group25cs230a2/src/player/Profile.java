@@ -1,6 +1,4 @@
 package player;
-import java.awt.FileDialog;
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -101,6 +99,9 @@ public class Profile {
 
   /**
    * Method to add a new score for a given level to levelScores.
+   * @param completedLevel - the level number of the level the player has
+   * 						 just beaten
+   * @param newScore - the score achieved
    */
   private void addScore(int completedLevel, int newScore) {
 
