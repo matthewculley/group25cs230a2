@@ -33,7 +33,7 @@ public class SelectLevelController {
 	@FXML private Label highScore;
 	
 	private int level = 1;
-	private int numberOfLevels = 7;
+	private int numberOfLevels = 8;
 	
 	
 	
