@@ -3,10 +3,14 @@ package cells;
 /**
  * A class that defines Goal.
  * @author Group25
- * @version 1.2
+ * @version 1.3
  */
 
 public class Goal extends Cell{
+	
+	/**
+ 	 * Sets the image and passable of Goal.
+	 */
 	
 	public Goal() {
 		super("goal.png", true);
