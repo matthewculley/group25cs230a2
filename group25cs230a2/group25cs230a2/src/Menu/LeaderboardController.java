@@ -23,7 +23,7 @@ public class LeaderboardController {
 	@FXML private ImageView imageView;
 
 	private int currentLevel = 1;
-	private int numberOfLevels = 7;
+	private int numberOfLevels = 8;
 	
 	@FXML
 	public void initialize() {
