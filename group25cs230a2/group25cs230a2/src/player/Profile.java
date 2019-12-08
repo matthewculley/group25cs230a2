@@ -44,34 +44,7 @@ public class Profile {
   public Profile(String userID, String password) {
     this(userID, password, new ArrayList<int[]>(), null);
   }
-
-
-  /**
-   * Method that allows to browse for image files (jpg/jpeg/png) in file explorer
-   * and choose an avatar. Their choice is saved to their profile as the image's filepath
-   */
-  public void chooseAvatarImageFile() {
-      FileDialog fileChooser;
-
-    fileChooser = new FileDialog(new Frame() , "Choose a file", FileDialog.LOAD);
-      fileChooser.setDirectory("src");
-
-      fileChooser.setFile("*.jpg; *.jpeg; *.png");
-      fileChooser.setVisible(true);
-
-      String filePath = fileChooser.getFile();
-
-      if (fileChooser.getFile() == null) {
-        filePath = null;
-          System.out.println("You cancelled the choice.");
-      }
-      else {
-          System.out.println("You chose " + filePath);
-      }
-      System.out.println(filePath);
-      this.avatar = filePath;
-  }
-
+  
   /**
    * Method must be called whenever a user completes a level.
    * It adds the new score to the user's levelScores for the given level
