@@ -7,7 +7,7 @@ import game.Map;
 
 /**
  * A subclass that defines smart enemy.
- * @author Jack
+ * @author ethan J
  * @version 1.3
  */
 
