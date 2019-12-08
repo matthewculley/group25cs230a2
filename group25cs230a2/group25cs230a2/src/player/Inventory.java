@@ -35,7 +35,7 @@ public class Inventory {
 		collectibles.add(c);
 	}
 
-   /**
+       /**
 	* Method checks which doors in the map should be unlocked (based on what items the player has collected)
 	* and unlocks them.
 	* @param map - the map of the current level playthrough
