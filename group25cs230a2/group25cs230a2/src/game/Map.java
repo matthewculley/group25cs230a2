@@ -21,8 +21,8 @@ import java.lang.ClassCastException;
  */
 
 public class Map {
-	private Cell[] map;	//store the data representing the map		//will be cell when can create cell objects
-	private String filename;
+	private Cell[] map;	//store the data representing the map
+	private String filename;//name of the map file
 	private int width;	//the width of the map
 	private int height;	//the height of the map
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>(); //all the enemies in the map
