@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Profile is an object that contains all the information required for a single user
+ * Profile is an object that contains all information about a single user.
  * @author Tom McKee
  * */
 
