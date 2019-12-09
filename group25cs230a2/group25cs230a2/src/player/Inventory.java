@@ -13,7 +13,8 @@ import game.*;
 public class Inventory {
 
 	private int token = 0;		//Number of tokens collected by the player in the current level playthrough
-	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();	//Contains every item collected by the player in the given level
+	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();	//Contains every item collected
+																			   //by the player so far in the level
 
 	/**
 	 * Method for adding a collectible item to the player's inventory.
@@ -29,7 +30,7 @@ public class Inventory {
 		unlockDoors(map);
 		c.collect();
 	}
-	
+
 	//Adds collectible item to player's inventory (except token).
 	public void addItem(Collectible c) {
 		collectibles.add(c);
