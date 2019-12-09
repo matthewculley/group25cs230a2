@@ -62,7 +62,11 @@ public class LeaderboardController {
 		} catch (IllegalArgumentException e) {}
 		
 	}  
-	
+	/**
+	* Method that computes the top 3 scores achieved for a level out of all profiles.
+	* @param leaderboardProfiles - list containing every profile
+	* @return podium - the best (up to) 3 scores achieved in a level out of all profiles
+	*/
 	private ArrayList<Profile> getHighScores(ArrayList<Profile> leaderboardProfiles) {
 		
 		System.out.println("\n\n" + leaderboardProfiles.toString());
