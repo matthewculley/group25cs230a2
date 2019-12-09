@@ -8,6 +8,8 @@ import collectibles.*;
 /**
  * Player stores all information regarding the player in the current level
  * playthrough
+ * @author Jack Goudie
+ * @author Ethan Fielder
  * */
 public class Player {
 
