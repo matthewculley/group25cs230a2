@@ -39,42 +39,42 @@ public class Main extends Application{
 	//Height and width of the game window
 	private static final int WINDOW_WIDTH = 850;
 	private static final int WINDOW_HEIGHT = 850;
-	
+
 	// The dimensions of the canvas the game is drawn on
 	private static final int CANVAS_WIDTH = 750;
 	private static final int CANVAS_HEIGHT = 750;
-	
+
 	// The size of each cell in px
 	private static int GRID_CELL_WIDTH = 50;
 	private static int GRID_CELL_HEIGHT = 50;
-	
+
 	//the map being played
-	private static Map map; 
-	
+	private static Map map;
+
 	//the stage being displayed
 	static Stage stage;
-	
+
 	//the canvas the map displayed on
 	static Canvas canvas;
 
 	static ArrayList<Profile> allProfiles;
-	
-	static Profile profile; 
+
+	static Profile profile;
 
 
 	/**
 	 * Start the game.
-	 * @param primaryStage 
+	 * @param primaryStage
 	 */
 	public void start(Stage primaryStage) {
-		stage = primaryStage;		
+		stage = primaryStage;
 		selectProfile();
 	}
-	
+
 	/**
 	 * Load the select profile scene.
 	 */
-	public static void selectProfile() {		
+	public static void selectProfile() {
 		//try to laod scene with from MainMenu.fxml
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -103,16 +103,16 @@ public class Main extends Application{
 			//set scene and show the stage
 			stage.setScene(scene);
 			stage.show();
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Load the leaderboard scene.
 	 */
-	public static void leaderboard() {		
+	public static void leaderboard() {
 		//try to laod scene with from MainMenu.fxml
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -127,11 +127,11 @@ public class Main extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Load the main menu scene.
 	 */
-	public static void mainMenu() {		
+	public static void mainMenu() {
 		//try to laod scene with from MainMenu.fxml
 		//System.out.println(profile.toString());
 		try {
@@ -143,12 +143,12 @@ public class Main extends Application{
 			//set scene and show the stage
 			stage.setScene(scene);
 			stage.show();
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Load the select level scene.
 	 */
@@ -157,10 +157,10 @@ public class Main extends Application{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(SelectLevelController.class.getResource("SelectLevel.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);			
+			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 			stage.setScene(scene);
 			stage.show();
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -180,7 +180,7 @@ public class Main extends Application{
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 		canvas = new Canvas(getCanvasWidth(), getCanvasHeight());
 		root.setCenter(canvas);
-		
+
 		//if not continuing a game
 		if (!continueGame) {
 			//set the map in Main
@@ -198,63 +198,72 @@ public class Main extends Application{
 		//System.out.println(getMap().toString());
 		//draw the game
 		drawGame();
-		
+
 		//allow user inputs to be taken
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
 		stage.setScene(scene);
-		stage.show();	
+		stage.show();
 	}
-	
+
+	/**
+	 * Handles what happens when a key is pressed during a playthrough.
+	 * */
 	private static void processKeyEvent(KeyEvent event) {
 		int x = getMap().getPlayer().getX();
 		int y = getMap().getPlayer().getY();
 		switch (event.getCode()) {
-		    case RIGHT: 
+		    case RIGHT:
 		    	// Right key was pressed. So move the player right by one cell.
 		    	if (checkValidMove(x + 1, y)) {
 			    	getMap().getPlayer().setX(x + 1);
-		    	} 
+		    	}
 		    	event.consume();
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
 		    		afterValidMove('r');
 		    	}
-	        	break;	
+	        	break;
 		    case LEFT:
 		    	// Right key was pressed. So move the player right by one cell.
 		    	if (checkValidMove(x - 1, y)) {
 		    		getMap().getPlayer().setX(x - 1);
-		    	} 
+		    	}
 		    	event.consume();
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
 		    		afterValidMove('l');
 		    	}
-	        	break;		
+	        	break;
 		    case UP:
 		    	// Right key was pressed. So move the player right by one cell.
 		    	if (checkValidMove(x, y - 1)) {
 		    		getMap().getPlayer().setY(y - 1);
-		    	} 
+		    	}
 		    	event.consume();
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
 		    		afterValidMove('u');
 		    	}
-	        	break;		
+	        	break;
 		    case DOWN:
 		    	// Right key was pressed. So move the player right by one cell.
-		    	if (checkValidMove(x, y + 1)) { 
+		    	if (checkValidMove(x, y + 1)) {
 		    		getMap().getPlayer().setY(y + 1);
-		    	} 
+		    	}
 		    	if (getMap().isDifferentPosition(x, y, getMap().getPlayer().getX(), getMap().getPlayer().getY())) {
 		    		afterValidMove('d');
 		    	}
-	        	break;		
+	        	break;
 	        default:
 	        	// Do nothing if any other key pressed
 		    	event.consume();
 	        	break;
 		}
 	}
-	
+
+	/**
+	 * Method to determine whether a potential move by the player is valid
+	 * (i.e. not walking through an impassable cell)
+	 * @param x, y - position of where the player is moving to
+	 * @return returnValue - true if move is valid, false otherwise
+	 */
 	private static boolean checkValidMove(int x, int y) {
 		boolean returnValue = false;
 		//if out of bounds
@@ -269,6 +278,10 @@ public class Main extends Application{
 		return returnValue;
 	}
 
+	/**
+	 * Handles what happens after each valid move by the player.
+	 * @param direction - represents the direction the player's move
+	 * */
 	private static void afterValidMove(char direction) {
 		int x = getMap().getPlayer().getX();
 		int y = getMap().getPlayer().getY();
@@ -280,20 +293,20 @@ public class Main extends Application{
 				die();
 			}
 		}
-		
+
 		//move enemies
 		//for every enemy move it
 		for (int k = 0; k < getMap().getEnemies().size(); k++) {
 			getMap().getEnemies().get(k).move(map);
 		}
-		
+
 		//expand gas
 		int gasSize = map.getGas().size();
 		System.out.println(gasSize);
 		for (int i = 0; i < gasSize; i++) {
 			map.getGas().get(i).infect(map);
 		}
-		
+
 		//check if player collect anything
 		for (int k = 0; k < getMap().getCollectibles().size(); k++) {
 			if (getMap().getCollectibles().get(k).getX() == getMap().getPlayer().getX() & getMap().getCollectibles().get(k).getY() == getMap().getPlayer().getY() & getMap().getCollectibles().get(k).isCollected() == false) {
@@ -301,34 +314,34 @@ public class Main extends Application{
 				getMap().getPlayer().getInventory().addItem(getMap().getCollectibles().get(k), map);
 			}
 		}
-		
+
 		//teleport player if player on a teleporter
 		if (getMap().getAt(x, y).getClass() == (new Teleporter()).getClass()) {
 			Teleporter tele = (Teleporter) getMap().getAt(x, y);
-			
+
 			//move the player to the teleporters partners coords
 			if (direction == 'u') {
 				getMap().getPlayer().setX(tele.getPartner().getX());
 				getMap().getPlayer().setY(tele.getPartner().getY() - 1);
 			}
-			
+
 			if (direction == 'd') {
 				getMap().getPlayer().setX(tele.getPartner().getX());
 				getMap().getPlayer().setY(tele.getPartner().getY() + 1);
 			}
-			
+
 			if (direction == 'l') {
 				getMap().getPlayer().setX(tele.getPartner().getX() - 1);
 				getMap().getPlayer().setY(tele.getPartner().getY());
 			}
-			
+
 			if (direction == 'r') {
 				getMap().getPlayer().setX(tele.getPartner().getX() + 1);
 				getMap().getPlayer().setY(tele.getPartner().getY());
 			}
-			
+
 		}
-		
+
 		//if player doesnt have flippers and is in water
 		if (getMap().getPlayer().getInventory().hasItem(new Flippers()) == false & getMap().getAt(x, y).getClass() == new Water().getClass()) {
 			drawGame();
@@ -337,15 +350,15 @@ public class Main extends Application{
 		//if the player doesnt have fireboots and in fire
 		if (getMap().getPlayer().getInventory().hasItem(new FireBoots()) == false & getMap().getAt(x, y).getClass() == new Fire().getClass()) {
 			drawGame();
-			die();				
+			die();
 		}
-		
+
 		//if the player doesnt have gasj mask and in gas
 		//System.out.println("GAS SIZE: " + map.getGas().size());
 		for (int i = 0; i < map.getGas().size(); i++) {
 			if (map.getGas().get(i).getX() == x & map.getGas().get(i).getY() == y & getMap().getPlayer().getInventory().hasItem(new GasMask()) == false) {
 				drawGame();
-				die();				
+				die();
 			}
 		}
 
@@ -356,7 +369,7 @@ public class Main extends Application{
 				die();
 			}
 		}
-		
+
 		//check if on goal
 		if (getMap().getAt(getMap().getPlayer().getX(), getMap().getPlayer().getY()).isGoal()) {
 			System.out.println("victory");
@@ -365,7 +378,7 @@ public class Main extends Application{
 		// Redraw game as the player may have moved.
 		drawGame();
 	}
-	
+
 	/**
 	 * Draw the game in its current status.
 	 */
@@ -376,7 +389,7 @@ public class Main extends Application{
 
 		// Get the Graphic Context of the canvas. This is what we draw on.
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
+
 		// Clear canvas
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		int newZeroX = getMap().getPlayer().getX() - offset; //the x to start drawing from
@@ -385,12 +398,12 @@ public class Main extends Application{
 		/*
 		 * Calculates a zero point that is 7 above and 7 to the left of the player, from this point
 		 * the game draws a 15x15 grid, this ensures player is always in the center
-		 * 
+		 *
 		 * If the player is too close to an edge, the grid is drawn from that edge, and the
 		 * player moves freely within that grid, until they move far enough away from the
 		 * edge, and the drawing is centered on the player again
 		 */
-		
+
 		//Update iterators for small levels
 		if (getMap().getWidth() < iteratorX) {
 			iteratorX = getMap().getWidth();
@@ -402,20 +415,20 @@ public class Main extends Application{
 		while (newZeroX + iteratorX > getMap().getWidth()) {
 			newZeroX--;
 		}
-		
+
 		if (newZeroX < 0) {
 			newZeroX = 0;
 		}
-		
+
 		while (newZeroY + iteratorY > getMap().getHeight()) {
 			newZeroY--;
 		}
-		
+
 		if (newZeroY < 0) {
 			newZeroY = 0;
 		}
 
-		 
+
 		Cell currentCell;
 		for (int i = 0; i < iteratorX; i++) {
 			for (int j = 0; j < iteratorY; j++) {
@@ -434,9 +447,9 @@ public class Main extends Application{
 						gc.drawImage(getMap().getCollectibles().get(k).getSprite(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
 					}
 				}
-				
+
 				//draw enemies and players last so they overlay other collectibles and the cells in the map
-				
+
 				//draw enemies
 				for (int k = 0; k < getMap().getEnemies().size(); k++) {
 					if (getMap().getEnemies().get(k).getX() == x & getMap().getEnemies().get(k).getY() == y) {
@@ -444,13 +457,13 @@ public class Main extends Application{
 						gc.drawImage(getMap().getEnemies().get(k).getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 					}
 				}
-				
-				
+
+
 				//draw the player
 				if (getMap().getPlayer().getX() == x & getMap().getPlayer().getY() == y) {
 					gc.drawImage(getMap().getPlayer().getSprite(), i * GRID_CELL_WIDTH, j * GRID_CELL_HEIGHT);
 				}
-				
+
 				//draw gas
 				for (int k = 0; k < getMap().getGas().size(); k++) {
 					if (getMap().getGas().get(k).getX() == x & getMap().getGas().get(k).getY() == y) {
@@ -460,7 +473,7 @@ public class Main extends Application{
 			}
 		}
 	}
-	
+
 	/**
 	 * Deal with player victory, update score in profile, return to level select screen.
 	 */
@@ -468,14 +481,14 @@ public class Main extends Application{
 		int score = getMap().calculateScore();
 		System.out.println("Score: " + score);
 		int levelNumber = Character.getNumericValue(getMap().getParentLevelName().charAt(getMap().getParentLevelName().length() - 5));
-		
+
 		profile.completeLevel(levelNumber, score);
-		
+
 
 		IO.saveProfiles(allProfiles);
 		selectLevel();
 	}
-	
+
 	/**
 	 * deal with player death, restart the level.
 	 */
@@ -486,7 +499,7 @@ public class Main extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void setMap(Map newMap) {
 		map = newMap;
 	}
@@ -497,7 +510,7 @@ public class Main extends Application{
 	 */
 	public static boolean canSave() {
 		//if player on ground cell
-		if (getMap().getAt(getMap().getPlayer().getX(), getMap().getPlayer().getY()).getClass() 
+		if (getMap().getAt(getMap().getPlayer().getX(), getMap().getPlayer().getY()).getClass()
 				== new Ground().getClass()) {
 			return true;
 		} else {
@@ -514,14 +527,14 @@ public class Main extends Application{
 		//return parent name, so that the game can be restarted
 		return getMap().getParentLevelName();
 	}
-	
+
 	/**
 	 * Gets the message of the day form the web server.
 	 * @return The message of the day.
 	 * @throws Exception If error connecting to the web server.
 	 */
 	public static String getMotd() throws Exception {
-		
+
 		//set up commcetion mdetails
 		URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -561,7 +574,7 @@ public class Main extends Application{
 		//get the message
 		BufferedReader readMotd = new BufferedReader(new InputStreamReader(motdcon.getInputStream()));
 		String motd = readMotd.readLine();
-		return motd;	
+		return motd;
 	}
 
 	/**
@@ -571,7 +584,7 @@ public class Main extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	/**
 	 * Return the map that is being played.
 	 * @return The current map beign played.
@@ -579,15 +592,15 @@ public class Main extends Application{
 	public static Map getMap() {
 		return map;
 	}
-	
+
 	/**
 	 * Save the map that is currently being played to a file.
 	 * @throws IOException Error if the map is named incorrecty.
 	 */
 	public static void saveMapToFile() throws IOException {
-		IO.saveMapToFile(map); 
+		IO.saveMapToFile(map);
 	}
-	
+
 	/**
 	 * Return the profile that is currently selected.
 	 * @return The profile that is currently used.
@@ -595,7 +608,7 @@ public class Main extends Application{
 	public static Profile getProfile() {
 		return profile;
 	}
-	
+
 	/**
 	 * Get the width of the canvas.
 	 * @return The width of the canvas in px.
@@ -603,7 +616,7 @@ public class Main extends Application{
 	public static int getCanvasWidth() {
 		return CANVAS_WIDTH;
 	}
-	
+
 	/**
 	 * Get the height of the canvas.
 	 * @return The height, of the canvas in px.
@@ -618,7 +631,7 @@ public class Main extends Application{
  	 */
 	public static void setProfile(Profile newProfile) {
 		profile = newProfile;
-		
+
 	}
 
 	/**
