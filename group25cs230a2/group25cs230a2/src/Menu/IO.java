@@ -15,7 +15,7 @@ import enemies.*;
 import collectibles.*;
 
 /**
- * A class that constructs the map from the level files, and constructs all profiles from "profiles.txt".
+ * A class that constructs maps from the level files, and constructs all profiles from "profiles.txt".
  * It also saves maps to map files and profiles to a file.
  * @author Matt
  * @version 1.3
